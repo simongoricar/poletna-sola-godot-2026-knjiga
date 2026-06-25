@@ -652,7 +652,7 @@ Izkaže se sledeče:
 - Če pogledamo zadnje leto, je razlika še večja: v letu 2025 je imel Godot letno rast $65.86%$, med tem ko so vsi trije ostali pogoni bili pod desetimi procenti (!): $4.47%$ (Unity), $9.72%$ (Unreal), $-2.81%$ (GameMaker).
 
 
-
+COMMENT(matosa): Spomnil sem se da sem nedolgo nazaj bral članek od Godota o tem, pa sem ga šel izbrskat iz arhiva: https://godotengine.org/article/godot-growth-stats-2026/ mogoče pride prav.
 ]
 
 
@@ -1613,7 +1613,8 @@ Kot pri veliko drugih računalniških pojmov se novih konceptov najlažje privad
 
 ```gd
 func _ready() -> void:
-    var stevilka = 10
+    var stevilka
+    stevilka = 10
     print("Vrednost stevilke je: ")
     print(stevilka)
 ```
@@ -1626,7 +1627,15 @@ V zgornjem primeru smo v spremenljivko z imenom `stevilka` shranili vrednost 10.
 
 Spremenljivko deklariramo s ključno besedo `var`, ki ji sledi ime spremenljivke (etiketa na škatli). Spremenljivki vrednost nastavimo tako, da napišemo njeno ime in nato enačaj, nakar sledi vrednost, ki ji bo dodeljena (desno stran enačaja postavljamo v škatlo).
 
-Ker se zelo pogosto zgodi, da želimo oboje narediti hkrati, lahko ta ukaza združimo tudi tako, kot je to narejeno na zgornjem primeru.
+
+Ker se zelo pogosto zgodi, da želimo oboje narediti hkrati, lahko ta ukaza združimo. Kako bi zgornji primer naredili na tak način, lahko vidite spodaj. Tak način izdelave je priporočen.
+
+```gd
+func _ready() -> void:
+    var stevilka = 10
+    print("Vrednost stevilke je: ")
+    print(stevilka)
+```
 
 #box-warning[
   GDScript, kot praktično vsi drugi programski jeziki, svoja pravila vleče iz angleščine. Zaradi tega lahko svoje spremenljivke poimenujemo izključno s črkami angleške abecede. V imenih so dovoljene tudi števke in podčrtaj (\_), vendar števka ne sme biti na prvem mestu v imenu.
@@ -1635,7 +1644,7 @@ Ker se zelo pogosto zgodi, da želimo oboje narediti hkrati, lahko ta ukaza zdru
 #box-info(
   title: [Kaj je `print`?],
 )[
-  `print` je funkcija (funkcije bomo bolje spoznali kasneje), ki neko vsebino izpiše v Godotov izhod (nam viden pod zavihkom "Output"). V primeru, da funkcija prejme neko spremenljivko, na zaslon napiše njeno vrednost in ne njenega imena (kar je v škatli in ne imena škatle).
+  `print` je funkcija (funkcije bomo bolje spoznali kasneje), ki neko vsebino izpiše v Godotov izhod (nam viden pod zavihkom "Output"). V primeru, da `print` prejme neko spremenljivko, na zaslon napiše njeno vrednost in ne njenega imena (kar je v škatli in ne imena škatle).
 ]
 
 Spremenljivki lahko vrednost kasneje v programu tudi spremenimo. V spremenljivki je naenkrat lahko samo ena vrednost. Vrednost `10` je torej po osmi vrstici, ker je nismo shranili nikamor drugam, izgubljena.
@@ -1662,7 +1671,7 @@ Nova vrednost stevilke je:
 Vse vrednosti imajo tudi svoj podatkovni tip. V zgornjem primeru je število `10` celo število, torej pripada celoštevilskemu tipu. Posledično je tudi spremenljivka `stevilka` celoštevilskega tipa.
 
 GDScript ima kar nekaj vgrajenih podatkovnih tipov, ki jih lahko uporabljamo. Med pogosto uporabljene spadajo:
-- `bool` - poimenovan po Georgeu Boolu, je najbolj enostaven tip in lahko predstavlja samo dve stanji. `true` - drži ali `false` - ne drži.
+- `bool` - je najbolj enostaven tip in lahko predstavlja samo dve stanji. `true` - drži ali `false` - ne drži.
 - `int` - celo število. Na primer -5, 0 ali 42.
 - `float` - realno število. Na primer -2.6, 0.0005 ali 4.2.
   #box-info(
@@ -1709,6 +1718,8 @@ Parser Error: Cannot assign a value of type "String" as "int".
   ```
   Če za tako obnašanje ne vemo in nismo pozorni kaj delamo, lahko preteče precej časa preden težavo, povezano s tem, odkrijemo. GDScript ne bo moral vedno paziti na nas, včasih pa nam bo nevede šel celo nasproti, tako da je še vedno pomembno, da kodo pišemo pazljivo in pozorno ter da napisano kodo razumemo.
 ]
+
+#todo[Razloži na hitro še null]
 
 === Računske operacije
 
@@ -1772,7 +1783,7 @@ Vrednost stevilke je:
 42
 ```
 
-Če pa znotraj strukture prizora izberemo vozlišče Osnove (na katerega je pripeta naša skripta), lahko na desni v urejevalniku vozlišč opazimo nov odsek, imenovan `osnove.gd`:
+Če pa znotraj strukture prizora izberemo vozlišče `Osnove` (na katerega je pripeta naša skripta), lahko na desni v urejevalniku vozlišč opazimo nov odsek, imenovan `osnove.gd`:
 
 #screenshot(
   path: "assets/gd-script/export-section.png",
@@ -1790,6 +1801,20 @@ Vrednost stevilke je:
   Pravila glede tega, katero vrednost bo Godot uporabil, ko naleti na izvoženo spremenljivko, so zapletena. Bodite torej pozorni, da med spreminjanjem (privzete) vrednosti izvožene spremenljivke česa ponesreči ne pokvarite.
 
   Privzeta vrednost za vozlišče, ki mu vrednost nikoli ni bila urejena, je v našem primeru `42`, ki smo jo definirali znotraj kode, oziroma privzeta vrednost podatkovnega tipa, če v kodi nismo navedli nobene vrednosti.
+
+  Privzeta vrednost podatkovnega tipa je za nekatere tipe določena s strani Godota. Če tip privzete vrednosti nima določene je privzeta vrednost `null`. Večina sestavljenih tipov nima določene privzete vrednost.
+
+  Nekaj primerov privzetih vrednosti je:
+  ```gd
+  var cela_stevilka: int #= 0
+  var decimalna_stevilka: float #= 0.0
+  var niz: String #= "" (prazen niz)
+  var boolean: bool #= false
+  var vektor: Vector2 #= (0.0, 0.0)
+  var prizor: PackedScene #= null
+  ```
+
+  Sestavljene tipe, kot je `PackedScene`, bomo bolj podrobno obravnavali kasneje.
 ])
 
 
@@ -1879,7 +1904,7 @@ Večna pot 113
 Slovenija
 ```
 
-#box-task[Poigrajte se z direktivo `@export` s konstrukti jezika GDScript, ki smo jih spoznali do sedaj, in poskusite najti kakšen nov primer uporabe.]
+#box-task[Poigrajte se z direktivo `@export` in poskusite najti kakšen nov način uporabe.]
 
 #box-info(
   title: "Kaj lahko izvozim?",
@@ -1890,7 +1915,8 @@ Slovenija
 
 == Pogojni stavek
 
-Če želimo znotraj kode sprejeti neko odločitev, kjer se odločimo, da bomo izvedli bodisi set ukazov $A$ ali set ukazov $B$, čemur pravimo vejitev, ponavadi za to uporabimo pogojni stavek.
+Če želimo znotraj kode sprejeti neko odločitev, kjer bomo glede na nek pogoj, izvedli bodisi set ukazov _A_ bodisi set ukazov _B_, ponavadi za to uporabimo pogojni stavek. Temu odločanju pravimo vejitev.
+
 V GDScriptu to zgleda takole:
 ```gd
 if <pogoj>:
@@ -1899,16 +1925,43 @@ else:
   <drugače>
 ```
 
-- `<pogoj>` je kos kode, katere rezultat mora biti po izvedbi podatkovnega tipa `bool`.
-- `<potem>` je koda, ki se bo izvedla če `<pogoj>` drži (njegova vrednost je `true`)
-- `<drugače>` je koda ki se bo izvedla če `<pogoj>` ne drži (njegova vrednost je `false`)
+- `<pogoj>` je kos kode, katere rezultat mora biti, po izvedbi, podatkovnega tipa `bool`.
+- `<potem>` je koda, ki se bo izvedla če `<pogoj>` drži (njegova vrednost je `true`).
+- `<drugače>` je koda ki se bo izvedla če `<pogoj>` ne drži (njegova vrednost je `false`). Stavek `else` ni nujen in ga lahko, skupaj z `<drugače>` izpustimo.
 
 #box-info(
   title: "Ponovimo",
   [`bool` je najbolj enostaven podatkovni tip. Predstavlja lahko le 2 stanji: bodisi `true` (drži) ali `false` (ne drži).],
 )
 
-Konkreten primer uporabe takšnega stavka je lahko:
+#todo[Za tale ponovimo bi lahko naredili novo škatlo in malo standardizirali njegovo uporabo, zdaj je dostikrat tak odsek samo znotraj teksta kot navadna poved ali pa v kakšnem oklepaju]
+
+=== Pogojni operatorji
+
+Ponavadi je `<pogoj>` kratek kos kode, ki primerja dve ali več vrednosti s primerjalnimi operatorji. Primerjalni operatorji, za razliko od aritmetičnih (kot so `+`, `-`, `*`, ...), katerih rezultat je ponavadi neko število, je rezultat primerjalnih operatorjev vedno tipa `bool`. Nekaj pogosto uporabljenih primerjalnih operatorjev je:
+
+- `A > B` - večje, vrne `true` če je A strogo večji od B, drugače vrne `false`.
+- `A >= B` - večje ali enako, vrne `true` če je A večji ali enak B, drugače vrne `false`.
+- `A == B` - je enako, vrne `true` če je A enak B, drugače vrne `false`.
+- `A != B` - ni enako, vrne `true` če A ni enak B, drugače vrne `false`.
+- `A <= B` - manjše ali enako, vrne `true` če je A manjši ali enak B, drugače vrne `false`.
+- `A < B` - manjše, vrne `true` če je A strogo manjši od B, drugače vrne `false`.
+
+Konkreten primer uporabe pogojnega stavka je lahko:
+```gd
+extends Node2D
+
+@export
+var stevilo_srckov: int = 5
+
+func _ready() -> void:
+	if stevilo_srckov <= 0:
+		print("Igre je konec")
+```
+
+Če sedaj urejate izvoženo spremenljivko `stevilo_srckov` v urejevalniku in projekt zraven poganjate, boste lahko videli, da se pri vrednostih, ki niso pozitivne, izpiše "Igre je konec".
+
+Poglejmo si še en, malo bolj kompleksen, primer, ki vsebuje tudi stavek `else`.
 
 ```gd
 extends Node2D
@@ -1934,6 +1987,8 @@ Postopek bo torej potekal takole:
 3. Glede na to, ali je bil \<pogoj> `true` ali `false` se bo izvedel bodisi \<potem>: ```gd print("Število je sodo")``` bodisi \<drugače>: ```gd print("Število je liho")```
 
 #box-task[Poskusite pisati različne številke v polje "Stevilo" in opazujte rezultat. Premislite, na kakšne drugačne načine bi še lahko uporabili pogojni stavek.]
+
+#todo[Obravnavaj še logične operatorje AND, OR, NOT]
 
 === Več o zamikih<indents>
 
@@ -1975,7 +2030,7 @@ print("Vrednost stevilke je: " + str(stevilka))
 
 Programerji smo po naravi lena bitja, zato imajo programski jeziki konstrukte, ki nam omogočajo, da iste kode ne ponavljamo.
 
-Ene najmočnejših med njimi so funkcije. Funkcije nam omogočajo, da nek kos kode poljubno ponavljamo, ne da bi morali isto kodo ponovno napisati.
+En najbolj uporabnih konstruktov, s tega vidika, so funkcije. Funkcije nam omogočajo, da nek kos kode poljubno ponavljamo, ne da bi morali isto kodo ponovno napisati.
 
 Poglejmo si, kako bi iz zgornjega primera naredili funkcijo:
 ```gd
@@ -1983,7 +2038,7 @@ func izpisi_stevilko(stevilka: int):
 	print("Vrednost stevilke je: " + str(stevilka))
 ```
 
-```gd stevilka: int``` v prvi vrstici je posebna vrsta spremenljivke, ki ji rečemo parameter funkcije. Brez parametrov bi funkcije lahko izvajale samo "statično" kodo. Funkcije brez parametrov seveda tudi obstajajo, a običajno podatke v teh primerih pridobijo na drugačen način, ponavadi iz svojega okolja, v kar se trenutno ne bomo spuščali.
+```gd stevilka: int``` v prvi vrstici je posebna vrsta spremenljivke, ki ji rečemo parameter funkcije. Brez parametrov, bi bile funkcije precej omejene, saj bi lahko delale samo z globalnimi spremenljivkami. Tudi tak način dela je popolnoma v redu in pogosto bomo tudi mi napisali funkcijo, ki ne bo prejemala parametrov in bo delala samo z globalnimi spremenljivkami. Je pa velikokrat bolje narediti funkcijo, ki deluje z uporabo parametrov, saj nam omogoča, da jo kličemo z vrednostmi, ki niso na voljo globalno.
 
 Narejeno funkcijo bi potem lahko uporabili takole:
 ```gd
@@ -2070,7 +2125,7 @@ Posebnost sestavljenih tipov je, da sami v sebi vsebujejo mnogo spremenljivk in 
 
 `Vector2` predstavlja dvodimenzionalni vektor. Sestavljata ga dve spremenljivki, spremenljivka x (x ali vodoravna komponenta vektorja) in y (y ali navpična komponenta vektorja).
 
-Izdelava sestavljenih tipov zgleda podobno kot klic funkcije. Za ime sestavljenega tipa v navadna oklepaja napišemo "parametre" iz katerih bo tip potem sestavljen. V primeru `Vector2` najprej napišemo x in nato y komponento vektorja.
+Izdelava sestavljenih tipov zgleda podobno kot klic funkcije. Za ime sestavljenega tipa v navadna oklepaja napišemo parametre iz katerih bo tip potem sestavljen. V primeru `Vector2` najprej napišemo x in nato y komponento vektorja.
 
 Spremenljivkam sestavljenega tipa pravimo _lastnosti_. Poglejmo si primer izdelave `Vector2`, ki mu lastnost `x` nastavimo na 6 in lastnost `y` na 7.
 
@@ -2079,7 +2134,7 @@ Spremenljivkam sestavljenega tipa pravimo _lastnosti_. Poglejmo si primer izdela
 var test = Vector2(6, 7)
 ```
 
-Večino vgrajenih sestavljenih tipov zna Godot tudi izpisati na spremeniti v niz (torej tudi enostavno izpisati na izhod). `Vector2` tu ni izjema:
+Večino vgrajenih sestavljenih tipov zna Godot tudi spremeniti v niz (torej tudi enostavno izpisati na izhod). `Vector2` tu ni izjema:
 
 ```gd
 func _ready() -> void:
@@ -2091,7 +2146,7 @@ func _ready() -> void:
 (6.0, 7.0)
 ```
 
-Če želimo lastnost sestavljenega tipa spremeniti po izdelavi, oziroma lastnost prebrati to storimo z operatorjem `.`. Na to kar nam ta operator vrne, lahko gledamo kot na navadno spremenljivko, ki jo lahko beremo in nastavljamo. Če razširimo zgornji primer:
+Če želimo lastnost sestavljenega tipa spremeniti po izdelavi, oziroma lastnost prebrati, to storimo z operatorjem `.` (pika). Na to kar nam ta operator vrne, lahko gledamo kot na navadno spremenljivko, ki jo lahko beremo in nastavljamo. Če razširimo zgornji primer:
 
 ```gd
 var vektor = Vector2(6, 7)
@@ -2108,7 +2163,9 @@ print(vektor.y)
 
 === Klic funkcij sestavljenih tipov
 
-Kot smo že omenili, lahko sestavljeni tipi definirajo tudi funkcije. Funkcijam na sestavljenih tipih pravimo _metode_. Posebnost metod je, da imajo, brez da bi jim kot parameter poslali sestavljen tip, nad katerim operiramo, do njega dostop že same po sebi. To nam omogoča, da je koda bolj berljiva, saj je takoj očitno nad čim operacijo izvajamo.
+Kot smo že omenili, lahko sestavljeni tipi definirajo tudi funkcije. Funkcijam na sestavljenih tipih pravimo _metode_. 
+Posebnost metod je, da imajo do sestavljenega tipa, na katerih jih kličemo, dostop same po sebi. Ni jim ga potrebno podati kot parameter. To nam omogoča, da je koda bolj berljiva, saj je takoj očitno nad čim operacijo izvajamo.
+
 
 Poglejmo si primer:
 ```gd
@@ -2165,9 +2222,10 @@ while(i <= 10):
   print(i)
   # operator += je samo okrajšava za i = i+1, torej i=i+1 je ekvivalentno i+=1
   i += 1
+print("Končali smo s štetjem.")
 ```
 
-Zgoraj smo uporabili `while` zanko. `while` lahko beremo kot `Izvajaj kodo, dokler tvoj pogoj ne postane nepravilen` in se jo piše kot:
+Zgoraj smo uporabili `while` zanko. `while` lahko beremo kot `izvajaj kodo, dokler je pogoj izpolnjen` in se jo piše kot:
 ```gd
 while(<pogoj-za-izvajanje>):
   <koda-izvedena-vsako-ponovitev>
@@ -2186,13 +2244,13 @@ Oglejmo si zgornji primer korak za korakom:
 
   2.3. Skočimo nazaj na točko 2.1.
 
-3. Izstopimo iz zanke in nadaljujemo z izvajanjem kode za zanko.
+3. Izstopimo iz zanke in nadaljujemo z izvajanjem ostale kode (napisane po zanki). V našem primeru je to `print` na vrstici 6.
 
 #box-task[Napišite skripto, ki izvozi spremenljivki ```gd besedilo: String``` in ```gd st_ponovitev: int```, ter nato na izhod izpiše `besedilo` `st_ponovitev`-krat.]
 
 === Seznami
 
-Seznam nam predstavlja zaporedje elementov. Seznami v GDScriptu, v nasprotju z nekaterimi drugimi bolj strogimi jeziki, dovoli, da ima vsak element drugačen podatkovni tip.
+Seznam nam predstavlja zaporedje elementov. Seznami v GDScriptu, v nasprotju z nekaterimi drugimi bolj strogimi jeziki, dovolijo, da ima vsak element drugačen podatkovni tip.
 
 Seznam naredimo tako, da spremenljivki dodelimo podatkovni tip `Array`, oziroma tako, da izdelamo nov `Array` in ji ga dodelimo. `Array` izdelamo tako da med znaka `[` in `]` naštejemo vse njegove elemente.
 
@@ -2207,7 +2265,7 @@ var seznam3: Array = [6, 7, 42]
 
 # Godot pusti izdelavo seznama, v katerem je vsak element drugačnega tip
 # je pa to grda praksa, ki jo odsvetujemo.
-var grd_seznam = [42, "pozdravljen", false, -6.7]
+var katastrofa = [42, "pozdravljen", false, -6.7]
 ```
 
 
@@ -2269,7 +2327,7 @@ for <ime-elementa> in <ime-seznama>:
 	<kos-kode-v-kateri-obdelujemo-element>
 ```
 
-`<ime-elementa>` je ime ki si ga sami izmislimo, in skozi katerega bomo znotraj zanke dostopali do posameznega elementa. `<ime-seznama>` je ime seznama iz katerega bomo elemente vlekli. `<kos-kode-v-kateri-obdelujemo-element>` pa je koda, ki jo napišemo, in bo pognana za vsak element v seznamu v spremenljivki `<ime-seznama>`.
+`<ime-elementa>` je ime ki si ga sami izmislimo, in skozi katerega bomo znotraj zanke dostopali do posameznega elementa. Godot bo za nas na tej točki v bistvu izdelal spremenljivko z imenom `<ime-elementa>`, ki bo uporabna samo znotraj zanke. `<ime-seznama>` je ime seznama iz katerega bomo elemente vlekli. `<kos-kode-v-kateri-obdelujemo-element>` pa je koda, ki jo napišemo, in bo pognana za vsak element v seznamu v spremenljivki `<ime-seznama>`.
 
 Zgornjo nalogo bi lahko s tem konstruktom rešili takole:
 
@@ -2580,7 +2638,7 @@ func _process(delta: float) -> void:
 #box-task[Poskusite sami najti dokumentacijo o vgrajeni spremenljivki `global_position` in razmislite kakšna je razlika med njo in med spremenljivko `position`.]
 
 #box-info(title: "Pohitritev iskanja dokumentacije", [
-  Če delamo znotraj vgrajenega urejevalnika besedil (kar tekom poletne šole počnemo), lahko kadarkoli medtem ko na tipkovnici držimo tipko `Ctrl` in kliknemo na nek vgrajeni tip, funkcijo ali spremenljivko. Če to naredimo, se nam bo odprla vgrajena dokumentacija, ki nam jo Godot nudi znotraj pogona in po kateri lahko tudi brskamo. To je priročen in lahek način branja dokumentacije, ki deluje tudi brez dostopa do interneta, in preko katerega si lahko na hitro odgovorimo na kakšno vprašanje glede Godot API-ja. Moramo pa za takšno početje vsaj poznati ime Godot konstrukta, ki ga iščemo.
+  Če delamo znotraj vgrajenega urejevalnika besedil (kar tekom poletne šole počnemo), lahko kadarkoli, medtem ko na tipkovnici držimo tipko `Ctrl`, kliknemo na nek vgrajeni tip, funkcijo ali spremenljivko. Če to naredimo, se nam bo odprla vgrajena dokumentacija, ki nam jo Godot nudi znotraj pogona in po kateri lahko tudi brskamo. To je priročen in lahek način branja dokumentacije, ki deluje tudi brez dostopa do interneta, in preko katerega si lahko na hitro odgovorimo na kakšno vprašanje glede Godot API-ja. Moramo pa za takšno početje vsaj poznati ime Godot konstrukta, ki ga iščemo.
 
   #screenshot(
     path: "assets/gd-script/builtin-docs.png",
@@ -2597,15 +2655,15 @@ Razredi so zelo kompleksno področje programiranja, o katerih je bilo napisanih 
 
 V #ref(<gdscript-and-nodes>, supplement: "poglavju") smo na hitro omenili prvo vrstico vsake GDScript datoteke in sicer stavek `extends`.
 
-Kaj ta vrstica v resnici naredi je, da pove Godotu kateri razred ta datoteka razširjuje. S tem izdelamo nov (zaenkrat neimenovan) razred, ki je podedoval vse lastnosti razreda ki ga razširjuje.
+Kaj ta vrstica v resnici naredi je, da pove Godotu kateri razred ta datoteka razširja. S tem izdelamo nov (zaenkrat neimenovan) razred, ki je podedoval vse lastnosti razreda ki ga razširja.
 
-To je za nas ni pomembno samo za to, da se ognemo napake omenjene v #ref(<gdscript-and-nodes>, supplement: "poglavju"), ampak tudi zato, ker nam ta razred pove do katerih Godotovih vgrajenih funkcij (in še nekaj drugih Godotovih konstruktov) imamo dostop.
+To za nas ni pomembno samo za to, da se ognemo napake omenjene v #ref(<gdscript-and-nodes>, supplement: "poglavju"), ampak tudi zato, ker nam ta razred pove do katerih Godotovih vgrajenih funkcij (in še nekaj drugih Godotovih konstruktov) imamo dostop.
 
 #box-info(title: "Poenostavitev", [
   Razrede lahko za lažjo predstavo za čas poletne šole enačite s tipi vozlišč. Od tu naprej se bo namesto "razred" uporabljal izraz "tip vozlišča".
 ])
 
-GDScript skripta, ki razširjuje `Node2D` ima, na primer, dostop do manj funkcij kot skripta, ki razširjuje `Sprite2D`. Do tega pride, ker je `Sprite2D` potomec `Node2D`. Osnovno hierarhijo tipov vozlišč ste spoznali že v #ref(<basic-node-types>, supplement: "poglavju"), velja pravilo, da ima otrok nekega tipa vozlišča vedno vse funkcionalnosti svojega starša in mogoče še kakšne dodatne.
+GDScript skripta, ki razširja `Node2D` ima, na primer, dostop do manj funkcij kot skripta, ki razširja `Sprite2D`. Do tega pride, ker je `Sprite2D` potomec `Node2D`. Osnovno hierarhijo tipov vozlišč ste spoznali že v #ref(<basic-node-types>, supplement: "poglavju"), velja pravilo, da ima otrok nekega tipa vozlišča vedno vse funkcionalnosti svojega starša in mogoče še kakšne dodatne.
 
 Če želimo lahko novi tip vozlišča, ustvarjen z GDScript datoteko, tudi poimenujemo. To storimo tako, da na vrh datoteke napišemo:
 
@@ -2614,7 +2672,7 @@ class_name VrteciSprite
 extends Sprite2D
 ```
 
-V tem primeru smo naredili nov tip vozlišča imenovan VrteciSprite. Če bomo izdelovali novo vozlišče, nam ga bo Godot celo ponudil v oknu za izbiro tipa. Znotraj poletne šole bomo to funkcionalnost nekajkrat uporabili za lažje dokumentiranje kode in razlago, a se tudi v to podrobnost ne bomo preveč spuščali.
+V tem primeru smo naredili nov tip vozlišča imenovan `VrteciSprite`. Če bomo izdelovali novo vozlišče, nam ga bo Godot celo ponudil v oknu za izbiro tipa. Znotraj poletne šole bomo to funkcionalnost nekajkrat uporabili za lažje dokumentiranje kode in razlago, a se tudi v to podrobnost ne bomo preveč spuščali.
 
 Več o tem kakšne funkcionalnosti nam kateri tip vozlišča nudi, si lahko preberemo v Godotovi dokumentaciji. Seznam vseh tipov vozlišč (v abecednem vrstnem redu) je, na primer, dostopen na: https://docs.godotengine.org/en/stable/classes/index.html#nodes. Med njimi lahko, v morju ostalih tipov, prepoznate že znana `Node2D` in `Sprite2D`.
 
@@ -2640,7 +2698,7 @@ Trenutno je prizor precej dolgočasen in statičen. Naredimo najprej, da se ob z
 
   Če imate z izdelavo skripte še vedno težave, si lahko ogledate #ref(<moving-cactus-example>, supplement: "poglavje"), vseeno pa kot vedno *najprej poskusite sami!* Zahtevana skripta je tokrat res preprosta, tako da verjamemo v vaš uspeh!
 
-  #todo[Mogoče si lahko kako označiva ampak če mava na tej točki koga ki tega ni sposoben narediti sva konkretno spodletela kot učitelja..., kle 80% ludi nebo mel pojma (goro)]
+  #todo[Mogoče si lahko kako označiva ampak če mava na tej točki koga ki tega ni sposoben narediti sva konkretno spodletela kot učitelja..., COMMENT(goro): kle 80% ludi nebo mel pojma ;)]
   // TODO (Gorazd): Tega ne pozabita odstraniti iz končne skripte ;)
 ]
 
