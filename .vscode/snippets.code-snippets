@@ -1,0 +1,12 @@
+{
+  "Godot code section": {
+    "scope": "typst",
+    "prefix": "gdscript",
+    "body": [
+      "```gd",
+      "${1:code}",
+      "```"
+    ],
+    "description": "Creates a GDScript code section."
+  },
+}
