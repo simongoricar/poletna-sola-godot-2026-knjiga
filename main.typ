@@ -280,7 +280,11 @@
 )
 
 #set text(font: "EB Garamond", size: base-font-size)
-#set par(justify: true, linebreaks: "optimized")
+#set par(
+  justify: true,
+  linebreaks: "optimized",
+  // first-line-indent: 1.8em
+)
 
 #show link: underline
 
@@ -491,13 +495,21 @@
 #pagebreak(weak: true)
 
 #align(
+  top,
+  block[
+
+  ]
+)
+
+#align(
   bottom,
   block[
-    #todo[določit morava licenco učbenika (mogoče kodo pod GPL-3.0-only in preostalo pod CC BY-NC-SA?), COMMENT(matosa): Mogoče je za vprašat še Cirila in kompanijo, kako je s tem. Sicer sva, kolikor vem, plačana samo za izvedbo šole tako da je pisanje tega učbenika najina lastna dobra volja, ampak nisem ziher a si FRI lasti delež... Drugače se pa strinjam z licencama.]
+    Zadnja sprememba knjige je bila 25. junija 2026. \
+    Zadnja stabilna različica pogona Godot je, za časa pisanja, Godot 4.7, ki je bil izdan 18. junija 2026.
 
-    Zadnja stabilna različica pogona Godot je, za časa pisanja, Godot 4.7. Različica je bila izdana 18. junija 2026.
+    #todo[določit morava licenco učbenika (mogoče kodo pod GPL-3.0-only in preostalo pod CC BY-NC-SA?), COMMENT(matosa): Mogoče je za vprašat še Cirila in kompanijo, kako je s tem. Sicer sva, kolikor vem, plačana samo za izvedbo šole tako da je pisanje tega učbenika najina lastna dobra volja, ampak nisem ziher a si FRI lasti delež... Drugače se pa strinjam z licencama. COMMENT(simong): sem napisal gorazdu glede licence in glede tega, kdo mora bit podpisan]
 
-    Določena vizualna vsebina, ki je na voljo v paketu sredstev ob tem učbeniku in ki jo uporabljamo za razvoj igre Dinozaver, je izvzeta iz zgornjih licenc, saj je na voljo pod licenco #link("https://spdx.org/licenses/BSD-3-Clause.html", "BSD-3-Clause"), ki jo uporablja projekt #link("https://github.com/chromium/chromium", "Chromium"), iz katerega igra izvira.
+    Določena vizualna vsebina, ki je na voljo v paketu sredstev ob tem učbeniku in ki jo uporabljamo za razvoj igre Dinozaver, je izvzeta iz zgornjih licenc, saj je na voljo pod licenco #link("https://spdx.org/licenses/BSD-3-Clause.html", "BSD-3-Clause"), ki jo uporablja projekt #link("https://github.com/chromium/chromium", "Chromium").
   ],
 )
 
@@ -519,7 +531,7 @@
 ]
 
 #show outline.entry.where(level: 1): set block(above: 1.5em)
-#show outline.entry.where(level: 1): set text(weight: "extrabold", fill: heading-1-sup-font-color.saturate(50%))
+#show outline.entry.where(level: 1): set text(weight: "extrabold", fill: heading-1-sup-font-color.saturate(50%), size: base-font-size + 2pt)
 
 #outline(depth: 4, title: none)
 
@@ -581,9 +593,11 @@
 // Začetek skripte
 
 #pagebreak(weak: true)
-= Uvodni koncepti
+= Uvod
 
-Preden se zakopljemo v samo uporabo pogona Godot, je smiselno povedati še nekaj malega o pogonu in zakaj smo si izbrali prav Godot.
+#todo[TODO nek uvod v funkcijo tele knjige bi bilo mogoče fino dodat (ubistvu to kar je na naslovnici + cilj knjige?)]
+
+Preden se zakopljemo v samo uporabo igralnega pogona in razvoja iger z njim, je smiselno povedati še nekaj malega o tem, zakaj smo si izbrali prav Godot.
 
 == Kratka zgodovina pogonov
 
@@ -591,7 +605,7 @@ Skozi zgodovino razvoja videoiger so ljudje uporabljali različne pogone. Sprva 
 
 Danes se za „resne igre“ večinoma uporabljajo igralni pogoni, ki so dostopni vsem. Za časa pisanja sta na sceni največja igralca Unreal Engine, ki ga razvija podjetje Epic Games, in Unity, ki ga razvija podjetje Unity Technologies.
 
-Oba pogona sta stabilna, testirana, zelo zmogljiva, vendar tudi *plačljiva* in *zaprta*. //Hmm.
+Oba pogona sta stabilna, testirana, zelo zmogljiva, vendar tudi *plačljiva* in *zaprta*.
 
 === Kratka zgodovina pogona Godot
 
@@ -602,15 +616,15 @@ Leta 2014 pa sta se odločila, da pogon odpreta navzven, in ga objavila pod (odp
 #box-side-note(title: [Kaj je licenca MIT?])[
   MIT je licenca, namenjena programski kodi in dokumentaciji, pri čemer ta licenca dovoljuje, da se programsko kodo distribuira naprej, jo spreminja, prilagaja, objavlja, licencira pod drugimi pogoji, prodaja itd. Gre za eno izmed glavnih licenc odprtokodnega sveta poleg licenc, kot so GNU GPLv3, GNU AGPLv3, Mozilla Public License 2.0, licence CC idr.
 
-  Več o odprtokodnih licencah si lahko preberete na #link("https://choosealicense.com") in #link("https://creativecommons.org").
+  Več o odprtokodnih licencah si lahko preberete na \ #link("https://choosealicense.com") in #link("https://creativecommons.org").
 ]
 
 #box-side-note(title: [Kaj pomeni, da je Godot odprtokoden?])[
   To, da je nek kos programske opreme odprtokoden, poglavitno pomeni dvoje.
 
-  Prvič, Godot je povsem brezplačen. Nima mesečnih naročnin (kot pogon Unity) ali provizij od zaslužkov (kot ga imata Unity in Unreal Engine) in se preživlja od prostovoljnih donacij in prostovoljnega dela. V teoriji sta plačljiva programska oprema in odprtokodnost združljivi, a kljub vsemu dokaj redko, ker je to težko doseči -- ponavadi razvijalci v primeru odprtokodnih programov zaračunajo za podporo ali naprednejše funkcije (na primer pgModeler in GitLab CE).
+  Prvič, Godot je povsem brezplačen. Nima mesečnih naročnin (kot pogon Unity) ali provizij od zaslužkov (kot ga imata Unity in Unreal Engine) in se preživlja od prostovoljnih donacij in prostovoljnega dela. V teoriji sta plačljiva programska oprema in odprtokodnost združljivi, a kljub vsemu je to pogosto težko doseči -- ponavadi razvijalci v primeru odprtokodnih programov zaračunajo za podporo ali naprednejše funkcije (kot na primer pgModeler in GitLab CE).
 
-  Drugič, vsa izvorna koda je javno dostopna in jo lahko prilagajamo, kot se nam zahoče. Za dostop do izvorne kode zaprtega pogona, kot je Unity, so potrebna posebna dovoljenja s strani podjetja Unity Technologies.
+  Drugič, vsa izvorna koda je javno dostopna in jo lahko prilagajamo, kot se nam zahoče, v mejah licence, pod katero je koda ponujena. Za dostop do izvorne kode zaprtega pogona, kot je Unity, so potrebna posebna dovoljenja s strani podjetja Unity Technologies.
 ]
 
 // == Osnovna uporaba
@@ -620,7 +634,26 @@ Leta 2014 pa sta se odločila, da pogon odpreta navzven, in ga objavila pod (odp
 
 #todo[TODO (Gorazd): Vir? Kaj pomeni, da ima večji glas/delež v razvijalski industriji? Sigurno ni tako popularen/široko rabljen kot Unreal in Unity.]
 
-#todo[COMMENT (Simon): Na SteamDB lahko recimo vidimo, da je na Steamu objavljenih \~4300 iger, narejenih z Godot: https://steamdb.info/tech . Unity ima \~64000, torej Godot je približno 6.5% tega, Unreal pa ima \~20000, torej ima Godot približno petino toliko, kar jaz ne bi smatral kot malo glede na velikost Unreala in kapital za njim v primerjavi z Godot. To se mi zdi pomembno zato, ker to pomeni, da je Godot na podlagi teh podatkov peti najpogostejši pogon na PC trgu (priznam, da je to glede na število iger, kar skoraj zagotovo ni sorazmerno obrnjenemu denarju). Obenem pa je gotovo, da je Godot največji _odprtokodni_ pogon na trgu po številu izdanih iger, če štejemo PC gaming (Unity, Unreal, Game Maker niti RPG Maker, ki so nad njim, niso). Dodam en footnote za tole? Lahko mal prebesedimo, da ne bo izpadlo, kot da je Godot primerljiv po deležu trga.]
+#todo[COMMENT (Simon): Na SteamDB lahko recimo vidimo, da je na Steamu objavljenih \~4300 iger, narejenih z Godot: https://steamdb.info/tech . Unity ima \~64000, torej Godot je približno 6.5% tega, Unreal pa ima \~20000, torej ima Godot približno petino toliko, kar jaz ne bi smatral kot malo glede na velikost Unreala in kapital za njim v primerjavi z Godot. To se mi zdi pomembno zato, ker to pomeni, da je Godot na podlagi teh podatkov četrti najpogostejši pogon na PC trgu (priznam, da je to glede na število iger, kar skoraj zagotovo ni sorazmerno obrnjenemu denarju). Obenem pa je gotovo, da je Godot največji _odprtokodni_ pogon na trgu po številu izdanih iger, če štejemo PC gaming (Unity, Unreal in Game Maker, ki so nad njim, niso). Dodam en footnote za tole? Lahko mal prebesedimo, da ne bo izpadlo, kot da je Godot primerljiv po deležu trga, ampak skoraj zagotovo prekaša ostale pogone po rasti (glej spodaj).
+
+COMMENT (Simon) 2026-06-25:
+
+Godot je prehitel RPG Maker, torej je sedaj četrti najpogostejši pogon po številu iger glede na Steam, za katerega se mi zdi, da lahko trdimo, da je dober vzorec PC trga. SteamDB ima na voljo tudi podatke, deljene na leta:
+- https://steamdb.info/stats/releases/?tech=Engine.Unity
+- https://steamdb.info/stats/releases/?tech=Engine.Unreal
+- https://steamdb.info/stats/releases/?tech=Engine.Godot
+- https://steamdb.info/stats/releases/?tech=Engine.GameMaker
+
+Ven sem povlekel letne podatke in analiziral njihovo letno rast ($("letos" - "lansko leto")/"lansko leto"$) skozi zadnjih deset let, vse do 2025. (Dataset in izračuni so v repozitoriju.)
+
+Izkaže se sledeče:
+- Če gledamo vrhnje štiri pogone, ima Godot v zadnjih desetih letih povprečno $78.83%$ rasti na leto, kar je daleč največ od vseh štirih.
+- Najbližje pride Unreal z desetletno povprečno rastjo $47.37%$, nato sta Unity ($28.12%$) in GameMaker ($26.22%$).
+- Če pogledamo zadnje leto, je razlika še večja: v letu 2025 je imel Godot letno rast $65.86%$, med tem ko so vsi trije ostali pogoni bili pod desetimi procenti (!): $4.47%$ (Unity), $9.72%$ (Unreal), $-2.81%$ (GameMaker).
+
+
+
+]
 
 
 Godot nam omogoča ustvarjanje 2D in 3D iger ter iger v razširjeni resničnosti za vse večje platforme, kot so Windows, Linux, maxOS, Android, iOS in splet, ter z nekaj dodanega truda tudi za konzole, kot so PlayStation, Xbox in Nintendo Switch.
@@ -674,7 +707,9 @@ Na naš računalnik se bo prenesla datoteka s končnico `.zip`, ki jo razširimo
 
 In to je vse, Godot je nameščen in pripravljen za uporabo. Čas je, da začnemo z izdelavo svoje prve igre.
 
-#v(1fr)
+// #v(1fr)
+
+#v(2 * base-font-size)
 
 *V naslednjih poglavjih sledi uvod v koncepte in funkcionalnosti, katerih razumevanje je potrebno za razvoj preprostih iger. Obenem bomo pri spoznavanju pogona Godot vzporedno napredovali tudi z razvojem majhne igre „Dinozaver“, skozi katero bomo spoznane koncepte preizkusili.*
 
@@ -695,13 +730,12 @@ Ko poženemo urejevalnik Godot, se najprej pokaže glavni meni, s katerim lahko 
 )
 
 
-Ker želimo ustvariti nov projekt, kliknemo na gumb #inline-button-image(path: "assets/ui-basics/godot-ui_main-menu_create.png") levo zgoraj, nato pa:
+Ker želimo ustvariti nov projekt, kliknemo na gumb #inline-button-image(path: "assets/ui-basics/godot-ui_main-menu_create.png") levo zgoraj, nato pa storimo sledeče (glej #ref(<new-project-menu>, supplement: [sliko])):
 - vnesemo ime našega projekta, naj bo to kar "Dinozaver";
 - na disku D ustvarimo ali izberemo mapo, kamor bomo shranili naš projekt;
 - pri "Version Control Metadata" v spustnem meniju izberemo "None";
 - nato kliknimo na gumb "Create".
 
-#todo[TODO referenca na sliko spodaj]
 
 #box-warning[
   #text(size: base-font-size + 4pt, align(center)[Še enkrat: *shranjujte svoje projekte na disk D!*])
@@ -717,7 +751,7 @@ Ker želimo ustvariti nov projekt, kliknemo na gumb #inline-button-image(path: "
   path: "assets/ui-basics/godot-ui_create-new-project.png",
   width: 46%,
   caption: [Meni za ustvarjanje novega projekta v Godotu.],
-)
+) <new-project-menu>
 
 
 == Urejevalnik <urejevalnik>
@@ -788,8 +822,6 @@ Kot vidimo na #ref(<delovna-okolja-toolbar>, supplement: [sliki]), imamo na volj
 
 Tik pod vrstico, kjer izbiramo okolje, sedaj na mestu, kjer je bil prej urejevalnik 3D prizora (na #ref(<ui-basics-annotated-sections>, supplement: [sliki]) označen z zeleno), zagledamo ploščo, ki je trenutno večinoma prazna, a ima na vrhu lastno orodno vrstico:
 
-#todo[V Godot 4.7 so to spremenili in je to v treh pikah čisto desno, treba je posodobiti screenshote in navodila]
-
 #screenshot(
   path: "assets/ui-basics/godot-ui_game-section_game-toolbar-focused.png",
   width: 75%,
@@ -803,19 +835,19 @@ Da bo proces testiranja naše igre potekal brezhibno, pred nadaljevanjem spremen
 #screenshot(
   path: "assets/ui-basics/godot-ui_game-section_floating-dropdown.png",
   width: 60%,
-  caption: [Spustni meni "Embedding Options" v okolju "Game".],
+  caption: [Spustni meni "Game Window Options" na desni strani okolja "Game".],
 )
 
 #box-info(title: [Zakaj?])[
   Ta sprememba v nastavitvah bo povzročila, da se bo ob testnem zagonu igre le-ta pokazala v _tem delovnem okolju_ (torej v okolju "Game"), namesto da bi se pojavilo novo samostojno okno poleg urejevalnika.
 
-  Za manj zmede zato priporočamo, da zgornjo nastavitev spremenite in svojo igro raje testirate znotraj glavnega urejevalnika Godot. Če vam ta način dela ne bo ustrezal, lahko to nastavitev kadarkoli spet omogočite.
+  Za manj zmede zato priporočamo, da zgornjo nastavitev spremenite tako, kot smo jo mi, in svojo igro raje testirate znotraj glavnega urejevalnika Godot. Če vam ta način dela ne bo ustrezal, lahko to nastavitev kadarkoli spet omogočite. V tem primeru se vam bo ob zagonu igre odprlo samostojno okno.
 ]
 
 === Okolje "2D" <okolje-2d>
 Kliknimo na prvi zavihek -- "2D". Zagledali bomo dvodimenzionalno površino, na kateri lahko ustvarimo svojo igro. Pred seboj v sredinskem delu urejevalnika vidimo polje, na katerem bo stala naša igra.
 
-#todo[Je bilo tu mišljeno "nastala" ali "stala"? (zunanji komentar)]
+#todo[Je bilo tu mišljeno "nastala" ali "stala"? (zunanji komentar) COMMENT(simong): stala, bi rekel]
 
 Igre v tem načinu so postavljene na *dve osi: na $X$ in $Y$* -- os $X$ teče od leve proti desni (označena s tanko rdečo črto), os $Y$ pa od zgoraj navzdol (označena s tanko zeleno črto). Kjer se osi sekata v urejevalniku, stoji koordinatno izhodišče -- točka $(0, 0)$, t.j. točka, kjer je $X = 0$ in $Y = 0$.
 
@@ -873,7 +905,7 @@ Kliknimo še na tretji zavihek -- "Script". V tem načinu bomo pozneje pisali sk
 
 Raziskovalec datotek nam omogoča dostop do mape na disku, kjer imamo shranjen naš projekt, in urejanje datotek v tej mapi. Koncept je skoraj identičen klasičnim raziskovalcem datotek, ki jih srečamo na sistemih Windows, MacOS ali Linux. Gre za preprost brskalnik po drevesni strukturi datotek in map: vsaka mapa lahko vsebuje neomejeno število datotek in podmap (ki prav tako lahko vsebujejo datoteke in podmape, in tako naprej).
 
-#todo[Ali je zadnja poved tu res potrebna? (zunanji komentar)]
+#todo[Ali je zadnja poved tu res potrebna? (zunanji komentar) COMMENT(simong): tole sem dal noter zato, ker je ciril že davno dal komentar, da veliko današnje mladine ne ve več, kako delujejo mape; ampak obenem se strinjam da, če tega ne vejo, jim tudi tale zadnji stavek ne bo pomagal, tako da lahko vzameva ven]
 
 
 #box-info(title: [Kaj je `res://`?])[
@@ -918,7 +950,7 @@ Raziskovalec datotek nam omogoča dostop do mape na disku, kjer imamo shranjen n
 #screenshot(
   path: "assets/ui-basics/godot-ui_file-browser.png",
   width: 25%,
-  caption: [Raziskovalec datotek v urejevalniku Godot. V naši mapi projekta se že nahaja vektorska sličica `icon.svg`, ki jo opazimo v drevesnem pogledu.],
+  caption: [Raziskovalec datotek v urejevalniku Godot. V mapi našega projekta se \ že nahaja vektorska sličica `icon.svg`, ki jo opazimo v drevesnem pogledu.],
 )
 
 Pa kar začnimo z osnovnimi sredstvi (angl. _assets_) naše igre! Najprej v korenu projekta ustvarimo mapo `sredstva`, kjer bomo hranili vsa sredstva (v našem primeru teksture in zvok). To storimo tako, da se z miško postavimo na mapo `res://` in kliknemo z desnim miškinim gumbom.
@@ -1059,23 +1091,26 @@ V tem podoknu lahko prilagodimo postopek uvažanja datoteke, ki smo jo izbrali. 
 
 Sedaj, ko smo spoznali osnovna podokna urejevalnika in uvozili začetna sredstva za našo igro, se lahko lotimo ustvarjanja in urejanja prizorov, torej razvoja naše igre z dinozavrom!
 
-#v(base-font-size)
+// #v(base-font-size)
 
 Vsaka igra, razvita s pogonom Godot, je osnovana na konceptu *vozlišč* (angl. "nodes"). Vozlišče je najmanjša enota funkcionalnosti, ki jo lahko uporabimo v naši igri. Vozlišča so različnih tipov -- nekatera vozlišča so mišljena za razvoj iger v 2D, nekatera za 3D, nekatera za uporabniški vmesnik (angl. "user interface" oz. "UI"), nekatera za animacije, itd. Primer vozlišča je na primer `Sprite2D`, ki preprosto prikaže 2D teksturo, ali `Camera2D`, ki vzpostavi igralski pogled.
 
-Vozlišča sestavljamo skupaj v *prizore*. Prizori so, poleg skript, glavni način sestavljanja, hranjenja in urejanja naše igre. Vsak prizor ima korensko (t.j. vrhnje) vozlišče. Korensko vozlišče ima nase prilepljene "otroke", na isti način kot recimo v drevesni strukturi raziskovalca datotek. Vsako vozlišče ima lahko poljubno število otrok.
+Vozlišča sestavljamo skupaj v *prizore*. Prizori so, poleg skript, glavni način sestavljanja, hranjenja in urejanja naše igre. Vsak prizor ima korensko (t.j. vrhnje) vozlišče. Korensko vozlišče ima nase prilepljene "otroke", na isti način kot recimo v drevesni strukturi raziskovalca datotek. Vsako vozlišče ima lahko poljubno število otrok. Vozlišče, skupaj z njegovimi otroki, imenujemo veja. 
 
-#todo[Mogoče bi bil tu smiseln en primer, da malo razbijemo abstraktnost, ki traja precej dolgo. (npr. prizor: avto, in maš potem časijo in kolesa ki so otroci itd...) (zunanji komentar)]
+Če bi želeli na primer sestaviti avto, bi vrhnje vozlišče bilo splošno vozlišče za 2D, njegovi otroci pa bi bili lahko tipa `Sprite2D` in vsebovali komponente avta (kolesa, okvir, ...), razporejene vizualno tako, da skupaj sestavijo izgled avtomobila.
 
-Relacija starš-otrok med vozlišči je pogosto uporabna, ker se, na primer pri poziciji vozlišča (torej recimo lastnostjo `position` na vozliščih tipa `Node2D`, več o lastnostih bomo povedali kasneje, v #ref(<composite-types>, supplement: "poglavju")):
+Relacija starš-otrok med vozlišči je pogosto uporabna, ker se, na primer pri poziciji vozlišča (torej recimo pri lastnosti `position` na vozliščih tipa `Node2D`):
 - pod-vozlišča premikajo samodejno skupaj s starševskim vozliščem
 - ker se pozicije pod-vozlišč zapisujejo relativno na starševsko vozlišče.
 
-Vozlišče, skupaj z njegovimi otroki, imenujemo veja.
+Več o lastnostih bomo povedali kasneje, v #ref(<composite-types>, supplement: "poglavju").
 
-#v(base-font-size)
+// #v(base-font-size)
 
-Preden zaidemo pregloboko v podrobnosti, ustvarimo nov prizor, ki bo vseboval našo igro z dinozavrom. To storimo tako, da odpremo okolje "2D" (glej #ref(<okolje-2d>, supplement: [poglavje])), na levi izberemo zavihek "Scene", in pod besedilom "Create Root Node:" kliknemo na gumb "2D Scene", kot vidimo na #ref(<root-node-creation-screenshot>, supplement: [sliki]). Podokno "Scene" se bo spremenilo v pogled našega novega prizora z enim samim korenskim vozliščem tipa `Node2D`, kot vidimo na #ref(<root-node-creation-screenshot-after>, supplement: [sliki]). V središčnem predelu urejevalnika se prepričajmo, da smo v okolju "2D", kjer bi morali sedaj zagledati prazno površino z dvema osema, na vrhu urejevalnika, pod izbiro okolja, pa videti zavihek "[unsaved] (\*)".
+=== Ustvarjanje prizora
+
+
+Preden zaidemo pregloboko v podrobnosti, ustvarimo nov prizor, ki bo vseboval našo igro z dinozavrom. To storimo tako, da odpremo okolje "2D" (glej #ref(<okolje-2d>, supplement: [poglavje])), na levi izberemo zavihek "Scene", in pod besedilom "Create Root Node" kliknemo na gumb "2D Scene", kot vidimo na #ref(<root-node-creation-screenshot>, supplement: [sliki]). Podokno "Scene" se bo spremenilo v hierarhični pogled našega novega prizora z enim samim korenskim vozliščem tipa `Node2D`, kot vidimo na #ref(<root-node-creation-screenshot-after>, supplement: [sliki]). V središčnem predelu urejevalnika se sedaj prepričajmo, da smo v okolju "2D". V tem okolju na sredini zaslona sedaj zagledamo prazno površino z dvema osema, na vrhu urejevalnika, pod izbiro okolja, pa vidimo nov zavihek z naslovom `[unsaved] (*)`.
 
 #align(
   center,
@@ -1099,7 +1134,7 @@ Preden zaidemo pregloboko v podrobnosti, ustvarimo nov prizor, ki bo vseboval na
   ),
 )
 
-Čestitke! Ustvarili smo svoj prvi prizor, četudi zaenkrat še ne počne ničesar. Preden nadaljujemo, shranimo ta prizor na disk, da ne bomo našega napredka izgubili: pritisnimo `Ctrl+S` (ali kliknimo z desnim klikom na zavihek neshranjenega prizora in izberimo "Save Scene"). V shranjevalnem oknu, ki se prikaže, se premaknimo v korensko mapo `res://`, če slučajno nismo začeli tam, in v tej mapi poleg mape `sredstva` ustvarimo novo mapo `prizori`. To naredimo ali z desnim klikom na prazen prostor in klikom na "New Folder ...", ali pa s klikom na gumb za novo mapo z zelenim plusom, ki je desno zgoraj v tem podoknu. V mapi `prizori` sedaj ustvarimo še mapo `igra`, nato pa vanjo shranimo naš prizor z imenom `igra.tscn` (namesto privzetega `node_2d.tscn`), kot vidimo na #ref(<scene-save-dialog-igra-tscn>, supplement: [sliki]).
+Čestitke! Ustvarili smo svoj prvi prizor, četudi zaenkrat še ne počne ničesar. Preden nadaljujemo, shranimo ta prizor na disk, da ne bomo našega napredka izgubili: pritisnimo `Ctrl+S` (ali kliknimo z desnim klikom na zavihek neshranjenega prizora in izberimo "Save Scene"). V shranjevalnem oknu, ki se prikaže, se premaknimo v korensko mapo `res://`, če slučajno nismo začeli tam, in nato v tej mapi poleg mape `sredstva` ustvarimo novo mapo z imenom `prizori`. To storimo ali z desnim klikom na prazen prostor in klikom na "New Folder ..." v kontekstnem meniju, ali pa s klikom na gumb za novo mapo z zelenim plusom, ki je desno zgoraj v tem podoknu. V mapi `prizori` sedaj ustvarimo še mapo `igra`, nato pa vanjo shranimo naš prizor z imenom `igra.tscn` (namesto privzetega `node_2d.tscn`), kot vidimo na #ref(<scene-save-dialog-igra-tscn>, supplement: [sliki]).
 
 Novo datoteko s končnico `.tscn` bomo sedaj lahko našli tudi spodaj levo v raziskovalcu datotek na poti `res://prizori/igra/igra.tscn`. Če v prihodnosti ta prizor ponesreči ali nalašč zapremo s klikom na `X` ob imenu zavihka na vrhu, lahko ta prizor ponovno odpremo tako, da nanj dvokliknemo v raziskovalcu datotek. Še več kot to -- kot bomo videli v prihodnosti, imamo lahko odprtih več prizorov hkrati, pri čemer lahko med njimi skačemo s kliki na njihove zavihke na vrhu urejevalnika.
 
@@ -1114,7 +1149,7 @@ Novo datoteko s končnico `.tscn` bomo sedaj lahko našli tudi spodaj levo v raz
 
 #todo[Mogoče bi se to poglavje premaknilo v poglavje GDScript, tam kjer se razloži extends, ali pa doda kakšen primer/nalogo da preveriva da so to razumeli, to da jim takoj rečemo to je "drevesna struktura" kar je pojem ki ga verjetno ne razumejo še čisto je verjetno preveč naenkrat.  (zunanji komentar)]
 
-Kot smo omenili že v začetku #ref(<urejanje-prizorov>, supplement: [poglavja]), obstajajo vozlišča različnih tipov. Nekatere tipe vozlišč uporabljamo za igre 2D, nekatere za 3D, nekatere za uporabniški vmesnik, itd. Kar moramo v osnovi vedeti, je da so tipi vozlišč v osnovi prav tako drevesna struktura, na primer: vozlišče `Node2D` je pod-tip tipa `Node`, in vozlišče `Sprite2D` je pod-tip tipa `Node2D`.
+Kot smo omenili že v začetku #ref(<urejanje-prizorov>, supplement: [poglavja]), obstajajo vozlišča različnih tipov. Nekatere tipe vozlišč uporabljamo za igre 2D, nekatere za 3D, nekatere za uporabniški vmesnik, itd. Kar moramo v osnovi vedeti, je da so tipi vozlišč v osnovi prav tako odvisni med seboj (temu bi rekli drevesna struktura), na primer: vozlišče `Node2D` je specializirana različica tipa `Node`, in vozlišče `Sprite2D` je specializirana različica tipa `Node2D`.
 
 #figure(
   align(
@@ -1217,7 +1252,7 @@ Kar vidimo na #ref(<partial-node-type-structure>, supplement: [sliki]) je samo m
 
 === Sprememba lastnosti vozlišč
 
-Vozlišči, ki smo ju do sedaj dodali, sta bili tipa `Node2D` in `Sprite2D`. Morda ste dobili vtis, da se tip vozlišča prikaže kot besedilo v tej drevesni strukturi (glej #ref(<scene-root-with-sprite>, supplement: [sliko])), a stvar ni tako preprosta. Vozlišča imajo poleg svojega tipa namreč tudi lastno *ime*! To ime je to, kar vidimo kot besedilo ob ikoni tipa vozlišča. Zaenkrat vidimo imeni `Node2D` in `Sprite2D` le zato, ker se vozlišča privzeto poimenujejo glede na svoj tip, a lahko mi ta vozlišča preimenujemo, kar je precej zaželeno, da se ne izgubimo.
+Vozlišči, ki smo ju do sedaj dodali, sta bili tipa `Node2D` in `Sprite2D`. Morda ste dobili vtis, da se tip vozlišča prikaže kot besedilo v tej drevesni strukturi (na podlagi #ref(<scene-root-with-sprite>, supplement: [slike])), a stvar ni tako preprosta. Vozlišča imajo poleg svojega tipa namreč tudi lastno *ime*! To ime je tisto, kar vidimo kot besedilo ob ikoni vozlišča. Zaenkrat vidimo imeni `Node2D` in `Sprite2D` le zato, ker se vozlišča privzeto poimenujejo glede na svoj tip, a mi lahko ta vozlišča poljubno preimenujemo, kar je pravzaprav precej zaželeno, da se ne izgubimo.  
 To storimo tako, da ali dvokliknemo na vozlišče ali pa z desnim klikom nanj odpremo kontekstni meni in izberemo akcijo "Rename".
 
 
@@ -1236,7 +1271,7 @@ To storimo tako, da ali dvokliknemo na vozlišče ali pa z desnim klikom nanj od
   [
     Bližnjica (angl. shortcut) je alternativni (ponavadi hitrejši) način, da izvedemo neko akcijo (kot na primer, izberemo orodje v urejevalniku, shranimo projekt, zaženemo projekt, ...). Bližnjico ponavadi aktiviramo s pritiskom tipke ali kombinacije tipk na tipkovnici. Za aktivacijo bližnjice "shrani" na primer pritisnemo tipko `Ctrl` in nato tipko `S`.
 
-    Definira jih program, ki ga uporabljamo, v našem primeru je to Godot. Seznam vseh bližnjic, ki jih vsebuje Godot, lahko najdete in urejate pod `Editor->Editor Settings->Shortcuts`.
+    Definira jih program, ki ga uporabljamo, torej v našem primeru Godot. Seznam vseh bližnjic, ki jih vsebuje, lahko najdete in spreminjate pod `Editor -> Editor Settings -> Shortcuts`.
 
     #align(
       center,
@@ -1265,7 +1300,7 @@ To storimo tako, da ali dvokliknemo na vozlišče ali pa z desnim klikom nanj od
 
 Tip in ime vozlišča nista edini lastnosti, ki ju lahko spreminjamo. Vsako vozlišče ima namreč tudi nabor dodatnih nastavitev, odvisnih od tipa vozlišča, do katerih lahko dostopamo tako, da na levi v podoknu "Scene" izberemo vozlišče, da se osvetli, nato pa na desni strani urejevalnika pogledamo v podokno "Inspector".
 
-Če na primer izberemo vozlišče `DinozaverSlicica`, bomo pri podrobnostih zagledali kup nastavitev, pri čemer so nekatere skrite pod skupinami, ki jih moramo razširiti s klikom na puščice. Znotraj teh nastavitev, lahko to specifično izbrano vozlišče prilagodimo za naše potrebe. Na primer, ker gre za vozlišče tipa `Sprite2D`, mu lahko določimo sličico, ki jo bo to vozlišče prikazovalo. To lahko storimo na več načinov, a je najbolj enostaven način ta, da spodaj levo v raziskovalcu datotek poiščemo teksturo, ki jo želimo, in jo povlečemo na mesto za teksturo na desni zgoraj (v polje, kjer desno od imena polja `Texture` trenutno piše `<empty>`).
+Če na primer izberemo vozlišče `DinozaverSlicica`, bomo pri podrobnostih zagledali kup nastavitev, pri čemer so nekatere skrite pod skupinami, ki jih moramo razširiti s klikom na puščice. Znotraj teh nastavitev lahko to specifično izbrano vozlišče prilagodimo za naše potrebe. Na primer, ker gre za vozlišče tipa `Sprite2D`, mu lahko določimo sličico, ki jo bo to vozlišče prikazovalo. To lahko storimo na več načinov, a je najbolj enostaven način ta, da spodaj levo v raziskovalcu datotek poiščemo teksturo, ki jo želimo, in jo povlečemo na mesto za teksturo na desni zgoraj (v polje, kjer desno od imena polja `Texture` trenutno piše `<empty>`).
 
 
 #align(
@@ -1320,7 +1355,7 @@ Ko končate, bi moral biti vaš prizor podoben #ref(<2d-sprites-on-top-of-each-o
   caption: [Prizor, kjer smo dodali sličice eno na drugo.],
 ) <2d-sprites-on-top-of-each-other>
 
-Seveda lahko naše sličice, oziroma vozlišča, ki te sličice prikazujejo, premaknemo po dvodimenzionalni površini. Če želimo to storiti na interaktiven način, v orodni vrstici pod zavihkom `igra` poiščemo orodje za premik (angl. "Move Mode"; drugi gumb z leve). To orodje aktiviramo v levim klikom, nato pa na levi v strukturi našega prizora izberemo vozlišče, ki ga želimo premakniti, ter šele nato z uporabo rdeče in zelene puščice (ali pa kar vlečenja sličice) naše vozlišče premaknemo na poljubno mesto. Približen rezultat tega procesa vidimo na #ref(<2d-sprites-arranged>, supplement: [sliki]).
+Seveda lahko naše sličice, oziroma vozlišča, ki te sličice prikazujejo, premaknemo po dvodimenzionalni površini. Če želimo to storiti na interaktiven način, v orodni vrstici pod zavihkom `igra` poiščemo orodje za premik (angl. "Move Mode"; tretji gumb z leve). To orodje aktiviramo v levim klikom, nato pa na levi v strukturi našega prizora izberemo vozlišče, ki ga želimo premakniti, ter šele nato z uporabo rdeče in zelene puščice (ali pa kar vlečenja sličice) naše vozlišče premaknemo na poljubno mesto. Približen rezultat tega procesa vidimo na #ref(<2d-sprites-arranged>, supplement: [sliki]).
 
 Če sedaj na desni v oknu s podrobnostmi vozlišča razširimo podskupino "Transform", bomo zagledali, da se je vrednost lastnosti "Position" spremenila iz $(0, 0)$ na neko drugo vrednost, odvisno od našega premika:
 
@@ -1358,8 +1393,6 @@ Poleg premikanja je dobro poznati še dva načina navigacije po urejevalniku 2D 
 
   Če se vam zgodi ta nesreča, se lahko vedno vrnete na prejšnje stanje z uporabo bližnjice `Ctrl+Z` (angl. _undo_).
 ]
-
-#todo[Godot je v 4.7 dodal še en gumb med select in move, tako da je a) screenshot zastarel b) potrebno preveriti kje vse v besedilu je sedaj to narobe.]
 
 #screenshot(
   path: "assets/ui-basics/godot-ui_scene_premaknjene-slicice-dino.png",
@@ -1707,7 +1740,7 @@ var ostanek = 13 % 5 # = 3
   ],
 )
 
-=== Izvožene spremenljivke (direktiva \@export)
+=== Izvožene spremenljivke (direktiva `@export`)
 
 Razvoj iger je po svoji naravi pogosto iterativen. Zadeti vse vrednosti (kot so hitrost premikanja, velikosti objektov, barva neba, ...) v prvo je praktično nemogoče. Zaradi tega nam igralni pogoni nudijo različna orodja za hitro prilagajanje in testiranje različic. Za premik igralca je potrebno samo povleči puščico, za popravek velikosti platforme spremeniti številko, barvo neba pa lahko izberemo kar s kapalko.
 
@@ -2423,6 +2456,7 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
           box(
             fill: background-color,
             inset: 5pt,
+            outset: 1pt,
             radius: 4pt,
             align(
               center,
@@ -2493,7 +2527,7 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
 
 Klic funkcij, ki nam jih nudi Godot, je v bistvu zelo preprost. Kličemo jih na čisto enak način, kot bi klicali naše lastne funkcije. Glavni problem vgrajenih funkcij je v bistvu njihova ogromna količina. V praksi ni mogoče poznati vseh (avtorja tega učbenika jih recimo skupaj zagotovo na pamet poznata manj kot 5 %), zato se je pogosto potrebno zanašati na Godotovo dokumentacijo. Le-to lahko najdemo na #link("https://docs.godotengine.org/en/stable"). Godot dokumentacija je orjaška in sprva precej strašljiva, zato se je je najbolje lotiti po manjših kosih. Branje dokumentacije je umetnost, ki jo boste izpilili z leti svojih programerskih dogodivščin in vam bo prišla še mnogokrat prav.
 
-Poskusimo zdaj poklicati neko vgrajeno funkcijo. Godot na podskupini tipov `Node2D` nudi vgrajeno funkcijo ```gd void rotate(radians: float)```, dokumentacijo zanjo lahko najdemo na: #link("https://docs.godotengine.org/en/stable/classes/class_node2d.html#class-node2d-method-rotate").
+Poskusimo zdaj poklicati neko vgrajeno funkcijo. Godot na podskupini tipov `Node2D` nudi vgrajeno funkcijo ```gd void rotate(radians: float)```, dokumentacijo zanjo lahko najdemo na: \ #link("https://docs.godotengine.org/en/stable/classes/class_node2d.html#class-node2d-method-rotate").
 
 #box-info(title: "Kaj so že radiani?", [
   Radiani so enota, ki jo uporabljamo pri merjenju kotov. Velja pretvorba $pi = 180 degree$, torej $pi$ (pi) radianov je $180 degree$ ali iztegnjen kot.
@@ -2546,7 +2580,7 @@ func _process(delta: float) -> void:
 #box-task[Poskusite sami najti dokumentacijo o vgrajeni spremenljivki `global_position` in razmislite kakšna je razlika med njo in med spremenljivko `position`.]
 
 #box-info(title: "Pohitritev iskanja dokumentacije", [
-  Če delamo znotraj vgrajenega urejevalnika besedil (kar tekom poletne šole počnemo), lahko kadarkoli medtem ko na tipkovnici držimo tipko `ctrl` in kliknemo na nek vgrajeni tip, funkcijo ali spremenljivko. Če to naredimo, se nam bo odprla vgrajena dokumentacija, ki nam jo Godot nudi znotraj pogona in po kateri lahko tudi brskamo. To je priročen in lahek način branja dokumentacije, ki deluje tudi brez dostopa do interneta, in preko katerega si lahko na hitro odgovorimo na kakšno vprašanje glede Godot API-ja. Moramo pa za takšno početje vsaj poznati ime Godot konstrukta, ki ga iščemo.
+  Če delamo znotraj vgrajenega urejevalnika besedil (kar tekom poletne šole počnemo), lahko kadarkoli medtem ko na tipkovnici držimo tipko `Ctrl` in kliknemo na nek vgrajeni tip, funkcijo ali spremenljivko. Če to naredimo, se nam bo odprla vgrajena dokumentacija, ki nam jo Godot nudi znotraj pogona in po kateri lahko tudi brskamo. To je priročen in lahek način branja dokumentacije, ki deluje tudi brez dostopa do interneta, in preko katerega si lahko na hitro odgovorimo na kakšno vprašanje glede Godot API-ja. Moramo pa za takšno početje vsaj poznati ime Godot konstrukta, ki ga iščemo.
 
   #screenshot(
     path: "assets/gd-script/builtin-docs.png",
@@ -2853,8 +2887,6 @@ V tem poglavju nam bodo zanimivi sledeči štirje novi tipi vozlišč:
 - `RigidBody2D`, ki predstavlja telo v 2D prostoru, na katerega samodejno vplivajo fizikalni procesi in
 - `CharacterBody2D`, ki predstavlja programsko upravljano telo v 2D prostoru, na katerega prav tako vplivajo fizikalni procesi, kot sta gravitacija in trki. Takšno telo je pogosto na nek način upravljano s strani igralca, lahko pa je tudi strogo programsko, kot na primer nek neigralski lik (angl. _NPC_ oziroma _non-player character_).
 
-#todo[Neigralski lik == NPC???]
-
 Zaenkrat se bomo osredotočili na `CharacterBody2D` za lika dinozavra in `StaticBody2D` za uporabo pri tleh, v tem vrstnem redu. Zamenjava dinozavra za `CharacterBody2D` nam bo pomagala dodati gravitacijo v svet, `StaticBody2D`, s katerim bomo ustvarili tla, pa bo povzročil, da dinozaver zaradi gravitacije ne bo padel skozi tla, temveč se bo ustavil pri njih.
 
 
@@ -2899,9 +2931,7 @@ Zdaj smo dodali večkotnik, ki predstavlja površino trkalnika, kjer dinozaver "
 Preden našemu dinozavru dodamo skok, moramo definirati še tla, pri katerih se bo ustavil. Če tal ne definiramo, bo namreč naš dinozaver preprosto konstantno padal navzdol brez ovir in bi v kratkem izginil iz našega zaslona.
 
 #box-task[
-  V glavnem prizoru ustvarite novo vozlišče tipa `StaticBody2D` in ga poimenujte `Tla`. Opozorilo, ki ga boste videli na vozlišču, je enako kot na #ref(<physics_characterbody2d-no-collision-warning>, supplement: [sliki]): definirati moramo tudi kolizijsko površino.
-
-  #todo[Se ne bi tu kolizijsko prevedlo v trkalno?]
+  V glavnem prizoru ustvarite novo vozlišče tipa `StaticBody2D` in ga poimenujte `Tla`. Opozorilo, ki ga boste videli na vozlišču, je enako kot na #ref(<physics_characterbody2d-no-collision-warning>, supplement: [sliki]): definirati moramo tudi trkalno površino.
 
   To storite tako, da, kot prej, za otroka vozlišča `Tla` dodate vozlišče tipa `CollisionShape2D` in ga poimenujte `TlaPovrsina`. Tokrat smo izbrali `CollisionShape2D` namesto `CollisionPolygon2D`, ker so tla bolj preproste oblike in zato ne potrebujemo podpore za kolizijo z večkotnikom, ampak nam bodo preproste oblike več kot zadoščale. Izberite vozlišče `TlaPovrsina` in na desni, pod podrobnostmi vozlišča, kliknite na spustni meni pri lastnosti "Shape" (glej #ref(<physics_staticbody2d-new-collision>, supplement: [sliko])) ter izberite `RectangleShape2D`.
 
@@ -2941,10 +2971,11 @@ extends CharacterBody2D
 
 Preden zapišemo fizikalne interakcije, pod `extends` definirajmo eno spremenljivko: kako visok naj bo skok:
 
-#todo[Bi \@export pisali nad var da smo skozi dokument konsistentni?]
 ```gd
 # [...]
-@export var impulz_za_skok: float = 1000.0
+
+@export
+var impulz_za_skok: float = 1000.0
 ```
 
 #box-info(
@@ -2960,7 +2991,9 @@ Sedaj ustvarimo funkcijo `_physics_process`, kjer bomo definirali naše fizikaln
 - Vsak korak moramo klicati `move_and_slide`, ker želimo vsak korak simulirati fiziko našega dinozavra. Klic `move_and_slice` je unikaten vozlišču `CharacterBody2D` in ga na navadnih fizikalnih objektih (kot je na primer `RigidBody2D` ni potrebno klicati). Za razlago zakaj je temu tako, bi se zopet morali spuščati v arhitekturne odločitve izdelave pogona Godot, zato bomo razlago tokrat izpustili.
 
 #box-warning[
-  `move_and_slide` se, kot del sistemov fizike, zanaša na to da je vedno klican znotraj `_physics_process` in ne bo pravilno deloval če je klican kjerkoli drugje. Več o tem si seveda lahko preberete znotraj Godotove dokumentacije: https://docs.godotengine.org/en/4.7/classes/class_characterbody2d.html#class-characterbody2d-method-move-and-slide.
+  `move_and_slide` se, kot del sistemov fizike, zanaša na to da je vedno klican znotraj `_physics_process` in ne bo pravilno deloval če je klican kjerkoli drugje. Več o tem si seveda lahko preberete znotraj Godotove dokumentacije:
+  
+  https://docs.godotengine.org/en/4.7/classes/class_characterbody2d.html#class-characterbody2d-method-move-and-slide.
 ]
 
 Iz teh zahtev dobimo sledečo skripto:
@@ -2968,7 +3001,8 @@ Iz teh zahtev dobimo sledečo skripto:
 ```gd
 extends CharacterBody2D
 
-@export var impulz_za_skok: float = 800.0
+@export
+var impulz_za_skok: float = 800.0
 
 
 func _physics_process(delta: float) -> void:
@@ -3325,7 +3359,10 @@ referenc na sosednja vozlišča: operator `$` in funkcijo `get_node`.
 Ta operator in funkcija sta dva načina za rešitev istega problema. Začnimo z operatorjem `$`; le-ta nam omogoča, da mu podamo relativno pot do vozlišča, do katerega želimo dostopati, in vrnil nam bo referenco na to vozlišče. V glavo naše skripte, zunaj vseh funkcij, lahko postavimo sledečo kodo:
 ```gd
 # [extends, @export, ...]
-@onready var animacije: AnimatedSprite2D = $DinozaverAnimacija
+
+@onready
+var animacije: AnimatedSprite2D = $DinozaverAnimacija
+
 # [ostale funkcije, _ready, _physics_process, ...]
 ```
 
@@ -3333,7 +3370,10 @@ oziroma, drugače, z uporabo funkcije `get_node`, ki naredi enako:
 
 ```gd
 # [extends, @export, ...]
-@onready var animacije: AnimatedSprite2D = get_node("DinozaverAnimacija")
+
+@onready
+var animacije: AnimatedSprite2D = get_node("DinozaverAnimacija")
+
 # [ostale funkcije, _ready, _physics_process, ...]
 ```
 
@@ -3355,7 +3395,8 @@ Pozneje v kodi lahko sedaj dostopamo do spremenljivke `animacije` in kličemo nj
   #advanced-topic-heading[Za napredne uporabnike]
 
   ```gd
-  @onready var animacije: AnimatedSprite2D = $DinozaverAnimacija
+  @onready
+  var animacije: AnimatedSprite2D = $DinozaverAnimacija
   ```
 
   zgornja koda je praktično ekvivalentna, kot če bi spremenljivko deklarirali brez vrednosti, nato pa ročno uporabili operator `$` v `_ready`:
@@ -3450,7 +3491,7 @@ Prizore lahko med tem ko je naša igra pognana poljubno izdelujemo in pripenjamo
 
 Kaktus moramo torej najprej spremeniti v svoj prizor. Na srečo ima Godot zelo priročno orodje ravno za naš primer. Z desnim klikom na katerokoli vozlišče, se nam bo prikazal kontekstni meni zanj. Znotraj tega menija lahko najdemo možnost "Save Branch as Scene..." (shrani vejo kot prizor). Spomnimo se da veja v tem kontekstu pomeni vozlišče na katerega smo kliknili skupaj z vsemi otroki, ki mu pripadajo.
 
-Naredimo to torej za vozlišče `KaktusSlicica`. Znotraj mape `res://prizori` naredite novo mapo `res://prizori/kaktusi`. Nato vozlišče `KaktusSlicica` shranite kot sceno. Poimenujte jo "velik_kaktus.tscn" in jo shranite v mapo `res://prizori/kaktusi`. Ostale nastavitve v oknu za izbiranje lahko pustite takšne kot vam jih izpolni Godot.
+Naredimo to torej za vozlišče `KaktusSlicica`. Znotraj mape `res://prizori` naredite novo mapo `res://prizori/kaktusi`. Nato vozlišče `KaktusSlicica` shranite kot sceno. Poimenujte jo `velik_kaktus.tscn` in jo shranite v mapo `res://prizori/kaktusi`. Ostale nastavitve v oknu za izbiranje lahko pustite takšne kot vam jih izpolni Godot.
 
 #align(
   center,
@@ -3474,7 +3515,7 @@ Naredimo to torej za vozlišče `KaktusSlicica`. Znotraj mape `res://prizori` na
   ),
 )
 
-Godot vam bo zdaj v prizoru `game.tscn` celotno vejo, ki jo je shranil kot nov prizor, zamenjal z novim prizorom. Da je vozlišče v raziskovalcu vozlišč neko vozlišče v bistvu prizor, nam nakazuje nov gumb z ikono prizora, označen na #ref(<scene-node>, supplement: "sliki"). Če ta gumb kliknemo nam bo Godot tudi odprl prizor, ki mu pripada.
+Godot vam bo zdaj v prizoru `game.tscn` celotno vejo, ki jo je shranil kot nov prizor, zamenjal z novim prizorom. Da je vozlišče v raziskovalcu vozlišč neko vozlišče v bistvu prizor, nam nakazuje nov gumb z ikono prizora, označen na #ref(<scene-node>, supplement: "sliki"). Če ta gumb kliknemo, nam bo Godot tudi odprl prizor, ki mu pripada.
 
 #screenshot(
   path: "assets/procedural-generation/scene-node.png",
@@ -3490,7 +3531,7 @@ Sedaj odprite novo narejeni prizor, in ovijte vozlišče `KaktusSlicica` z vozli
   Kateremukoli vozlišču v prizoru torej dodajte novega otroka tipa `Node2D`, nanj kliknite z desnim klikom miške in izberite to možnost.
 ])
 
-Nato premaknite vozlišče `KaktusSlicica` tako, da bo njegov spodnji rob na rdeči/vijolični črti (Y=0). Primer rezultata si lahko ogledate na #ref(<adjusted-cacti>, supplement: "sliki").
+Nato premaknite vozlišče `KaktusSlicica` tako, da bo njegov spodnji rob na rdeči/vijolični črti ($Y = 0$). Primer rezultata si lahko ogledate na #ref(<adjusted-cacti>, supplement: "sliki").
 
 #box-warning[
   Bodite pozorni da premikate vozlišče `KaktusSlicica` (prvi otrok) in ne `VelikKaktus` (korensko vozlišče). Korenska vozlišča prizorov se ponavadi pušča na koordinatnem izhodišču (0, 0), saj jih, ko je prizor pripet v drevo, njihov starš pogosto spremeni.
@@ -3509,7 +3550,7 @@ Na našem kaktusu (specifično vozlišču `KaktusSlicica`) je še vedno stara sk
 
 == Izdelava krovnega prizora
 
-Še vedno želimo, da se naš kaktus premika v levo. Na vozlišče "VelikKaktus" bi lahko pripeli novo skripto, ki bi to počela, a to ne bi bilo praktično. Problem bi nastal, ko bi želeli dodati drugačne kaktuse, saj bi morali za vsakega posebej nato izdelovati/pripenjati skripto, ki bi ga premikala levo (in izvajala vse ostale operacije, ki jih kaktus izvaja).
+Še vedno želimo, da se naš kaktus premika v levo. Na vozlišče `VelikKaktus` bi lahko pripeli novo skripto, ki bi to počela, a to ne bi bilo praktično. Problem bi nastal, ko bi želeli dodati drugačne kaktuse, saj bi morali za vsakega posebej nato izdelovati/pripenjati skripto, ki bi ga premikala levo (in izvajala vse ostale operacije, ki jih kaktus izvaja).
 
 Zaradi tega bomo naredili krovni prizor, ki se bo dinamično odločal kateri kaktus prikazuje in bo skrbel za vse naloge kaktusa, od premikanja do obdelave trkov.
 
@@ -3519,7 +3560,7 @@ Zaradi tega bomo naredili krovni prizor, ki se bo dinamično odločal kateri kak
 
 Da bo lahko naš krovni prizor kaktus izdelal, more najprej vedeti kje ga lahko najde. Na tej točki imamo zopet kar nekaj možnosti pristopa, vsaka od njih s svojimi prednostmi in slabostmi. Za voljo prikaza drugih načinov se bomo tokrat odločili za ročni pristop z uporabo `load` in `preload`, a bi bila uporaba izvoženih spremenljivk tudi popolnoma sprejemljiva, če ne celo boljša.
 
-Funkcija ```gd Resource load(path: String)``` je vgrajena funkcija dostopna povsod znotraj GDScript skript in nam omogoča da med tekom programa iz diska naložimo nov vir. Viri so vse vrste datotek, ki jih Godot razpoznava kot vire. Slike, zvočne datoteke in celo GDScript datoteke, se vse štejejo kot "vir". V našem primeru želimo naložiti prizor, torej `.tscn` datoteko.
+Funkcija ```gd Resource load(path: String)``` je vgrajena funkcija dostopna povsod znotraj GDScript skript in nam omogoča, da med tekom programa iz diska naložimo nov vir. Viri so vse vrste datotek, ki jih Godot razpoznava kot vire. Slike, zvočne datoteke in celo GDScript datoteke, se vse štejejo kot "vir". V našem primeru želimo naložiti prizor, torej `.tscn` datoteko.
 
 To bi lahko dosegli s takšnim kosom kode:
 
@@ -3539,7 +3580,7 @@ func _ready() -> void:
   ],
 )
 
-Zgornja koda deluje popolnoma pravilno in bi jo lahko kot takšno tudi uporabili. A ker že vnaprej vemo točno kateri prizor nalagamo, lahko vse skupaj malo pohitrimo. Godot vsebuje tudi funkcijo ```gd  Resource preload(path: String)```, ki je skoraj identična funkciji `load`. Edina razlika je da `preload` zahteva da je niz (torej pot do vira) konstanten (kor argument ji torej ne moremo podati na primer spremenljivke, ali nekega kosa kode) v zameno za to omejitev pa pridobimo hitrost. Funkcijo `preload` Godot namreč izvede vnaprej, še preden sploh pride do njenega klica, in na točki kjer kličemo `preload` samo vrne že pripravljen vir. To tudi pomeni da te kode ni potrebno več izvesti v funkciji `_ready` oziroma pod direktivo `@onready`.
+Zgornja koda deluje popolnoma pravilno in bi jo lahko kot takšno tudi uporabili. A ker že vnaprej vemo točno kateri prizor nalagamo, lahko vse skupaj malo pohitrimo. Godot vsebuje tudi funkcijo ```gd  Resource preload(path: String)```, ki je skoraj identična funkciji `load`. Edina razlika je, da `preload` zahteva, da je niz (torej pot do vira) konstanten, kot argument ji torej ne moremo podati na primer spremenljivke, ali nekega kosa kode. V zameno za to omejitev pridobimo hitrost. Funkcijo `preload` Godot namreč izvede vnaprej, še preden sploh pride do njenega klica, in na točki kjer kličemo `preload` samo vrne že pripravljen vir. To tudi pomeni, da te kode ni potrebno več izvesti v funkciji `_ready` oziroma pod direktivo `@onready`.
 
 Zgornja koda bi torej sedaj izgledala takole:
 ```gd
@@ -3549,7 +3590,7 @@ Zgornja koda bi torej sedaj izgledala takole:
 var kaktus_prizor: PackedScene = preload("res://prizori/kaktusi/velik_kaktus.tscn")
 ```
 
-Kaktus imamo torej naložen, a je kakor ste verjetno opazili, podatkovnega tipa `PackedScene`, ki ga še ne moremo dodati v drevo vozlišč. Da prizor iz `PackedScene` spravimo nazaj v drevo vozlišč, kot smo ga naredili znotraj `velik_kaktus.tscn`, moramo na njem klicati funkcijo ```gd Node instantiate()```. Kot lahko vidite že iz podpisa nam funkcije vrne `Node`, torej vozlišče. V našem primeru bo to prav vozlišče `VelikKaktus` tipa `Node2D`, ki smo ga naredili v `velik_kaktus.tscn`. Pomembno je vedeti da vozlišče vsebuje tudi vse svoje potomce, tako da zdaj v rokah pravzaprav držimo celotno drevo vozlišč narejeno znotraj tega prizora.
+Kaktus imamo torej naložen, a je kakor ste verjetno opazili, podatkovnega tipa `PackedScene`, ki ga še ne moremo dodati v drevo vozlišč. Da prizor iz `PackedScene` spravimo nazaj v drevo vozlišč, kot smo ga naredili znotraj `velik_kaktus.tscn`, moramo na njem klicati funkcijo ```gd Node instantiate()```. Kot lahko vidite že iz podpisa nam funkcije vrne `Node`, torej vozlišče. V našem primeru bo to prav vozlišče `VelikKaktus` tipa `Node2D`, ki smo ga naredili v `velik_kaktus.tscn`. Pomembno je vedeti, da vozlišče vsebuje tudi vse svoje potomce, tako da zdaj v rokah pravzaprav držimo celotno drevo vozlišč narejeno znotraj tega prizora.
 
 #box-info(
   title: [#advanced-topic-heading[Za napredne uporabnike]],
@@ -3558,7 +3599,7 @@ Kaktus imamo torej naložen, a je kakor ste verjetno opazili, podatkovnega tipa 
   ],
 )
 
-Vsa vozlišča tipa `Node` (in njegovi potomci), vsebujejo funkcijo `add_child` s katero lahko neko vozlišče temu vozlišču dodamo kot otroka in ga skozi to tudi pripnemo v večje drevo vozlišč. To pomeni da lahko zgornji primer razširimo v:
+Vsa vozlišča tipa `Node` (in njegovi potomci), vsebujejo funkcijo `add_child` s katero lahko neko vozlišče temu vozlišču dodamo kot otroka in ga skozi to tudi pripnemo v večje drevo vozlišč. To pomeni, da lahko zgornji primer razširimo v:
 
 ```gd
 var kaktus_prizor: PackedScene = preload("res://prizori/kaktusi/velik_kaktus.tscn")
@@ -3588,7 +3629,7 @@ func _ready() -> void:
 
 == Izdelava kaktusov na fiksni interval
 
-Pripravljeno imamo že kar dosti, čas je da vse skupaj povežemo.
+Pripravljeno imamo že kar dosti, zato je čas, da vse skupaj povežemo.
 
 Vrnimo se torej nazaj v prizor `igra.tscn` in odprimo GDScript skripto na korenskem vozlišču (`igra.gd`). Naša trenutna želja je kaktuse ustvarjati na fiksen interval. To bomo dosegli s precej intuitivnim razmislekom. Če želimo v vsakdanu nekaj storiti čez, recimo 5 sekund, preštejemo do 5 in nato to naredimo. Računalnik tu ni nobena izjema (mogoče edino v tem da šteje mnogo bolj natančno). Izdelajmo si torej enostaven števec.
 
@@ -3631,6 +3672,7 @@ func _process(delta):
 
 ```gd
 #[...]
+
 var kaktus_prizor: PackedScene = preload("res://prizori/kaktusi/kaktus.tscn")
 
 func _process(delta):
@@ -3649,7 +3691,7 @@ func _process(delta):
   V pomoč vam je spet lahko primer v #ref(<moving-cactus-example>, supplement: "poglavju").
 ]
 
-Zdaj bi morali ob zagonu `igra.tscn` videti kaktuse, ki se počasi premikajo levo po zaslonu. Nov kaktus se (če niste spreminjali izvožene vrednosti) izdela vsako sekundo.
+Zdaj bi morali ob zagonu `igra.tscn` videti kaktuse, ki se počasi premikajo levo po zaslonu. Nov kaktus se sedaj, če niste spreminjali izvožene vrednosti, izdela vsako sekundo.
 
 Popravimo še začetno točko naših kaktusov, da bomo lahko umaknili premik iz `kaktus.gd`.
 
@@ -3660,12 +3702,13 @@ Popravimo še začetno točko naših kaktusov, da bomo lahko umaknili premik iz 
   ],
 )
 
-V prizor `igra.tscn` dodajte novo vozlišče tipa `Node2D` in ga premaknite tako da bo njegov spodnji del poravnan s kaktusom, ki smo ga pred tem premaknili izven zaslona (#ref(<cleaned-scene-example>)). To pomožno vozlišče, ki ga poimenujte `IzvorKaktusov` (poleg tega naj bo tudi otrok korenskega vozlišča), bo služilo samo temu, da bo skripti `igra.gd` povedalo kje naj izdeluje nove kaktuse.
+V prizor `igra.tscn` dodajte novo vozlišče tipa `Node2D` in ga premaknite tako, da bo njegov spodnji del poravnan s kaktusom, ki smo ga pred tem premaknili izven zaslona (#ref(<cleaned-scene-example>)). To pomožno vozlišče, ki ga poimenujte `IzvorKaktusov` (poleg tega naj bo tudi otrok korenskega vozlišča), bo služilo samo temu, da bo skripti `igra.gd` povedalo kje naj izdeluje nove kaktuse.
 
 Dodajmo zdaj še ta zadnji kos sestavljanke v skripto `game.gd`. Ne pozabite tudi umakniti vrstice s premikom iz skripte `kaktus.gd`, saj premik zdaj ni več potreben.
 
 ```gd
 #[...]
+
 # @onready je tu nujen, saj funkcija get_node v katero se razširi simbol $
 # ne more preiskovati drevesa preden smo vanj pripeti.
 #
@@ -3688,13 +3731,13 @@ func _process(delta):
 		cas_zadnjega_dodajanja = cas
 ```
 
-Če projekt poženete, bi morali na zaslonu videti nekaj podobnega #ref(<cactus-line>, supplement: "sliki"). Preverite da vam skakanje dinozavra še vedno deluje saj ga med izdelavo tega dela ne bi smeli pokvariti. Smo pa tekom preobrazbe projekta izgubili en kos funkcionalnosti. Morda ste opazili da se ob trkih s kaktusi, sporočila o trkih ne izpisujejo več na izhod. Popravimo sedaj še to.
+Če projekt poženete, bi morali na zaslonu videti nekaj podobnega #ref(<cactus-line>, supplement: "sliki"). Preverite, da vam skakanje dinozavra še vedno deluje, saj ga med izdelavo tega dela ne bi smeli pokvariti. Smo pa tekom preobrazbe projekta izgubili en kos funkcionalnosti: morda ste opazili, da se ob trkih s kaktusi, sporočila o trkih ne izpisujejo več na izhod. Popravimo sedaj še to.
 
 #screenshot(
   path: "assets/procedural-generation/cactus-line.png",
   width: 65%,
   caption: [Igra po implementaciji fiksne izdelave kaktusov.],
-)<cactus-line>
+) <cactus-line>
 
 V skripto `kaktus.gd` dodajte funkcijo, ki bo klicana ob trku. Lahko je tudi enaka, kot je bila prej:
 ```gd
@@ -3703,7 +3746,7 @@ func _ko_je_kaktus_zadet(body: Node2D) -> void:
         print("Trčili smo v dinozavra! Konec igre!")
 ```
 
-Nazadnje smo signal na našo funkcijo vezali s pomočjo Godotovega vmesnika. To je priročen in enostaven način če so vsi faktorji znani že pred zagonom projekta.
+Nazadnje smo signal na našo funkcijo vezali s pomočjo Godotovega vmesnika. To je priročen in enostaven način, če so vsi faktorji znani že pred zagonom projekta.
 
 Ko smo to delali nazadnje smo _ob času zagona projekta_ vedeli:
 - Točno katero vozlišče preverja svoje trke in kako ga lahko najdemo (to vozlišče je bilo `Area2D` znotraj `VelikKaktusSlicica`)
@@ -3715,7 +3758,7 @@ Tokrat:
 
 To ni nepremostljiva ovira, vse kar pomeni je, da moramo začeti tudi signal vezati dinamično.
 
-Kot vedno je tu tudi obvezno opozorilo, da je možnih pristopov več. V večjem projektu, ki bi imel bolj dinamične in raznolike kaktuse, bi verjetno vseeno uvedli skripto na korenskem vozlišču specifičnih kaktusov (kot je "VelikKaktus"), in potem nanjo povezovali trke, prek nje pa potem še višje. Ker pa je naš projekt precej enostaven, kaktusi pa so si med sabo različni samo po velikostih in sličicah, se bomo držali pravila, da imajo vsi kaktusi enako strukturo in poimenovanja, ter ročno vezali signal za trkanje.
+Kot vedno, je tu tudi obvezno opozorilo, da je možnih pristopov več. V večjem projektu, ki bi imel bolj dinamične in raznolike kaktuse, bi verjetno vseeno uvedli skripto na korenskem vozlišču specifičnih kaktusov (kot je "VelikKaktus"), in potem nanjo povezovali trke, prek nje pa potem še višje. Ker pa je naš projekt precej enostaven, kaktusi pa so si med sabo različni samo po velikostih in sličicah, se bomo držali pravila, da imajo vsi kaktusi enako strukturo in poimenovanja, ter ročno vezali signal za trkanje.
 
 Naša zahtevana struktura bo potemtakem:
 #context {
@@ -3732,7 +3775,7 @@ Naša zahtevana struktura bo potemtakem:
 
 Naš `velik_kaktus.tscn` se takšne strukture že drži, v mislih pa jo bomo morali imeti, ko bomo izdelovali druge kaktuse.
 
-Začnimo torej poslušati na enak signal kot smo ga poslušali prej. To bo signal `body_entered` na `Area2D`. Najprej moramo najti `Area2D` znotraj našega drevesa vozlišč. Do sedaj smo za takšno iskanje uporabljali funkcijo `get_node` (in njeno okrajšavo `$`), obstaja pa tudi funkcija `find_child`, ki nam v tem primeru omogoča več svobode. Če bi na primer uporabili `get_node` bi moralo biti tudi ime vozlišča `SličicaKaktusa` fiksno in med `Area2D` in `KorenskoVozlišče` ne bi smelo biti nobenega drugega vozlišča kot `SličicaKaktusa`.
+Začnimo torej poslušati enak signal, kot smo ga poslušali prej. To bo signal `body_entered` na `Area2D`. Najprej moramo najti `Area2D` znotraj našega drevesa vozlišč. Do sedaj smo za takšno iskanje uporabljali funkcijo `get_node` (in njeno okrajšavo `$`), obstaja pa tudi funkcija `find_child`, ki nam v tem primeru omogoča več svobode. Če bi na primer uporabili `get_node` bi moralo biti tudi ime vozlišča `SličicaKaktusa` fiksno in med `Area2D` in `KorenskoVozlišče` ne bi smelo biti nobenega drugega vozlišča kot `SličicaKaktusa`.
 
 Dovolj razlage! Napišimo spet nekaj kode. Poglejmo si tokrat kar celotno datoteko naenkrat:
 
@@ -3770,7 +3813,8 @@ func ko_ovira_zadane_dinozavra(body: Node2D):
 		print("Dinozaver je trčil v kaktus!")
 ```
 
-Skripta je že sama precej dobro pokomentirana. Pojdimo pa zdaj še enkrat čez celotni proces.
+Skripta je že sama precej dobro pokomentirana. Pojdimo pa zdaj še enkrat čez celotni proces:
+
 1. Še preden s skripta začne izvajati se skozi `preload` v kaktus_prizor naloži zapakiran prizor `velik_kaktus.tscn`.
 2. Vozlišče kaktus se doda v drevo vozlišč, sproži se klic `_ready` v katerem se:
   1. Zapakirana scena shranjena v kaktus_prizor se razpakira in pretvori v drevo vozlišč.
@@ -3780,7 +3824,7 @@ Skripta je že sama precej dobro pokomentirana. Pojdimo pa zdaj še enkrat čez 
 3. Vozlišče se začne izvajati. V funkciji `_process` se začnemo premikati levo.
 4. Ko/če se kaktus zadane v drug trkalnik, se bo sprožila funkcija `ko_ovira_zadane_dinozavra`.
 
-Praktično smo že končali, manjka nam samo še en majhen detajl, kaktusi se nam izdelujejo v nedogled se pa nikoli ne izbrišejo. Godot ni sposoben namesto nas vedeti kdaj mora objekte počistiti in bo vse kaktuse izvajal v nedogled, kar bo čez čas začelo upočasnjevati naš računalnik. Dodajmo torej zelo enostavno čiščenje.
+Praktično smo že končali, manjka nam samo še en majhen detajl, kaktusi se nam izdelujejo v nedogled se pa nikoli ne izbrišejo. Godot ni sposoben namesto nas vedeti, kdaj mora objekte počistiti, in bo vse kaktuse izvajal v nedogled, kar bo čez čas začelo upočasnjevati naš računalnik. Dodajmo torej zelo enostavno čiščenje.
 
 V funkcijo `_process` dodajte:
 
@@ -3794,7 +3838,7 @@ if global_position.x < -200:
 	queue_free()
 ```
 
-Na tej točki se lahko še malo poigrate z nastavitvami, kot je interval kaktusov na skripti `igra.gd`, spomnite se da smo to spremenljivko izvozili, tako da jo lahko urejate kar iz urejevalnika. Lahko se poigrate tudi s hitrostjo kaktusov, urejate jo lahko v funkciji `_process` znotraj skripte `kaktus.gd`. Smiselno bi jo bilo tudi izvoziti da jo lahko med testiranjem lažje spreminjamo.
+Na tej točki se lahko še malo poigrate z nastavitvami, kot je interval kaktusov na skripti `igra.gd`. Spomnite se, da smo to spremenljivko izvozili, tako da jo lahko urejate kar iz urejevalnika. Lahko se poigrate tudi s hitrostjo kaktusov -- urejate jo lahko v funkciji `_process` znotraj skripte `kaktus.gd`. Smiselno bi jo bilo tudi izvoziti, da jo lahko med testiranjem lažje spreminjamo.
 
 #box-task[
   Uredite skripto `kaktus.gd` tako, da bo se bo dalo hitrost kaktusov urejati znotraj urejevalnika.
@@ -3813,7 +3857,7 @@ Zdaj ko smo izpilili še to podrobnost: Čestitke! Uspešno ste izdelali enostav
 
 == Dodajanje variacij med kaktusi
 
-Trenutno se nam po zaslonu premika samo en tip kaktusa kar je malo dolgočasno. Dodajno še enega in naredimo da se igra _naključno_ odloča med tem katerega bo uporabila.
+Trenutno se nam po zaslonu premika samo en tip kaktusa kar je malo dolgočasno. Dodajno še enega in naredimo, da se igra _naključno_ odloča med tem katerega bo uporabila.
 
 #box-task[
   Podvojite prizor `velik_kaktus.tscn` (desni klik na prizor znotraj raziskovalca datotek in klik na možnost "Duplicate" (podvoji)). Novi prizor poimenujte `velik_kaktus_2.tscn`.
@@ -3824,7 +3868,7 @@ Trenutno se nam po zaslonu premika samo en tip kaktusa kar je malo dolgočasno. 
   - Popravite `CollisionPolygon2D` tako, da bo zopet približno objemal obris kaktusa.
 
   #box-warning[
-    Pri vsem tem pazite, da je kaktus na dnu še vedno lepo poravnan z osjo `Y=0` (rdeča/vijolična črta), drugače kaktus, ko ga bomo proceduralno izdelovali, ne bo lepo poravnan s tlemi!
+    Pri vsem tem pazite, da je kaktus na dnu še vedno lepo poravnan z osjo $Y = 0$ (rdeča/vijolična črta), drugače kaktus, ko ga bomo proceduralno izdelovali, ne bo lepo poravnan s tlemi!
   ]
 
   #screenshot(
@@ -3866,7 +3910,7 @@ func _ready() -> void:
 #[...]
 ```
 
-Deli ki nas zanimajo so izdelovanje kaktusov in ne njihovo upravljanje, tako da smo vse izven funkcije `_ready` trenutno izpustili saj drugih delov tudi ne bomo spreminjali.
+Deli, ki nas zanimajo, so izdelovanje kaktusov in ne njihovo upravljanje, tako da smo vse izven funkcije `_ready` trenutno izpustili, saj drugih delov tudi ne bomo spreminjali.
 
 Najprej moramo v novi skripti sploh dobiti dostop do novega kaktusa. Čisto intuitivno bi lahko dodali samo novo spremenljivko `kaktus_prizor2` takole:
 ```gd
@@ -3881,7 +3925,7 @@ Spomnimo so podatkovnega tipa ki smo ga že uporabljali, ko smo želeli več pod
 var kaktus_prizori: PackedScene = preload("res://prizori/kaktusi/velik_kaktus.tscn")
 ```
 
-Ob zagonu moramo zdaj samo vzeti naključen element seznama, ga izdelati in naključna generacija je narejena. Znotraj Godota je zopet več načinov, kako se lahko lotimo naključne generacije. Za nas trenutno najlažja, bo uporaba funkcije ```gd int randi_range(from: int, to: int)```. Z njo lahko generiramo naključno število, ki bo na intervalu `[from, to]`, torej od vključno `from` do vključno `to`.
+Ob zagonu moramo zdaj samo vzeti naključen element seznama, ga izdelati in tako je naključna generacija narejena. Znotraj Godota je zopet več načinov, kako se lahko lotimo naključne generacije. Za nas trenutno najlažja, bo uporaba funkcije ```gd int randi_range(from: int, to: int)```. Z njo lahko generiramo naključno število, ki bo na intervalu `[from, to]`, torej od vključno `from` do vključno `to`.
 
 V našem primeru si z njo lahko pomagamo takole:
 ```gd
@@ -3913,7 +3957,7 @@ func _ready() -> void:
 
 ```
 
-Če projekt sedaj zaženete bi morali videti nekaj podobnega #ref(<random-cactus-line>, supplement: "sliki").
+Če projekt sedaj zaženete, bi morali videti nekaj podobnega #ref(<random-cactus-line>, supplement: "sliki").
 
 #screenshot(
   path: "assets/procedural-generation/random-cactus-line.png",
@@ -3922,7 +3966,7 @@ func _ready() -> void:
 ) <random-cactus-line>
 
 #box-task[
-  V igro sami dodajte še en majhen kaktus (na primer na osnovi `mali-kaktus_1.tres`). Še vedno bodite pozorni da bo nov kaktus v svojem prizoru poravnan s tlemi (rdečo/vijolično črto).
+  V igro sami dodajte še en majhen kaktus (na primer na osnovi `mali-kaktus_1.tres`). Še vedno bodite pozorni, da bo nov kaktus v svojem prizoru poravnan s tlemi (rdečo/vijolično črto).
 ]
 
 #box-task[
@@ -3931,9 +3975,9 @@ func _ready() -> void:
   Razmislite tudi o tem, da dele te kode izvozite za urejanje v urejevalniku. Izvozili bi lahko na primer dve spremenljivki, ki bi ju potem uporabili kot parametra `to` in `from` v funkciji `randi_range`.
 ]
 
-#todo[Generacija tal? Se mi zdi še kar nekaj dela, mogoče jim lahko to pustimo kot svojo nalogo ali pa se še doda tu eno poglavje. Lahko se pa tudi poenostavi in so tla fiksna.]
+#todo[Generacija tal? Se mi zdi še kar nekaj dela, mogoče jim lahko to pustimo kot svojo nalogo ali pa se še doda tu eno poglavje. Lahko se pa tudi poenostavi in so tla fiksna. COMMENT (simong) se strinjam, pomoje so lahko tla fiksna, vsebine je pravzaprav že ogromno]
 
-Osnovno delovanje igre smo zdaj dokončali. Dinozaver ima svoj izziv in hkrati tudi vse kar potrebuje da ga s skoki premaga. Še vedno pa se ob trku s kaktusom zgolj izvede izpis na izhod. Želimo da bi se igra takrat končala, za igralca pa bi bilo dobro da bi vedel kako dolgo je uspel zdržati. Kako dodati še vse to, si bomo pogledali v naslednjem poglavju.
+Osnovno delovanje igre smo zdaj dokončali. Dinozaver ima svoj izziv in hkrati tudi vse kar potrebuje da ga s skoki premaga. Še vedno pa se ob trku s kaktusom zgolj izvede izpis na izhod. Želimo, da bi se igra takrat končala, za igralca pa bi bilo dobro, da bi vedel kako dolgo je uspel zdržati. Kako dodati še vse to, si bomo pogledali v naslednjem poglavju.
 
 #pagebreak(weak: true)
 = Izdelava uporabniškega vmesnika
@@ -4031,7 +4075,7 @@ Napis smo uspešno postavili na sredino zaslona. Dodajmo zdaj število točk, ki
 
 Število točk želimo postaviti pod naš napis "KONEC IGRE". To bo prav tako kos besedila, tako da bomo spet uporabili vozlišče `Label`.
 
-Če vozlišče kar dodate, kot še en otrok zaboja `CenterContainer`, boste opazili da je prav tako centrirano na sredino zaslona in se prekriva z besedilom "KONEC IGRE". Poleg tega ga z miško ne morete premikati, še več, če poskusite vam Godot javi napako "Children of a container get their position and size determined only by their parent." (Otrokom zabojnika njihovo lokacijo in velikosti določi starš). Napaka že sama precej dobro opiše kaj se dogaja. Ko je vozlišče tipa `Control` enkrat znotraj zabojnika, mu lokacijo in velikost določa starš. Novega vozlišča torej ne moremo premikati ročno, ampak mu moramo skozi sistem zabojnikov povedati, kje in kako naj se pozicionira.
+Če vozlišče kar dodate kot še en otrok zaboja `CenterContainer`, boste opazili, da je prav tako centrirano na sredino zaslona in se prekriva z besedilom "KONEC IGRE". Poleg tega ga z miško ne morete premikati. Še več: če to poskusite, vam Godot javi napako "Children of a container get their position and size determined only by their parent." (Otrokom zabojnika njihovo lokacijo in velikosti določi starš). Napaka že sama precej dobro opiše, kaj se dogaja. Ko je vozlišče tipa `Control` enkrat znotraj zabojnika, mu lokacijo in velikost določa starš. Novega vozlišča torej ne moremo premikati ročno, ampak mu moramo skozi sistem zabojnikov povedati, kje in kako naj se pozicionira.
 
 Želimo, da so elementi na zaslon poravnani v vertikalno (v stolpec). Za to lahko uporabimo zaboj tipa `VBoxContainer`, V v imenu stoji za vertical (vertikalna). Dodajmo torej vozlišče tipa `VBoxContainer` in vanj premaknimo `NapisKonecIgre` in novo vozlišče tipa `Label`, ki ga poimenujte `Rezultat`. Če želite da je tudi to vozlišče poravnano v sredino ga lahko ovijete v še en `CenterContainer`. V vozlišče `Rezultat` lahko, da si bomo lažje predstavljali kako vse skupaj zgleda, napišete nekaj v smislu "Rezultat: 100". Povečajmo tudi velikost fonta tega vozlišča na 48px. Prizor bi zdaj moral biti podoben #ref(<after-result>, supplement: "sliki").
 
@@ -4041,7 +4085,7 @@ Napis smo uspešno postavili na sredino zaslona. Dodajmo zdaj število točk, ki
   caption: [Izgled prizora po dodanem vozlišču `Rezultat`.],
 ) <after-result>
 
-Dinamično prikazovanje števila točk bomo dodali malo kasneje, najprej dodajmo še gumb, ki bo sprožil ponoven začetek igre.
+Dinamično prikazovanje števila točk bomo dodali malo kasneje. Najprej dodajmo še gumb, ki bo sprožil ponoven začetek igre.
 
 Vozlišču `VBoxContainer` dodajmo še enega otroka, tokrat tipa `Button`. `Button` kot vsi tipi vozlišč, ki smo jih obravnavali v tem poglavju, prav tako razširja `Control` in se prikaže kot navaden gumb z napisom. Zavijte ga v nov `CenterContainer`, da se bo pravilno poravnal na sredino in mu popravite velikost fonta na 64px. `VBoxContainer` med svoje otroke privzeto da precej malo razmika, tako da sta besedilo "Rezultat: 100" in naš novi gumb precej blizu. To bi lahko uredili skozi možnost "separation" (razmik), ki nam jo nudi `VBoxContainer`, a ker nam je razmik med "KONEC IGRE" in "Rezultat: 100" zadovoljiv, poglejmo raje drugačen način.
 
@@ -4057,7 +4101,7 @@ S tem je vizualni del našega prizora končan. Prizor naj bi bil zdaj podoben #r
 
 == Voditelj igre
 
-Preden začnemo z dinamičnim urejanjem vmesnika nas čaka še izdelava precej pomembnega kosa naše igre, in sicer njenega voditelja.
+Preden začnemo z dinamičnim urejanjem vmesnika, nas čaka še izdelava precej pomembnega kosa naše igre, in sicer njenega voditelja.
 
 Ko se naša igra konča, želimo namreč njeno celotno delovanje ugasniti in zamenjati na prizor, ki smo ga ravnokar naredili. Ob kliku na gumb "Nova igra" pa narediti ravno obratno in zamenjati nazaj na igro, ki pa se mora začeti od začetka. Zato da lahko delamo take menjave prizorov mora nad le temi bdeti nek višji prizor in jih voditi. Tak prizor je očem neviden in le nadzira stanje igre ter po potrebi menja prizore.
 
@@ -4172,7 +4216,7 @@ func ko_je_konec_igre(rezultat: float):
 	print("KONEC!")
 ```
 
-Če sedaj poženete igro in pustite da se dinozaver zaleti v kaktus, boste na Godotovem izhodu videli nekaj podobnega:
+Če sedaj poženete igro in pustite, da se dinozaver zaleti v kaktus, boste na Godotovem izhodu videli nekaj podobnega:
 
 ```izhod
 Dinozaver je trčil v kaktus!
@@ -4180,7 +4224,7 @@ Igra je prejela, da je dinozaver zadet!
 KONEC!
 ```
 
-Sedaj lahko umaknemo vse 3 vrstice s `print` in naredimo da se prizor zamenja.
+Sedaj lahko umaknemo vse 3 vrstice s `print` in naredimo, da se prizor zamenja.
 
 Popravimo torej `voditelj_igre.gd` takole:
 
@@ -4194,7 +4238,7 @@ func ko_je_konec_igre(rezultat: float):
 	add_child(trenutni_prizor)
 ```
 
-Če igro ponovno poženete ne boste opazili samo izpisa, ampak se bo ob trku v kaktus tudi pojavil prizor, ki oznanja konec igre!
+Če igro ponovno poženete, ne boste opazili samo izpisa, ampak se bo ob trku v kaktus pojavil tudi prizor, ki oznanja konec igre!
 
 Usposobimo še gumb "Nova igra". Tokrat zopet pošiljamo informacije navzgor, saj mora za zahtevo po novi igri zopet izvedeti voditelj igre. Na hitro lahko to dosežemo takole:
 
@@ -4229,10 +4273,9 @@ func ko_je_konec_igre(rezultat: float):
 	add_child(trenutni_prizor)
 ```
 
-Vozlišča tipa `Button` imajo na sebi signal imenovan `pressed`, ki se sproži ko igralec klikne na gumb. Na vrstici 26 na ta signal povežemo našo funkcijo `zacni_igro`, ki potem igro znova zažene. Ker se prizor `igra` še enkrat na novo izdela se vse obnaša enako kot če bi igro ravnokar zagnali.
+Vozlišča tipa `Button` imajo na sebi signal imenovan `pressed`, ki se sproži ko igralec klikne na gumb. Na vrstici 26 na ta signal povežemo našo funkcijo `zacni_igro`, ki potem igro znova zažene. Ker se prizor `igra` še enkrat izdela na novo, se vse obnaša enako, kot če bi igro ravnokar zagnali.
 
-Dodajmo še kako dolgo se je igralec uspešno izogibal kaktusom. Čas od začetka igre že prejmemo v našo funkcijo `ko_je_konec_igre` v obliki parametra `rezultat` (ta parameter smo nastavili s tem, da smo spremenljivko `cas` poslali v funkcijo `emit` znotraj `igra.gd`).
-
+Dodajmo še, kako dolgo se je igralec uspešno izogibal kaktusom. Čas od začetka igre že prejmemo v našo funkcijo `ko_je_konec_igre` v obliki parametra `rezultat`. Ta parameter smo nastavili s tem, da smo spremenljivko `cas` poslali v funkcijo `emit` znotraj `igra.gd`.
 Vozlišču tipa `Label` lahko nastavimo besedilo, ki ga prikazuje tako, da mu nastavimo lastnost (spremenljivko) `text`:
 
 ```gd
@@ -4251,7 +4294,7 @@ func ko_je_konec_igre(rezultat: float):
   caption: [Prizor za konec igre, kjer je rezultat decimalno število.],
 ) <result-as-float>
 
-Ko Godot pretvarja decimalno število v niz z ```gd str(rezultat)```, napiše vsa decimalna mesta ki jih ima na voljo. To zgleda precej grdo, želeli bi si da je naš rezultat celo število. Zelo enostavna rešitev je, da rezultat v sekundah enostavno pomnožimo z 100 in nato pretvorimo v celoštevilsko spremenljivko, kar bo odrezalo decimalni del a vseeno ohranilo kar nekaj natančnosti:
+Ko Godot pretvarja decimalno število v niz z ```gd str(rezultat)```, napiše vsa decimalna mesta ki jih ima na voljo. To zgleda precej grdo, saj bi si zagotovo želeli, da je naš rezultat celo število. Zelo enostavna rešitev je, da rezultat v sekundah enostavno pomnožimo z 100 in nato pretvorimo v celoštevilsko spremenljivko, kar bo odrezalo decimalni del a vseeno ohranilo kar nekaj natančnosti:
 
 ```gd
 func ko_je_konec_igre(rezultat: float):
@@ -4502,7 +4545,7 @@ func izpisi_rezultat(
 	print(sporocilo)
 ```
 
-== Premikanje kaktusa<moving-cactus-example>
+== Premikanje kaktusa <moving-cactus-example>
 ```gd
 extends Sprite2D
 
