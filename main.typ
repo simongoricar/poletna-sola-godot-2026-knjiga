@@ -37,6 +37,15 @@
 
 #import "@preview/dtree:0.1.1": dtree
 
+#import "@preview/keyle:0.3.0" as keyle
+
+#let kbd = keyle.config(
+  theme: keyle.themes.deep-blue.with(
+    wrap: (it) => it,
+  ),
+)
+
+
 #import "@preview/codly:1.3.0": codly, codly-disable, codly-enable, codly-init, no-codly
 #import "@preview/codly-languages:0.1.1": codly-languages
 #show: codly-init
@@ -203,6 +212,105 @@
     ),
   )
 };
+
+
+/*
+ * COLORED NODE TYPE TEXT
+ */
+#let node-type-name = (
+  name,
+  fill-color: rgb("#e0e0e0")
+) => {
+  box(
+    fill: rgb("#1f1f1f"),
+    text(
+      fill: fill-color,
+      name
+    )
+  )
+};
+
+#let node2d-type-name = (name) => {
+  node-type-name(
+    name,
+    fill-color: rgb("#6393ff")
+  )
+};
+
+#let node3d-type-name = (name) => {
+  node-type-name(
+    name,
+    fill-color: rgb("#ff5c5c")
+  )
+};
+
+#let control-type-name = (name) => {
+  node-type-name(
+    name,
+    fill-color: rgb("#70ff81")
+  )
+};
+
+
+/*
+ * COLORED DATA TYPE
+ */
+#let data-type-name = (name) => {
+  text(
+    fill: rgb("#42ffc2"),
+    name
+  )
+};
+
+#let function-name = (name) => {
+  text(
+    fill: rgb("#66e5ff"),
+    name
+  )
+};
+
+#let variable-name = (name) => {
+  text(
+    fill: rgb("#e0e0e0"),
+    name
+  )
+};
+
+#let ui-button = (name) => context {
+  // let x-padding = 4pt;
+  // let y-padding = 7pt;
+
+  // let base-text = text(
+  //   fill: rgb("#cdcdcd"),
+  //   weight: "bold",
+  //   name
+  // )
+
+  // let base-text-measured = measure(base-text);
+
+  // [~]
+  // box[
+  //   #place(
+  //     dx: -(x-padding / 2),
+  //     dy: -(y-padding / 2),
+  //     top + left,
+  //     rect(
+  //       width: base-text-measured.width + x-padding,
+  //       height: base-text-measured.height + y-padding,
+  //       fill: rgb("#393939"),
+  //       radius: 2pt,
+  //     )
+  //   )
+  //   #base-text
+  // ]
+  // [~]
+  // 
+  
+  ["#name"]
+};
+
+
+
 
 /*
  * PAGE SETUP AND STYLING
@@ -484,7 +592,7 @@
     // lahko tudi nekaj svojega napiševa za flavor
     *Si želiš ustvariti svojo igro? Želiš izvedeti, kako nastane vse, kar igri vdahne življenje? *
 
-    Na delavnici bomo spoznali osnove ustvarjanja iger v pogonu Godot, od prvih korakov v grafičnem vmesniku do pisanja skript, uporabe fizike, zvoka, animacij in grafičnih elementov. Naučili se bomo, kako uporabiti modele, materiale, kamere, prožilce in sestaviti uporabniški vmesnik ter kako te elemente povezati v delujočo igro. Po uvodnem delu se bomo razdelili v skupine in začeli ustvarjati lastne projekte.
+    Na delavnici bomo spoznali osnove ustvarjanja iger v pogonu Godot, od prvih korakov v grafičnem vmesniku do pisanja skript, uporabe fizike, zvoka, animacij in grafičnih elementov. Naučili se bomo, kako uporabiti teksture, prožilce in sestaviti uporabniški vmesnik ter kako te elemente povezati v delujočo igro. Po uvodnem delu se bomo razdelili v skupine in začeli ustvarjati lastne projekte.
   ]
 
   #v(1fr)
@@ -497,7 +605,7 @@
 #align(
   top,
   block[
-
+    #todo[zahvala in ostali podatki]
   ]
 )
 
@@ -595,7 +703,11 @@
 #pagebreak(weak: true)
 = Uvod
 
-#todo[TODO nek uvod v funkcijo tele knjige bi bilo mogoče fino dodat (ubistvu to kar je na naslovnici + cilj knjige?)]
+V tej knjigi bomo spoznali osnove ustvarjanja in razvoja iger v igralnem pogonu Godot. Začeli bomo z namestitvijo pogona Godot, osnovami uporabe urejavalnika in pisanja kode v jeziku GDScript. Začeli bomo razvijati lastno majhno igro in ob tem spoznali še druge teme, kot so premikanje, fizika, animacije, osnove proceduralne generacije, izdelave uporabniškega vmesnika in še veliko drugih tem.
+
+Knjiga razen osnov uporabe računalnika ne zahteva nobenega predznanja in je namenjena popolnim začetnikom, ki še nikoli niso razvili svoje igre, pa tudi tistim, ki se sploh še niso posvetili svetu programiranja.
+
+Cilj knjige je vzpodbuditi zanimanje in nuditi osnovno podlago za razvoj iger, katero lahko bralci in bralke nato nadgrajujejo sami. Razvoj iger je izjemno veliko področje, okoli katerega so ponekod razviti tudi celotni študijski programi. Vsebina te knjige obsega le površinska področja, s katerimi se je morda smiselno spoznati najprej, vsekakor pa to ni vseobsegajoč priročnik za razvoj iger.
 
 Preden se zakopljemo v samo uporabo igralnega pogona in razvoja iger z njim, je smiselno povedati še nekaj malega o tem, zakaj smo si izbrali prav Godot.
 
@@ -630,30 +742,32 @@ Leta 2014 pa sta se odločila, da pogon odpreta navzven, in ga objavila pod (odp
 // == Osnovna uporaba
 == Zmogljivosti pogona Godot
 
-Čeprav sta bila kot industrijska standarda zgoraj omenjena Unreal Engine in Unity, ima Godot tudi v sami razvijalski industriji vedno večji glas in delež.
+Čeprav sta bila kot industrijska standarda zgoraj omenjena Unreal Engine in Unity, ima Godot tudi v sami razvijalski industriji vedno večji glas in delež#footnote[
+  Če gledamo trg iger, narejenih za namizne igre (angl. _PC gaming_), je Godot za časa pisanje te knjige na podlagi podatkov projekta SteamDB četrti najbolj uporabljen pogon po številu izdanih iger z $4340$ izdanih iger. Nad njim stojijo trenutno Unity ($64319$ iger), Unreal Engine ($20101$ iger), GameMaker ($6401$ iger). To pomeni, da je Godot na platformi Steam trenutno najbolj uporabljen odprtokodni pogon. Obenem pa drži tudi, da je Godotova povprečna desetletna rast znatno večja od ostalih večjih pogonov s povprečno rastjo ($78.83%$ proti $47.37%$, $28.12%$, $26.22%$). (Vir podatkov: #link("https://steamdb.info/tech/", "SteamDB (tech)") in #link("https://steamdb.info/stats/releases/?tech=Engine.Godot", "SteamDB (releases)").)
+].
 
-#todo[TODO (Gorazd): Vir? Kaj pomeni, da ima večji glas/delež v razvijalski industriji? Sigurno ni tako popularen/široko rabljen kot Unreal in Unity.]
+// #todo[TODO (Gorazd): Vir? Kaj pomeni, da ima večji glas/delež v razvijalski industriji? Sigurno ni tako popularen/široko rabljen kot Unreal in Unity.]
 
-#todo[COMMENT (Simon): Na SteamDB lahko recimo vidimo, da je na Steamu objavljenih \~4300 iger, narejenih z Godot: https://steamdb.info/tech . Unity ima \~64000, torej Godot je približno 6.5% tega, Unreal pa ima \~20000, torej ima Godot približno petino toliko, kar jaz ne bi smatral kot malo glede na velikost Unreala in kapital za njim v primerjavi z Godot. To se mi zdi pomembno zato, ker to pomeni, da je Godot na podlagi teh podatkov četrti najpogostejši pogon na PC trgu (priznam, da je to glede na število iger, kar skoraj zagotovo ni sorazmerno obrnjenemu denarju). Obenem pa je gotovo, da je Godot največji _odprtokodni_ pogon na trgu po številu izdanih iger, če štejemo PC gaming (Unity, Unreal in Game Maker, ki so nad njim, niso). Dodam en footnote za tole? Lahko mal prebesedimo, da ne bo izpadlo, kot da je Godot primerljiv po deležu trga, ampak skoraj zagotovo prekaša ostale pogone po rasti (glej spodaj).
+// #todo[COMMENT (Simon): Na SteamDB lahko recimo vidimo, da je na Steamu objavljenih \~4300 iger, narejenih z Godot: https://steamdb.info/tech . Unity ima \~64000, torej Godot je približno 6.5% tega, Unreal pa ima \~20000, torej ima Godot približno petino toliko, kar jaz ne bi smatral kot malo glede na velikost Unreala in kapital za njim v primerjavi z Godot. To se mi zdi pomembno zato, ker to pomeni, da je Godot na podlagi teh podatkov četrti najpogostejši 6 tisoč in polpogon na PC trgu (priznam, da je to glede na število iger, kar skoraj zagotovo ni sorazmerno obrnjenemu denarju). Obenem pa je gotovo, da je Godot največji _odprtokodni_ pogon na trgu po številu izdanih iger, če štejemo PC gaming (Unity, Unreal in Game Maker, ki so nad njim, niso). Dodam en footnote za tole? Lahko mal prebesedimo, da ne bo izpadlo, kot da je Godot primerljiv po deležu trga, ampak skoraj zagotovo prekaša ostale pogone po rasti (glej spodaj).
 
-COMMENT (Simon) 2026-06-25:
+// COMMENT (Simon) 2026-06-25:
 
-Godot je prehitel RPG Maker, torej je sedaj četrti najpogostejši pogon po številu iger glede na Steam, za katerega se mi zdi, da lahko trdimo, da je dober vzorec PC trga. SteamDB ima na voljo tudi podatke, deljene na leta:
-- https://steamdb.info/stats/releases/?tech=Engine.Unity
-- https://steamdb.info/stats/releases/?tech=Engine.Unreal
-- https://steamdb.info/stats/releases/?tech=Engine.Godot
-- https://steamdb.info/stats/releases/?tech=Engine.GameMaker
+// Godot je prehitel RPG Maker, torej je sedaj četrti najpogostejši pogon po številu iger glede na Steam, za katerega se mi zdi, da lahko trdimo, da je dober vzorec PC trga. SteamDB ima na voljo tudi podatke, deljene na leta:
+// - https://steamdb.info/stats/releases/?tech=Engine.Unity
+// - https://steamdb.info/stats/releases/?tech=Engine.Unreal
+// - https://steamdb.info/stats/releases/?tech=Engine.Godot
+// - https://steamdb.info/stats/releases/?tech=Engine.GameMaker
 
-Ven sem povlekel letne podatke in analiziral njihovo letno rast ($("letos" - "lansko leto")/"lansko leto"$) skozi zadnjih deset let, vse do 2025. (Dataset in izračuni so v repozitoriju.)
+// Ven sem povlekel letne podatke in analiziral njihovo letno rast ($("letos" - "lansko leto")/"lansko leto"$) skozi zadnjih deset let, vse do 2025. (Dataset in izračuni so v repozitoriju.)
 
-Izkaže se sledeče:
-- Če gledamo vrhnje štiri pogone, ima Godot v zadnjih desetih letih povprečno $78.83%$ rasti na leto, kar je daleč največ od vseh štirih.
-- Najbližje pride Unreal z desetletno povprečno rastjo $47.37%$, nato sta Unity ($28.12%$) in GameMaker ($26.22%$).
-- Če pogledamo zadnje leto, je razlika še večja: v letu 2025 je imel Godot letno rast $65.86%$, med tem ko so vsi trije ostali pogoni bili pod desetimi procenti (!): $4.47%$ (Unity), $9.72%$ (Unreal), $-2.81%$ (GameMaker).
+// Izkaže se sledeče:
+// - Če gledamo vrhnje štiri pogone, ima Godot v zadnjih desetih letih povprečno $78.83%$ rasti na leto, kar je daleč največ od vseh štirih.
+// - Najbližje pride Unreal z desetletno povprečno rastjo $47.37%$, nato sta Unity ($28.12%$) in GameMaker ($26.22%$).
+// - Če pogledamo zadnje leto, je razlika še večja: v letu 2025 je imel Godot letno rast $65.86%$, med tem ko so vsi trije ostali pogoni bili pod desetimi procenti (!): $4.47%$ (Unity), $9.72%$ (Unreal), $-2.81%$ (GameMaker).
 
 
-COMMENT(matosa): Spomnil sem se da sem nedolgo nazaj bral članek od Godota o tem, pa sem ga šel izbrskat iz arhiva: https://godotengine.org/article/godot-growth-stats-2026/ mogoče pride prav.
-]
+// COMMENT(matosa): Spomnil sem se da sem nedolgo nazaj bral članek od Godota o tem, pa sem ga šel izbrskat iz arhiva: https://godotengine.org/article/godot-growth-stats-2026/ mogoče pride prav.
+// ]
 
 
 Godot nam omogoča ustvarjanje 2D in 3D iger ter iger v razširjeni resničnosti za vse večje platforme, kot so Windows, Linux, maxOS, Android, iOS in splet, ter z nekaj dodanega truda tudi za konzole, kot so PlayStation, Xbox in Nintendo Switch.
@@ -798,12 +912,8 @@ Kot vidimo na #ref(<delovna-okolja-toolbar>, supplement: [sliki]), imamo na volj
 - *Game*, t.j. interaktivni predogled naše igre.
 
 
-#todo[TODO preimenujemo v Asset Store?]
-
-#todo[Glede na to da je Godot 4.7 že zunaj po moje preimenujmo in zamenjajmo screenshote. Čeprav vidim da je takšnih ki v zgornjem delu nadležno vsebujejo "AssetLib" kar nekaj...]
-
-#box-side-note(title: [Kaj pa "AssetLib"?])[
-  Poleg omenjenih štirih ste zagotovo opazili še petega, *AssetLib*. To je zavihek, kjer lahko dostopamo do Godotove brezplačne oblačne storitve, preko katere lahko prenesemo različne pakete sredstev (angl. _asset packs_), senčilnikov (angl. _shaders_), razširitev (angl. _extensions_), ikon, skript, zvokov in drugih vsebin, s katerimi si lahko pomagamo pri razvoju iger.
+#box-side-note(title: [Kaj pa "Asset Store"?])[
+  Poleg omenjenih štirih ste zagotovo opazili še petega, *Asset Store*. To je zavihek, kjer lahko dostopamo do Godotove brezplačne oblačne storitve, preko katere lahko prenesemo različne pakete sredstev (angl. _asset packs_), senčilnikov (angl. _shaders_), razširitev (angl. _extensions_), ikon, skript, zvokov in drugih vsebin, s katerimi si lahko pomagamo pri razvoju iger.
 
   Zaenkrat se tega zavihka ne bomo dotikali, vsaj ne, dokler se ne razdelimo v skupine in začnemo sestavljati lastno igro. Takrat boste izvedli tudi več o paketih sredstev oziroma delovnih materialih.
 ]
@@ -830,7 +940,7 @@ Tik pod vrstico, kjer izbiramo okolje, sedaj na mestu, kjer je bil prej urejeval
 
 // TODO (Gorazd): Razmislita o posebnem oblikovanju za imena gumbov in nastavitev. Skripta za Blender jih prikazuje kot nekakšne gumbe. Trenutno sem opazil, da so ponekod zapisana v oklepajih, v primeru Embedding Options, ponekod pa v navednicah: "Make Game Workspace Floating on Next Play". Fino bi bilo poenotiti, magar v nekem posebnem slogu.
 
-Da bo proces testiranja naše igre potekal brezhibno, pred nadaljevanjem spremenimo eno nastavitev: kliknimo na zadnji gumb v orodni vrstici (na #ref(<ui-game-tools>, supplement: [sliki]) obrobljen z oranžno barvo). Odprl se bo spustni meni z nastavitvami vgrajevanja (angl. _Embedding Options_), kjer *onemogočimo* nastavitev "Make Game Workspace Floating on Next Play", kar pomeni, da bo Godot ob zagonu igre njen interaktivni predogled vgradil v obstoječe okno:
+Da bo proces testiranja naše igre potekal brezhibno, pred nadaljevanjem spremenimo eno nastavitev: kliknimo na zadnji gumb v orodni vrstici (na #ref(<ui-game-tools>, supplement: [sliki]) obrobljen z oranžno barvo). Odprl se bo spustni meni z nastavitvami vgrajevanja (angl. _Embedding Options_), kjer *onemogočimo* nastavitev #ui-button("Make Game Workspace Floating on Next Play"), kar pomeni, da bo Godot ob zagonu igre njen interaktivni predogled vgradil v obstoječe okno:
 
 #screenshot(
   path: "assets/ui-basics/godot-ui_game-section_floating-dropdown.png",
@@ -847,16 +957,11 @@ Da bo proces testiranja naše igre potekal brezhibno, pred nadaljevanjem spremen
 === Okolje "2D" <okolje-2d>
 Kliknimo na prvi zavihek -- "2D". Zagledali bomo dvodimenzionalno površino, na kateri lahko ustvarimo svojo igro. Pred seboj v sredinskem delu urejevalnika vidimo polje, na katerem bo stala naša igra.
 
-#todo[Je bilo tu mišljeno "nastala" ali "stala"? (zunanji komentar) COMMENT(simong): stala, bi rekel]
-
 Igre v tem načinu so postavljene na *dve osi: na $X$ in $Y$* -- os $X$ teče od leve proti desni (označena s tanko rdečo črto), os $Y$ pa od zgoraj navzdol (označena s tanko zeleno črto). Kjer se osi sekata v urejevalniku, stoji koordinatno izhodišče -- točka $(0, 0)$, t.j. točka, kjer je $X = 0$ in $Y = 0$.
 
 Vse elemente, ki jih bomo postavljali v našo igro, bomo opisali z določeno lokacijo v tem dvodimenzionalnem svetu. Večja kot je vrednost na osi $X$, bolj desno je naš element. Večja kot je vrednost na osi $Y$, nižje je naš element. Na #ref(<2d-editor-default>, supplement: [sliki]) vidimo, da je koordinatno izhodišče levo zgoraj, kjer se črti sekata.
 
 Ko poženemo našo igro brez posebnih nastavitev kamere, velja, da bo koordinatno izhodišče (lokacija $(0, 0)$) postavljena v levi zgornji kot naše igre. Obenem lahko na #ref(<2d-editor-default>, supplement: [sliki]) s tanko modro črto vidimo oznako velikosti našega pogleda -- vse kar je v tem okvirju, bo privzeto videl igralec. To je seveda mogoče spremeniti z uporabo nastavitev kamere.
-
-// #todo[TODO (Gorazd): Mogoče dodajta (slikovni) primer, kjer je en element z dvema manjšima koordinatama in en z večjima, npr. mačka in miš.]
-// COMMENT(simon): rešeno drugje (na nek način): pokaževa orodje za premik in vrednost transformacije v inspectorju prej in potem, mislim da je tam že to tako očitno da bi premik morali razumet
 
 Ker bomo na delavnicah ustvarjali igre v 2D, bomo v tem okolju preživeli precej časa!
 
@@ -903,9 +1008,7 @@ Kliknimo še na tretji zavihek -- "Script". V tem načinu bomo pozneje pisali sk
 
 == Raziskovalec datotek
 
-Raziskovalec datotek nam omogoča dostop do mape na disku, kjer imamo shranjen naš projekt, in urejanje datotek v tej mapi. Koncept je skoraj identičen klasičnim raziskovalcem datotek, ki jih srečamo na sistemih Windows, MacOS ali Linux. Gre za preprost brskalnik po drevesni strukturi datotek in map: vsaka mapa lahko vsebuje neomejeno število datotek in podmap (ki prav tako lahko vsebujejo datoteke in podmape, in tako naprej).
-
-#todo[Ali je zadnja poved tu res potrebna? (zunanji komentar) COMMENT(simong): tole sem dal noter zato, ker je ciril že davno dal komentar, da veliko današnje mladine ne ve več, kako delujejo mape; ampak obenem se strinjam da, če tega ne vejo, jim tudi tale zadnji stavek ne bo pomagal, tako da lahko vzameva ven]
+Raziskovalec datotek nam omogoča dostop do mape na disku, kjer imamo shranjen naš projekt, in urejanje datotek v tej mapi. Koncept je skoraj identičen klasičnim raziskovalcem datotek, ki jih srečamo na sistemih Windows, MacOS ali Linux.
 
 
 #box-info(title: [Kaj je `res://`?])[
@@ -923,29 +1026,6 @@ Raziskovalec datotek nam omogoča dostop do mape na disku, kjer imamo shranjen n
   Tak način delovanja mu omogoča, da enako deluje na vseh platformah, saj ima popoln nadzor nad svojimi datotekami.
 ]
 
-// TODO v takih primerih, kjer je ful prostega prostora ker so screenshoti zelo ozki,
-// bi bilo fino reflowat besedilo kar ob te screenshote (recimo da je potem ta slika na desni,
-// besedilo pa na levi) - glej modul `meander` / funkcijo `grid`/`stack`.
-//
-// Za pozneje.
-
-// #meander.reflow({
-//   import meander: *
-//
-//   placed(
-//     top + right,
-//     screenshot(
-//       path: "assets/ui-basics/godot-ui_file-browser.png",
-//       width: 25%,
-//       caption: [Raziskovalec datotek v urejevalniku Godot.]
-//     )
-//   )
-//
-//   container()
-//   content[
-//     Pa kar začnimo z osnovnimi sredstvi (angl. "assets") naše igre! Najprej v korenu našega projekta ustvarimo mapo "sredstva", kjer bomo hranili vsa sredstva (t.j. teksture, zvok, itd.). To storimo tako, da se z miško postavimo na mapo `res://` in naredimo desni klik. Odprl se bo kontekstni meni, kjer lahko ustvarimo podmapo, kar storimo tako, da gremo pod kaskadni meni "Create New" in nato kliknemo na "Folder" ter vpišemo ime naše nove mape, torej "sredstva".
-//   ]
-// })
 
 #screenshot(
   path: "assets/ui-basics/godot-ui_file-browser.png",
@@ -961,10 +1041,6 @@ Odprl se bo kontekstni meni, kjer lahko ustvarimo podmapo, kar storimo tako, da 
 #box-task[
   Ko smo uspešno ustvarili novo mapo, odprimo paket sredstev (angl. _asset pack_), ki nam je na voljo za igro Dinozaver, in celotno vsebino paketa sredstev skopirajmo v mapo `sredstva`.
 ]
-// TODO (Gorazd): Poenotita, kako formatirata zapis map. Sredstva so bila enkrat v navednicah, enkrat v `...`
-
-#todo[TODO morava se zmenit, iz kje bodo prenesli asset pack?]
-
 
 #box-info(title: [Kako se prepričam, da sem v pravi mapi?])[
   Če brskaš po datotekah v raziskovalcu datotek svojega operacijskega sistema, potem pravo korensko mapo projekta v Godot prepoznaš po tem, da vsebuje datoteko `project.godot`!
@@ -976,10 +1052,11 @@ Vrnimo se nazaj v urejevalnik Godot. Preden nadaljujemo z ogledom vsebine, ki sm
 - Datotečni sistem je predstavljen kot drevesna struktura map: vsaka mapa ima ime in vsebino (datoteke ali podmape). V nasprotju z drugimi raziskovalci, kot je recimo Windowsov, kjer moramo mapo dvoklikniti, če jo želimo odpreti, lahko v raziskovalcu datotek v pogonu Godot vidimo več nivojev map naenkrat. Če želimo videti v notranjost posamezne mape, lahko ime mape dvokliknemo ali pa kliknemo na puščico levo od njenega imena -- naredimo to za mapo `res://sredstva`. Ta akcija bo razširila pogled v notranjost mape, kjer bomo zdaj zagledali podmape `chromium-dino`, `dinozaver`, `kaktus`, ...
 - Izberimo poljubno mapo ali datoteko, na primer `res://sredstva/piksel.png`, in kliknemo na datoteko z desnim miškinim gumbom. Pokazal se bo kontekstni meni, v katerem lahko izvajamo kup akcij, vključno s preimenovanjem, premikanjem, podvajanjem in brisanjem. //To pomeni, da se nam za take akcije ni treba vračati v raziskovalec datotek našega operacijskega sistema, ampak lahko te operacije izvedemo kar znotraj urejevalnika Godot.
 
+#box-side-note(title: [
+  #advanced-topic-heading[Za napredne uporabnike]
+])[
   Od uporabe raziskovalca datotek imamo še eno korist: če npr. datoteko `res://sredstva/piksel.png` uporabimo v nekem prizoru, nato pa jo v Godotovem raziskovalcu datotek preimenujemo, se bo referenca, ki je zapisana v tistem prizoru, samodejno posodobila na novo ime datoteke (torej bo tisti prizor še vedno deloval normalno). To se ne bi zgodilo, če bi preimenovanje izvedli v raziskovalcu datotek našega operacijskega sistema, saj Godot v tem primeru ne bi vedel, kaj se je zgodilo.
-  // TODO (Gorazd): Lepo, da to izpostavita, vendar bo na tej točki bralec morda zbegan o uporabi v prizorih. Mogoče lahko poenostavita, da v Godotu datoteko kličemo v posameznih delih igre z njenim imenom. Če bi ime spremenili v "domorodnem" brskalniku datotek, Godot ne bi več znal najti te datoteke. Če pa to naredimo znotraj Godota, ga tako mimogrede obvestimo, da se je ime spremenilo v nekaj drugega, zato bo program ustrežljivo spremenil vse klice na to datoteko v našem projektu.
-
-  #todo[Mogoče dodava opombo da je Godot "baje" pripravljen na delo z zunanjimi editorji preko uid sistema]
+]
 
 #v(base-font-size)
 
@@ -1015,15 +1092,8 @@ Prepričajmo se, da je bil uvoz uspešen -- struktura našega projekta bi sedaj 
   let number-of-lines = raw-tree.split("\n").len()
   let height-per-line = file-tree-measurement.height / number-of-lines
 
-  // place(
-  //   top + right,
-  // )
-  // TODO
-
   file-tree
 }
-// TODO (Gorazd): Ena mapa se imenuje "ptic" namesto (predpostavljam) "ptice". Je to ok?
-// COMMENT (simon): Je okej
 
 #v(base-font-size)
 
@@ -1257,7 +1327,7 @@ To storimo tako, da ali dvokliknemo na vozlišče ali pa z desnim klikom nanj od
 
 
 #box-task[
-  Preimenujte korensko vozlišče `Node2D` v `Igra` in vozlišče `Sprite2D` v `DinozaverSlicica`, ter nato prizor shranite z bližnjico `Ctrl+S` ali desnim klikom na zavihek prizora in klikom na akcijo "Save Scene".
+  Preimenujte korensko vozlišče `Node2D` v `Igra` in vozlišče `Sprite2D` v `DinozaverSlicica`, ter nato prizor shranite z bližnjico #kbd("Ctrl", "S") ali desnim klikom na zavihek prizora in klikom na akcijo "Save Scene".
 
   #screenshot(
     path: "assets/ui-basics/godot-ui_scene_node-and-sprite-tree_post-rename.png",
@@ -1301,6 +1371,8 @@ To storimo tako, da ali dvokliknemo na vozlišče ali pa z desnim klikom nanj od
 Tip in ime vozlišča nista edini lastnosti, ki ju lahko spreminjamo. Vsako vozlišče ima namreč tudi nabor dodatnih nastavitev, odvisnih od tipa vozlišča, do katerih lahko dostopamo tako, da na levi v podoknu "Scene" izberemo vozlišče, da se osvetli, nato pa na desni strani urejevalnika pogledamo v podokno "Inspector".
 
 Če na primer izberemo vozlišče `DinozaverSlicica`, bomo pri podrobnostih zagledali kup nastavitev, pri čemer so nekatere skrite pod skupinami, ki jih moramo razširiti s klikom na puščice. Znotraj teh nastavitev lahko to specifično izbrano vozlišče prilagodimo za naše potrebe. Na primer, ker gre za vozlišče tipa `Sprite2D`, mu lahko določimo sličico, ki jo bo to vozlišče prikazovalo. To lahko storimo na več načinov, a je najbolj enostaven način ta, da spodaj levo v raziskovalcu datotek poiščemo teksturo, ki jo želimo, in jo povlečemo na mesto za teksturo na desni zgoraj (v polje, kjer desno od imena polja `Texture` trenutno piše `<empty>`).
+
+Več o lastnostih bomo spoznali v #ref(<composite-types>, supplement: [poglavju]).
 
 
 #align(
