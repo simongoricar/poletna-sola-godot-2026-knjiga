@@ -4620,7 +4620,6 @@ To je vse! Ko igro sedaj poženemo in z dinozavrom skočimo, bomo zaslišali zvo
 ]
 
 
----
 
 #pagebreak(weak: true)
 = Ideje za samostojno delo
