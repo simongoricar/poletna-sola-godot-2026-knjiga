@@ -567,25 +567,36 @@
 
   #block(
     above: 0em,
-    below: 6em,
+    below: 2em,
     text(size: 14pt)[
       Poletna šola FRI 2026
     ],
   )
 
   #block(
-    above: 0em,
-    below: 2em,
-    text(size: 26pt, weight: "bold")[
-      Razvoj iger z igralnim pogonom Godot
-    ],
-  )
+    outset: (
+      x: page-inner-margin + 4cm,
+      // y: 20pt,
+    ),
+    inset: (
+      y: 20pt
+    ),
+    fill: rgb("#70c6e0"),
+  )[
+    #block(
+      above: 0em,
+      below: 2em,
+      text(size: 26pt, weight: "bold")[
+        Razvoj iger z igralnim pogonom Godot
+      ],
+    )
 
-  #block(
-    above: 0em,
-    below: 0em,
-    text(size: 18pt, smallcaps(all: true)[Vodič in Učna gradiva]),
-  )
+    #block(
+      above: 0em,
+      below: 0em,
+      text(size: 18pt, smallcaps(all: true)[Vodič in Učna gradiva]),
+    )
+  ]
 
   #v(1fr)
 
@@ -598,14 +609,14 @@
 
   #block(
     inset: (
-      x: 1cm,
+      x: 1.8cm,
     ),
   )[
-    // TODO tole sem skopiral iz https://www.fri.uni-lj.si/sl/poletna-sola-fri,
-    // lahko tudi nekaj svojega napiševa za flavor
-    *Si želiš ustvariti svojo igro? Želiš izvedeti, kako nastane vse, kar igri vdahne življenje? *
+    *Želiš spoznati ustvarjalni in razvijalski proces videoiger?*
 
-    Na delavnici bomo spoznali osnove ustvarjanja iger v pogonu Godot, od prvih korakov v grafičnem vmesniku do pisanja skript, uporabe fizike, zvoka, animacij in grafičnih elementov. Naučili se bomo, kako uporabiti teksture, prožilce in sestaviti uporabniški vmesnik ter kako te elemente povezati v delujočo igro. Po uvodnem delu se bomo razdelili v skupine in začeli ustvarjati lastne projekte.
+    #align(left)[
+      V tem učbeniku bomo spoznali osnove ustvarjanja iger v odprtokodnem igralskem pogonu Godot, od začetnih korakov v njegovem urejevalniku do prvih grafičnih elementov, skriptiranja v programskem jeziku GDScript, uporabniške interaktivnosti, fizikalnih teles, animacij in ustvarjanja uporabniškega vmesnika. Skozi učbenik bomo gradili našo majhno igro z dinozavrom in spoznane koncepte vgradili vanjo.
+    ]
   ]
 
   #v(1fr)
@@ -618,16 +629,30 @@
 #align(
   top,
   block[
-    #todo[zahvala in ostali podatki]
+    #set par(spacing: base-font-size * 2)
+
+    RAZVOJ IGER Z IGRALNIM POGONOM GODOT
+
+    #set par(leading: base-font-size - 4pt, spacing: base-font-size + 2pt)
+
+    Avtorja: Andrej Matos in Simon Goričar
+
+    Zadnja sprememba: 26. junij 2026 \
+    Leto izida: 2026
+
+    #v(1em)
+
+    Avtorja se zahvaljujeta tudi mentorjema Cirilu Bohaku in Gorazdu Gorupu v Laboratoriju za računalniško grafiko in multimedije na Fakulteti za računalništvo in informatiko za svetovanje pri izdelavi knjige, izkazano zaupanje in ponujeno možnost.
+
+    #v(4em)
+
+    Zadnja stabilna različica pogona Godot je, za časa pisanja, Godot 4.7, ki je bil izdan 18. junija 2026. Avtorja priporočata, da bralci (še posebej začetniki) uporabite to različico pogona, saj zaslonski posnetki ustrezajo Godot 4.7.
   ]
 )
 
 #align(
   bottom,
   block[
-    Zadnja sprememba knjige je bila 25. junija 2026. \
-    Zadnja stabilna različica pogona Godot je, za časa pisanja, Godot 4.7, ki je bil izdan 18. junija 2026.
-
     #todo[določit morava licenco učbenika (mogoče kodo pod GPL-3.0-only in preostalo pod CC BY-NC-SA?), COMMENT(matosa): Mogoče je za vprašat še Cirila in kompanijo, kako je s tem. Sicer sva, kolikor vem, plačana samo za izvedbo šole tako da je pisanje tega učbenika najina lastna dobra volja, ampak nisem ziher a si FRI lasti delež... Drugače se pa strinjam z licencama. COMMENT(simong): sem napisal gorazdu glede licence in glede tega, kdo mora bit podpisan]
 
     Določena vizualna vsebina, ki je na voljo v paketu sredstev ob tem učbeniku in ki jo uporabljamo za razvoj igre Dinozaver, je izvzeta iz zgornjih licenc, saj je na voljo pod licenco #link("https://spdx.org/licenses/BSD-3-Clause.html", "BSD-3-Clause"), ki jo uporablja projekt #link("https://github.com/chromium/chromium", "Chromium").
@@ -663,15 +688,18 @@
 
 #let translation-table(translation-pairs) = {
   table(
-    columns: (auto, auto),
+    columns: (auto, auto, auto),
     inset: (
       x: 8pt,
       y: 6pt,
     ),
-    table.header([*Angleški pojem*], [*Slovenski pojem*]),
+    table.header([*Angleški pojem*], [*Slovenski pojem*], [*_Kontekst prevoda_*]),
     ..(translation-pairs.flatten()),
   )
 }
+
+
+// #show table.cell.where(x: 3): it => text(size: base-font-size - 4pt, it)
 
 
 #block(
@@ -687,30 +715,30 @@
 
 #align(horizon + center, translation-table(
   (
-    ("asset", "sredstvo"),
-    ("collider", "trkalnik"),
-    ("area", "površina"),
-    ("node", "vozlišče"),
-    ("root", "koren"),
-    ("child", "otrok"),
-    ("sibling", "sorojenec"),
-    ("parent", "starš"),
-    ("grandparent", "stari starš"),
-    ("inspector", "podrobnosti"), // TODO mogoče bi pri nekaterih vrsticah lahko dodal še kontekst prevoda (npr. da gre za del Godot UI-ja)
-    ("instance", "primerek"),
-    ("scene", "prizor"),
-    ("sprite", "sličica"),
-    ("spritesheet", "plahta sličic"),
-    ("script", "skripta"),
-    ("template", "predloga"),
-    ("folder", "mapa"),
-    ("level", "nivo"),
-    ("texture filtering", "filtriranje tekstur"),
-    ("linear filtering", "linearno filtriranje"),
-    ("nearest neighbour filtering", "filtriranje z najbližjim sosedom"),
-    ("container", "zaboj"),
-    ("theme", "motiv"),
-    ("theme override", "preglasovanje motiva")
+    ("asset", "sredstvo", ""),
+    ("collider", "trkalnik", ""),
+    ("area", "površina", ""),
+    ("node", "vozlišče", ""),
+    ("root", "koren", ""),
+    ("child", "otrok", ""),
+    ("sibling", "sorojenec", ""),
+    ("parent", "starš", ""),
+    ("grandparent", "stari starš", ""),
+    ("inspector", "podrobnosti", [_podokno urejevalnika Godot_]),
+    ("instance", "primerek", ""),
+    ("scene", "prizor", ""),
+    ("sprite", "sličica", ""),
+    ("spritesheet", "plahta sličic", ""),
+    ("script", "skripta", ""),
+    ("template", "predloga", ""),
+    ("folder", "mapa", ""),
+    ("level", "nivo", ""),
+    ("texture filtering", "filtriranje tekstur", ""),
+    ("linear filtering", "linearno filtriranje", ""),
+    ("nearest neighbour filtering", "filtriranje z najbližjim sosedom", ""),
+    ("container", "zaboj", ""),
+    ("theme", "motiv", ""),
+    ("theme override", "preglasovanje motiva", ""),
   ),
 ))
 
@@ -759,32 +787,8 @@ Leta 2014 pa sta se odločila, da pogon odpreta navzven, in ga objavila pod (odp
 == Zmogljivosti pogona Godot
 
 Čeprav sta bila kot industrijska standarda zgoraj omenjena Unreal Engine in Unity, ima Godot tudi v sami razvijalski industriji vedno večji glas in delež#footnote[
-  Če gledamo trg iger, narejenih za namizne igre (angl. _PC gaming_), je Godot za časa pisanje te knjige na podlagi podatkov projekta SteamDB četrti najbolj uporabljen pogon po številu izdanih iger z $4340$ izdanih iger. Nad njim stojijo trenutno Unity ($64319$ iger), Unreal Engine ($20101$ iger), GameMaker ($6401$ iger). To pomeni, da je Godot na platformi Steam trenutno najbolj uporabljen odprtokodni pogon. Obenem pa drži tudi, da je Godotova povprečna desetletna rast znatno večja od ostalih večjih pogonov s povprečno rastjo ($78.83%$ proti $47.37%$, $28.12%$, $26.22%$). (Vir podatkov: #link("https://steamdb.info/tech/", "SteamDB (tech)") in #link("https://steamdb.info/stats/releases/?tech=Engine.Godot", "SteamDB (releases)").)
+  Če gledamo trg iger, narejenih za namizne igre (angl. _PC gaming_), je Godot za časa pisanje te knjige na podlagi podatkov projekta SteamDB četrti najbolj uporabljen pogon po številu izdanih iger z $4340$ izdanih iger. Nad njim stojijo trenutno Unity ($64319$ iger), Unreal Engine ($20101$ iger), GameMaker ($6401$ iger). To pomeni, da je Godot na platformi Steam trenutno najbolj uporabljen odprtokodni pogon. Obenem pa drži tudi, da je Godotova povprečna desetletna rast znatno večja od ostalih večjih pogonov s povprečno rastjo ($78.83%$ proti $47.37%$, $28.12%$ in $26.22%$). (Vir podatkov: #link("https://steamdb.info/tech/", "SteamDB (tech)") in #link("https://steamdb.info/stats/releases/?tech=Engine.Godot", "SteamDB (releases)").)
 ].
-
-// #todo[TODO (Gorazd): Vir? Kaj pomeni, da ima večji glas/delež v razvijalski industriji? Sigurno ni tako popularen/široko rabljen kot Unreal in Unity.]
-
-// #todo[COMMENT (Simon): Na SteamDB lahko recimo vidimo, da je na Steamu objavljenih \~4300 iger, narejenih z Godot: https://steamdb.info/tech . Unity ima \~64000, torej Godot je približno 6.5% tega, Unreal pa ima \~20000, torej ima Godot približno petino toliko, kar jaz ne bi smatral kot malo glede na velikost Unreala in kapital za njim v primerjavi z Godot. To se mi zdi pomembno zato, ker to pomeni, da je Godot na podlagi teh podatkov četrti najpogostejši 6 tisoč in polpogon na PC trgu (priznam, da je to glede na število iger, kar skoraj zagotovo ni sorazmerno obrnjenemu denarju). Obenem pa je gotovo, da je Godot največji _odprtokodni_ pogon na trgu po številu izdanih iger, če štejemo PC gaming (Unity, Unreal in Game Maker, ki so nad njim, niso). Dodam en footnote za tole? Lahko mal prebesedimo, da ne bo izpadlo, kot da je Godot primerljiv po deležu trga, ampak skoraj zagotovo prekaša ostale pogone po rasti (glej spodaj).
-
-// COMMENT (Simon) 2026-06-25:
-
-// Godot je prehitel RPG Maker, torej je sedaj četrti najpogostejši pogon po številu iger glede na Steam, za katerega se mi zdi, da lahko trdimo, da je dober vzorec PC trga. SteamDB ima na voljo tudi podatke, deljene na leta:
-// - https://steamdb.info/stats/releases/?tech=Engine.Unity
-// - https://steamdb.info/stats/releases/?tech=Engine.Unreal
-// - https://steamdb.info/stats/releases/?tech=Engine.Godot
-// - https://steamdb.info/stats/releases/?tech=Engine.GameMaker
-
-// Ven sem povlekel letne podatke in analiziral njihovo letno rast ($("letos" - "lansko leto")/"lansko leto"$) skozi zadnjih deset let, vse do 2025. (Dataset in izračuni so v repozitoriju.)
-
-// Izkaže se sledeče:
-// - Če gledamo vrhnje štiri pogone, ima Godot v zadnjih desetih letih povprečno $78.83%$ rasti na leto, kar je daleč največ od vseh štirih.
-// - Najbližje pride Unreal z desetletno povprečno rastjo $47.37%$, nato sta Unity ($28.12%$) in GameMaker ($26.22%$).
-// - Če pogledamo zadnje leto, je razlika še večja: v letu 2025 je imel Godot letno rast $65.86%$, med tem ko so vsi trije ostali pogoni bili pod desetimi procenti (!): $4.47%$ (Unity), $9.72%$ (Unreal), $-2.81%$ (GameMaker).
-
-
-// COMMENT(matosa): Spomnil sem se da sem nedolgo nazaj bral članek od Godota o tem, pa sem ga šel izbrskat iz arhiva: https://godotengine.org/article/godot-growth-stats-2026/ mogoče pride prav.
-// ]
-
 
 Godot nam omogoča ustvarjanje 2D in 3D iger ter iger v razširjeni resničnosti za vse večje platforme, kot so Windows, Linux, maxOS, Android, iOS in splet, ter z nekaj dodanega truda tudi za konzole, kot so PlayStation, Xbox in Nintendo Switch.
 
@@ -4558,13 +4562,45 @@ To je vse! Ko igro sedaj poženemo in z dinozavrom skočimo, bomo zaslišali zvo
 
 ---
 
+= Ideje za samostojno delo
 
-#pagebreak(weak: true)
-= Dodatno (če ostane čas, ob začetkih dnevov)
-- Sami poskusijo implementirati ptiče in sklanjanje
-- Tilemapi
-- Napredne kamere (premikanje kamere, itd.)
-- Generiranje tal
+== Okolje
+
+Trenutno naš dinozaver vizualno lebdi (čeprav ima pod sabo nevidna tla). Poskusite pod njega dodati premikajoča tla. Dodate lahko kakšen drug (nenevaren) dodatek. Nekaj nasvetov ob delu:
+- Paket sredstev v mapi okolje vsebuje `tla_1.tres` in `krajsa-tla_1.tres`, pomagajte si z njima. Če želite lahko uporabite tudi `oblak_1.tres` in dodate oblačke.
+- Pazite da se tla premikajo z enako hitrostjo kot kaktusi, drugače bo videti, kot da kaktusi drsijo po tleh.
+- Premikajoča tla so lahko samo vizualna. S tem mislimo, da jim ni potrebno dodajati trkalnikov ampak lahko pod dinozavrom pustite samo en neviden statični trkalnik, ki je poravnan z nivojem tal.
+- Ko boste dinamično dodajali tla, pazite da jih na x osi pravilno poravnate s prejšnjimi. Godot vam ne zagotavlja da se bo trkalnik sprožil takoj ko se tla zaletijo vanj, ampak so tla lahko že malce znotraj trkalnika, ko se trk sproži (to se zgodi, ker se premik tal zgodi v trenutku, čeprav se zdi kot da lepo drsijo, saj naše oči niso sposobne zaznavati tako hitrih sprememb). Pri tem je lahko za navdih spodnji kos kode:
+
+```gd
+# Ta funkcija se sproži ko je kos tal zavržen.
+func ko_menjamo_tla(lokacija_starega_kosa):
+    # Vemo da je en kos tal dolg 1400 in da imamo trenutno dva kosa.
+    # Zato da nov kos tal postavimo na pravilno mesto ga moramo torej
+    # zamakniti za 2800.
+    lokacija_starega_kosa.x += 2800
+    ustvari_tla(lokacija_starega_kosa)
+
+# To funkcijo kličemo ko želimo ustvariti nov kos tal.
+func ustvari_tla(lokacija_tal):
+    var nova_tla = tla_prizor.instantiate()
+    
+    nova_tla.hitrost_tal = hitrost_premikanja
+    nova_tla.global_position = lokacija_tal
+    nova_tla.tla_zavrzena.connect(ko_menjamo_tla)
+    
+    skupina_tal.add_child(nova_tla)
+```
+
+== Ptiči
+
+V klasični igri dinozaver, nam v oviro niso samo kaktusi ampak tudi ptiči. Ptiči lahko letijo na treh različnih višinah. Če so na vrhu zaslona lahko dinozaver mirno teče pod njimi. Če so v sredini se mora dinozaver pod njimi _skloniti_. Če so na dnu jih mora dinozaver preskočiti. V igro dodajte ptiče in dinozavru omogočite da se sklanja. Nekaj nasvetov ob delu:
+- Paket sredstev v mapi `ptic` vsebuje `ptic_1.tres` in `ptic_2.tres`, pomagajte si z njima, ko dodajate ptiče.
+- Paket sredstev v mapi `dinozaver` prav tako vsebuje `dinozaver-sklonjen_1.tres` in `dinozaver-sklonjen_2.tres`, pomagajte si z njima, ko dodajate sklanjanje. Dva sta potrebna, da med tem ko je dinozaver sklonjen, vzdržujemo animacijo teka.
+- Podobno kot pri kaktusih, si izdelajte kroven prizor `ptic.tscn` v katerem se igra odloča kako visoko bo izdelala ptiča. Znotraj `igra.gd` pa z uporabo naključnosti, ko bi izdelali oviro, menjajte med izdelavo kaktusa in izdelavo ptiča.
+- Za izdelavo sklanjanja, boste verjetno morali dodati novo uporabniško akcijo.
+
+
 
 #pagebreak(weak: true)
 = Dodatno branje
@@ -4575,14 +4611,35 @@ To je vse! Ko igro sedaj poženemo in z dinozavrom skočimo, bomo zaslišali zvo
 
 - Povezava do zadnje stabilne različice Godot dokumentacije: \ https://docs.godotengine.org/en/stable/
 
-== GDScript
+== Več o temah, ki smo jih sicer obravnavali
+
+=== GDScript
 
 - Interaktivni učbenik GDQuest: \ https://school.gdquest.com/courses/learn_2d_gamedev_godot_4/learn_gdscript/learn_gdscript_app
 - GDScript priročnik, uradna Godot dokumentacija: \ https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html
 
-== Uporabniški vnos<user-input-links>
+=== Uporabniški vnos<user-input-links>
 
 - Uradna Godot dokumentacija s primeri na temo uporabniškega vnosa: \ https://docs.godotengine.org/en/latest/tutorials/inputs/index.html
+
+== Uporabne teme, ki jih nismo obdelali znotraj te knjige
+
+=== TileSets in TileMaps
+
+TileSets (množica ploščic) in TileMaps (zemljevid ploščic), sta zelo močni orodji in se pogosto uporabljata pri izdelavi 2D iger. Najbolj pogosto se uporabljata pri izdelavi platformerjev (angl. platformers). V vsakem primeru pa priporočamo, da si malo razširite obzorja in si ju pogledate:
+
+Uporaba TileSets (Godot uradna dokumentacija) - https://docs.godotengine.org/en/stable/tutorials/2d/using_tilesets.html
+Uporaba TileMaps (Godot uradna dokumentacija) -  https://docs.godotengine.org/en/stable/tutorials/2d/using_tilemaps.html
+
+=== Kamere
+
+Znotraj našega projekta smo uporabljali samo privzeto vgrajeno kamero (označeno z zeleno, vijolično in dvema modrima črtama). To smo si lahko privoščili, ker je lokacija naše kamere statična in smo namesto kamere premikali ozadje. To je v teoriji možno narediti v čisto vsakem tipu igre, a je mnogokrat lažje premakniti kamero, kot pa premikati celotno okolje.
+
+Več o 2D kamerah si lahko preberete na dokumentaciji vozlišča #node2d-type-name("Camera2D"), ali pa si ogledate katerega od Godotovih demo projektov:
+
+- Godot platformer demo: https://godotengine.org/asset-library/asset/2727
+- Godot isometric demo: https://godotengine.org/asset-library/asset/2718
+
 
 #pagebreak(weak: true)
 = Priloge
@@ -4641,7 +4698,7 @@ func izpisi_rezultat(
 
 ```
 
-== Primer zanke čez vse elemente seznama<array-looping-example>
+== Primer zanke čez vse elemente seznama <array-looping-example>
 ```gd
 extends Node2D
 
@@ -4654,7 +4711,7 @@ func _ready() -> void:
 
 ```
 
-== Primer izdelave kalkulatorja s seznami<example-calculator-with-arrays-implementation>
+== Primer izdelave kalkulatorja s seznami <example-calculator-with-arrays-implementation>
 
 ```gd
 extends Node2D
