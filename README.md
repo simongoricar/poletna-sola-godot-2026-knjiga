@@ -11,6 +11,8 @@
 
 # Napredni TODOji / možne izboljšave
 
+- samodejno linkanje na dokumentacijo, ko je uporabljen #node-type-name
+
 ```
 // TODO v takih primerih, kjer je ful prostega prostora ker so screenshoti zelo ozki,
 // bi bilo fino reflowat besedilo kar ob te screenshote (recimo da je potem ta slika na desni,
@@ -35,4 +37,8 @@
 //     Pa kar začnimo z osnovnimi sredstvi (angl. "assets") naše igre! Najprej v korenu našega projekta ustvarimo mapo "sredstva", kjer bomo hranili vsa sredstva (t.j. teksture, zvok, itd.). To storimo tako, da se z miško postavimo na mapo `res://` in naredimo desni klik. Odprl se bo kontekstni meni, kjer lahko ustvarimo podmapo, kar storimo tako, da gremo pod kaskadni meni "Create New" in nato kliknemo na "Folder" ter vpišemo ime naše nove mape, torej "sredstva".
 //   ]
 // })
+```
+
+```
+// TODO (Gorazd): Opažam, da ponekod najprej pišeta angleške izraze, ponekod pa najprej slovenske. To je smiselno poenotiti. Ker Godotovega vmesnika še nimamo v slovenščini, predlagam vedno najprej angleški zapis, ko se prvič pojavi v besedilu, pa v oklepaju tudi slovensko razlago.
 ```

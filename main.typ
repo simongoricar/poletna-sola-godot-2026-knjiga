@@ -110,9 +110,9 @@
   )
 };
 
-#let _box-side-note = frame-it.frame("", rgb("#607580"))
-#let box-side-note(title: [], content) = {
-  _box-side-note(
+#let _box-repeat = frame-it.frame("", rgb("#607580"))
+#let box-repeat(title: [Ponovimo], content) = {
+  _box-repeat(
     numbering: none,
     outlined: false,
     text(fill: white, weight: "bold", title),
@@ -221,11 +221,24 @@
   name,
   fill-color: rgb("#e0e0e0")
 ) => {
+  let base-prefix = "https://docs.godotengine.org/en/4.7/classes/class_"
+  let base-suffix = ".html"
+
+  let target-type-name = std.lower(name)
+
+  let target-link = base-prefix + target-type-name + base-suffix
+
+  // TODO remove underlines
+
   box(
-    fill: rgb("#1f1f1f"),
-    text(
-      fill: fill-color,
-      name
+    // fill: rgb("#1f1f1f"),
+    link(
+      target-link,
+      text(
+        fill: fill-color,
+        weight: "medium",
+        name
+      )
     )
   )
 };
@@ -695,6 +708,9 @@
     ("texture filtering", "filtriranje tekstur"),
     ("linear filtering", "linearno filtriranje"),
     ("nearest neighbour filtering", "filtriranje z najbližjim sosedom"),
+    ("container", "zaboj"),
+    ("theme", "motiv"),
+    ("theme override", "preglasovanje motiva")
   ),
 ))
 
@@ -703,7 +719,7 @@
 #pagebreak(weak: true)
 = Uvod
 
-V tej knjigi bomo spoznali osnove ustvarjanja in razvoja iger v igralnem pogonu Godot. Začeli bomo z namestitvijo pogona Godot, osnovami uporabe urejavalnika in pisanja kode v jeziku GDScript. Začeli bomo razvijati lastno majhno igro in ob tem spoznali še druge teme, kot so premikanje, fizika, animacije, osnove proceduralne generacije, izdelave uporabniškega vmesnika in še veliko drugih tem.
+V tej knjigi bomo spoznali osnove ustvarjanja in razvoja iger v igralnem pogonu Godot. Začeli bomo z namestitvijo pogona Godot, osnovami uporabe urejevalnika in pisanja kode v jeziku GDScript. Začeli bomo razvijati lastno majhno igro in ob tem spoznali še druge teme, kot so premikanje, fizika, animacije, osnove proceduralne generacije, izdelave uporabniškega vmesnika in še veliko drugih tem.
 
 Knjiga razen osnov uporabe računalnika ne zahteva nobenega predznanja in je namenjena popolnim začetnikom, ki še nikoli niso razvili svoje igre, pa tudi tistim, ki se sploh še niso posvetili svetu programiranja.
 
@@ -725,13 +741,13 @@ Pogon Godot sta okoli leta 2001 začela razvijati Juan Linietsky in Ariel Manzur
 
 Leta 2014 pa sta se odločila, da pogon odpreta navzven, in ga objavila pod (odprtokodno) licenco MIT. Od takrat ga, kot mnoge druge odprtokodne projekte, razvija globalna skupnost prostovoljcev. Ta je v primeru Godota od leta 2023 pod okriljem neprofitne organizacije Godot Foundation.
 
-#box-side-note(title: [Kaj je licenca MIT?])[
+#box-info(title: [Kaj je licenca MIT?])[
   MIT je licenca, namenjena programski kodi in dokumentaciji, pri čemer ta licenca dovoljuje, da se programsko kodo distribuira naprej, jo spreminja, prilagaja, objavlja, licencira pod drugimi pogoji, prodaja itd. Gre za eno izmed glavnih licenc odprtokodnega sveta poleg licenc, kot so GNU GPLv3, GNU AGPLv3, Mozilla Public License 2.0, licence CC idr.
 
   Več o odprtokodnih licencah si lahko preberete na \ #link("https://choosealicense.com") in #link("https://creativecommons.org").
 ]
 
-#box-side-note(title: [Kaj pomeni, da je Godot odprtokoden?])[
+#box-info(title: [Kaj pomeni, da je Godot odprtokoden?])[
   To, da je nek kos programske opreme odprtokoden, poglavitno pomeni dvoje.
 
   Prvič, Godot je povsem brezplačen. Nima mesečnih naročnin (kot pogon Unity) ali provizij od zaslužkov (kot ga imata Unity in Unreal Engine) in se preživlja od prostovoljnih donacij in prostovoljnega dela. V teoriji sta plačljiva programska oprema in odprtokodnost združljivi, a kljub vsemu je to pogosto težko doseči -- ponavadi razvijalci v primeru odprtokodnih programov zaračunajo za podporo ali naprednejše funkcije (kot na primer pgModeler in GitLab CE).
@@ -896,7 +912,7 @@ Skozi razvoj naše igre si bomo ogledali in uporabili vsa od naštetih podoken, 
 
 == Delovna okolja <delovna-okolja>
 
-Godot je sestavljen iz petih glavnih delovnih okolij, do katerih lahko dostopamo s klikom na željeno okolje v izbirnem meniju za delovna okolja (obrobljeno z oranžno na #ref(<ui-basics-annotated-sections>, supplement: [sliki]) in vidno na #ref(<delovna-okolja-toolbar>, supplement: [sliki])).
+Godot je sestavljen iz petih glavnih delovnih okolij, do katerih lahko dostopamo s klikom na želeno okolje v izbirnem meniju za delovna okolja (obrobljeno z oranžno na #ref(<ui-basics-annotated-sections>, supplement: [sliki]) in vidno na #ref(<delovna-okolja-toolbar>, supplement: [sliki])).
 Plošča z vsebino aktivnega delovnega okolja se bo pojavila na središčni površini (označeni z zeleno na #ref(<ui-basics-annotated-sections>, supplement: [sliki])).
 
 #screenshot(
@@ -912,7 +928,7 @@ Kot vidimo na #ref(<delovna-okolja-toolbar>, supplement: [sliki]), imamo na volj
 - *Game*, t.j. interaktivni predogled naše igre.
 
 
-#box-side-note(title: [Kaj pa "Asset Store"?])[
+#box-info(title: [Kaj pa "Asset Store"?])[
   Poleg omenjenih štirih ste zagotovo opazili še petega, *Asset Store*. To je zavihek, kjer lahko dostopamo do Godotove brezplačne oblačne storitve, preko katere lahko prenesemo različne pakete sredstev (angl. _asset packs_), senčilnikov (angl. _shaders_), razširitev (angl. _extensions_), ikon, skript, zvokov in drugih vsebin, s katerimi si lahko pomagamo pri razvoju iger.
 
   Zaenkrat se tega zavihka ne bomo dotikali, vsaj ne, dokler se ne razdelimo v skupine in začnemo sestavljati lastno igro. Takrat boste izvedli tudi več o paketih sredstev oziroma delovnih materialih.
@@ -973,7 +989,7 @@ Ker bomo na delavnicah ustvarjali igre v 2D, bomo v tem okolju preživeli precej
   caption: [Okolje "2D" v urejevalniku Godot.],
 ) <2d-editor-default>
 
-#box-side-note(title: [Razlike med 2D in 3D])[
+#box-info(title: [Razlike med 2D in 3D])[
   V nasprotju z igrami v treh dimenzijah se igre v 2D omejijo samo na ravno ploskev. To pa ne pomeni, da ne moremo pričarati vtisa globine! Oddaljenost od gledalca lahko namreč še vedno poustvarimo s spreminjanjem velikosti (angl. _scale_) objektov v prizoru in drugimi vizualnimi učinki, na primer s sencami.
 
   Obenem naj vas omejitev na dve dimenziji ne odvrne od ustvarjanja v tem načinu! Z izjemo določene matematike in določenih novih pristopov, ki jih je fino obvladati za razvoj v 3D, ustvarjanje igre v 2D ni v splošnem zares nič drugačno kot v 3D. Obenem je popolnoma nesmiselno 3D igre obravnavati, kot boljše ali bolj napredne izključno zaradi dodatne dimenzije. Oba načina imata svoje prednosti in slabosti.
@@ -1052,7 +1068,7 @@ Vrnimo se nazaj v urejevalnik Godot. Preden nadaljujemo z ogledom vsebine, ki sm
 - Datotečni sistem je predstavljen kot drevesna struktura map: vsaka mapa ima ime in vsebino (datoteke ali podmape). V nasprotju z drugimi raziskovalci, kot je recimo Windowsov, kjer moramo mapo dvoklikniti, če jo želimo odpreti, lahko v raziskovalcu datotek v pogonu Godot vidimo več nivojev map naenkrat. Če želimo videti v notranjost posamezne mape, lahko ime mape dvokliknemo ali pa kliknemo na puščico levo od njenega imena -- naredimo to za mapo `res://sredstva`. Ta akcija bo razširila pogled v notranjost mape, kjer bomo zdaj zagledali podmape `chromium-dino`, `dinozaver`, `kaktus`, ...
 - Izberimo poljubno mapo ali datoteko, na primer `res://sredstva/piksel.png`, in kliknemo na datoteko z desnim miškinim gumbom. Pokazal se bo kontekstni meni, v katerem lahko izvajamo kup akcij, vključno s preimenovanjem, premikanjem, podvajanjem in brisanjem. //To pomeni, da se nam za take akcije ni treba vračati v raziskovalec datotek našega operacijskega sistema, ampak lahko te operacije izvedemo kar znotraj urejevalnika Godot.
 
-#box-side-note(title: [
+#box-info(title: [
   #advanced-topic-heading[Za napredne uporabnike]
 ])[
   Od uporabe raziskovalca datotek imamo še eno korist: če npr. datoteko `res://sredstva/piksel.png` uporabimo v nekem prizoru, nato pa jo v Godotovem raziskovalcu datotek preimenujemo, se bo referenca, ki je zapisana v tistem prizoru, samodejno posodobila na novo ime datoteke (torej bo tisti prizor še vedno deloval normalno). To se ne bi zgodilo, če bi preimenovanje izvedli v raziskovalcu datotek našega operacijskega sistema, saj Godot v tem primeru ne bi vedel, kaj se je zgodilo.
@@ -1152,7 +1168,7 @@ Oglejmo si še eno novo podokno, ki smo ga prej izpustili: "Import", torej podok
   ),
 )
 
-Ko prvič izberemo podokno za nastavitve uvoza, bo verjetno izgledalo tako kot na #ref(<import-tab-no-selection>, supplement: [sliki]), torej brez vsebine. Razlog za praznino je to, da trenutno nimamo izbrane nobene datoteke. Če pa spodaj v raziskovalcu datotek z levim klikom izberemo eno izmed ravnokar dodanih datotek, na primer `res://sredstva/chromium-dino/200-offline-sprite.png`, bomo v podoknu za nastavitve uvoza zagledali kup nastavitev, kot je prikazano na #ref(<import-tab-spritesheet-selection>, supplement: [sliki]).
+Ko prvič izberemo podokno za nastavitve uvoza, bo verjetno videti kot na #ref(<import-tab-no-selection>, supplement: [sliki]), torej brez vsebine. Razlog za praznino je to, da trenutno nimamo izbrane nobene datoteke. Če pa spodaj v raziskovalcu datotek z levim klikom izberemo eno izmed ravnokar dodanih datotek, na primer `res://sredstva/chromium-dino/200-offline-sprite.png`, bomo v podoknu za nastavitve uvoza zagledali kup nastavitev, kot je prikazano na #ref(<import-tab-spritesheet-selection>, supplement: [sliki]).
 
 V tem podoknu lahko prilagodimo postopek uvažanja datoteke, ki smo jo izbrali. To vključuje način stiskanja, predobdelave slikovnih kanalov in še marsikaj naprednega, s čimer se na tej delavnici ne bomo ukvarjali. V primeru problemov je pomembno vedeti, da to okno obstaja, a se, vsaj pri razvoju igre Dinozaver, z njim ne bomo ukvarjali.
 
@@ -1217,7 +1233,6 @@ Novo datoteko s končnico `.tscn` bomo sedaj lahko našli tudi spodaj levo v raz
 
 === Osnovni tipi vozlišč <basic-node-types>
 
-#todo[Mogoče bi se to poglavje premaknilo v poglavje GDScript, tam kjer se razloži extends, ali pa doda kakšen primer/nalogo da preveriva da so to razumeli, to da jim takoj rečemo to je "drevesna struktura" kar je pojem ki ga verjetno ne razumejo še čisto je verjetno preveč naenkrat.  (zunanji komentar)]
 
 Kot smo omenili že v začetku #ref(<urejanje-prizorov>, supplement: [poglavja]), obstajajo vozlišča različnih tipov. Nekatere tipe vozlišč uporabljamo za igre 2D, nekatere za 3D, nekatere za uporabniški vmesnik, itd. Kar moramo v osnovi vedeti, je da so tipi vozlišč v osnovi prav tako odvisni med seboj (temu bi rekli drevesna struktura), na primer: vozlišče `Node2D` je specializirana različica tipa `Node`, in vozlišče `Sprite2D` je specializirana različica tipa `Node2D`.
 
@@ -1235,13 +1250,20 @@ Kot smo omenili že v začetku #ref(<urejanje-prizorov>, supplement: [poglavja])
       let two-d-bg-color = rgb("#4474db")
       let control-bg-color = rgb("#24b635")
 
-      let node(name, background-color: default-background-color, style: "normal") = {
+      let grayed-fill-color = rgb("#dbdbdb")
+
+      let node(
+        name,
+        fill-color: white,
+        background-color: default-background-color,
+        style: "normal"
+      ) = {
         box(
           fill: background-color,
           inset: 5pt,
           radius: 4pt,
           text(
-            fill: white,
+            fill: fill-color,
             weight: "bold",
             style: style,
             size: base-font-size - 1pt,
@@ -1264,27 +1286,39 @@ Kot smo omenili že v začetku #ref(<urejanje-prizorov>, supplement: [poglavja])
           node("Node"),
           (
             node("Node3D", background-color: three-d-bg-color),
-            (
-              node("CollisionObject3D", background-color: three-d-bg-color),
-              (
-                node("PhysicsBody3D", background-color: three-d-bg-color),
-                node("StaticBody3D", background-color: three-d-bg-color),
-                node("CharacterBody3D", background-color: three-d-bg-color),
-              ),
-            ),
-            node("Camera3D", background-color: three-d-bg-color),
+            // (
+            //   // node("CollisionObject3D", background-color: three-d-bg-color),
+            //   // (
+            //   //   node("PhysicsBody3D", background-color: three-d-bg-color),
+            //   //   node("StaticBody3D", background-color: three-d-bg-color),
+            //   //   node("CharacterBody3D", background-color: three-d-bg-color),
+            //   // ),
+            // ),
+            // node("Camera3D", background-color: three-d-bg-color),
           ),
           (
-            node("CanvasItem", background-color: grayed-bg-color, style: "italic"),
+            node("CanvasItem", background-color: grayed-bg-color, style: "italic", fill-color: grayed-fill-color),
             (
               node("Node2D", background-color: two-d-bg-color),
               node("AnimatedSprite2D", background-color: two-d-bg-color),
-              node("Camera2D", background-color: two-d-bg-color),
+              // node("Camera2D", background-color: two-d-bg-color),
+              (
+                node("CollisionObject2D", background-color: two-d-bg-color, style: "italic", fill-color: grayed-fill-color),
+                (
+                  node("PhysicsBody2D", background-color: two-d-bg-color, style: "italic", fill-color: grayed-fill-color),
+                  node("StaticBody2D", background-color: two-d-bg-color),
+                  node("CharacterBody2D", background-color: two-d-bg-color)
+                ),
+                node("Area2D", background-color: two-d-bg-color)
+              ),
               node("Sprite2D", background-color: two-d-bg-color),
             ),
             (
               node("Control", background-color: control-bg-color),
-              node("Container", background-color: control-bg-color),
+              (
+                node("Container", background-color: control-bg-color),
+                node("CenterContainer", background-color: control-bg-color)
+              ),
               node("TextEdit", background-color: control-bg-color),
               node("Label", background-color: control-bg-color),
             ),
@@ -1296,9 +1330,11 @@ Kot smo omenili že v začetku #ref(<urejanje-prizorov>, supplement: [poglavja])
   caption: [Delna drevesna struktura nekaterih osnovnih tipov vozlišč.],
 ) <partial-node-type-structure>
 
+Ta hierarhična odvisnost v praksi pomeni, da imajo bolj specializirana vozlišča vse funkcionalnosti, ki jih imajo tudi vsi njihovi starši. Na primer, vozlišča tipa #node2d-type-name("Sprite2D") imajo vse funkcionalnosti, ki jih imajo vozlišča tipa #node2d-type-name("Node2D") (torej vse, kar je potrebno za igre v dveh dimenzijah). Prav tako imajo recimo vozlišča tipa #node2d-type-name("Area2D") in #node2d-type-name("CharacterBody2D") vse funkcionalnosti, ki jih ima #node2d-type-name("CollisionObject2D"), ampak #node2d-type-name("Area2D") nima funkcionalnosti #node2d-type-name("PhysicsBody2D"), ki jih pa #node2d-type-name("CharacterBody2D") seveda ima, saj je njegov potomec.
+
 Kar vidimo na #ref(<partial-node-type-structure>, supplement: [sliki]) je samo majhen nabor tipov vozlišč, ki jih lahko vnesemo v naše prizore. Cel seznam vozlišč lahko vidimo v podoknu za dodajanje vozlišča, ki ga odpremo tako, da na levi v zavihku "Scene" (glej #ref(<root-node-creation-screenshot-after>, supplement: [sliko])) izberemo vozlišče, kateremu želimo dodati podvozlišče, nato pa kliknemo na znak za plus na vrhu. Odprlo se bo podokno, kot ga vidimo na #ref(<scene-new-node-dialog>, supplement: [sliki]), kjer lahko izberemo tip vozlišča, ki ga želimo umestiti v prizor. S klikom na puščice levo od njihovega imena lahko razširimo ali skrčimo pod-drevo tipov, ki jih ima določen tip vozlišča na voljo; če na primer razširimo `Node2D`, bomo notri našli `Sprite2D`.
 
-#box-side-note(title: [Kaj pa sivi tipi?])[
+#box-info(title: [Kaj pa sivi tipi?])[
   Določenih tipov vozlišč ni mogoče samostojno umestiti v prizor. Primer takega tipa vozlišč je `CanvasItem`, ki izvira iz `Node`, in katerega podtipa sta `Node2D` (za dvodimenzionalne igre) in `Control` (za uporabniški vmesnik). `Node2D` in `Control` je seveda mogoče ustvariti (kot je mogoče ustvariti tudi vozlišče tipa `Node`), ampak tipa `CanvasItem` pa ni mogoče ustvariti, kar je prikazano s posivljenim imenom tipa. Gre za posebnost, s katero se nam ni treba preveč ukvarjati.
 ]
 
@@ -1473,7 +1509,7 @@ Poleg premikanja je dobro poznati še dva načina navigacije po urejevalniku 2D 
 ) <2d-sprites-arranged>
 
 
-#box-side-note(title: [Sličice niso ostre])[
+#box-info(title: [Sličice niso ostre])[
   Morda ste opazili, da sličice, ki smo jih postavili v prizor, niso popolnoma ostre. Razlog za to je, da Godot privzeto uporablja linearno filtriranje tekstur, kar pri sličicah z nizko ločljivostjo povzroči razmazan učinek. Ker mi želimo doseči ostre kvadratke, ki so značilni za t.i. _pixel art_, moramo spremeniti to nastavitev za naš projekt. Primer linearnega filtriranja teksture lahko vidimo na #ref(<godot_texture-filtering_linear>, supplement: [sliki]), primer filtriranja z najbližjim sosedom pa na #ref(<godot_texture-filtering_nearest>, supplement: [sliki]).
 
   #align(
@@ -1508,8 +1544,15 @@ Poleg premikanja je dobro poznati še dva načina navigacije po urejevalniku 2D 
 
 ]
 
-#todo[TODO ponovna obrazložitev, kaj so relativne koordinate glede na starša?]
+#box-info(title: [Relativne koordinate])[
+  Na tej točki je pomembno, da spoznamo koncept relativnih koordinat. V #ref(<okolje-2d>, supplement: [poglavju]) smo spoznali dvodimenzionalni koordinatni sistem in ravno malo pred kratkim spoznali še, da lahko naša dvodimenzionalna vozlišča premikamo po tem koordinatnem sistemu.
 
+  Kar pa je poleg tega pomembno razumeti je, da je naš prizor sestavljen hierarhično: če premaknemo pozicijo nekega starševskega vozlišča, bomo obenem sorazmerno premaknili tudi vse potomce tega vozlišča. 
+  
+  #box-divider()
+  
+  Na primer, če starševsko vozlišče premaknemo na $(5, 10)$, se bo tudi potomec tega vozlišča premaknil na $(5, 10)$, četudi je njegova lastnost #variable-name("position") nastavljena na $(0, 0)$. Zakaj? Zato, ker je pozicija potomca relativna na vsa starševska vozlišča! Če bi lastnost #variable-name("position") potomca nastavili na $(2, 4)$, bi to vozlišče zagledali na poziciji $(7, 14)$, saj se bi njegova pozicija seštela z njegovim staršem.
+]
 
 #pagebreak(weak: true)
 
@@ -1641,7 +1684,7 @@ Projekt lahko sedaj zaženemo s klikom na "Zaženi trenuten prizor". Godot nas b
 
 S tem smo uspešno preverili, da osnovne funkcije našega okolja delujejo pravilno!
 
-#box-side-note(title: [Se vam igra pojavlja v novem oknu?])[
+#box-info(title: [Se vam igra pojavlja v novem oknu?])[
   Če ste v poglavju #ref(<env-game>, supplement: [poglavju]) slučajno pozabili izklopiti nastavitev "Make Game Workspace Floating on Next Play", se vam bo igra prižgala v novem plavajočem oknu. S tem načeloma ni nič narobe, ampak za lažje sledenje tej skripti priporočamo, da nastavitev vseeno popravite.
 ]
 
@@ -1677,7 +1720,7 @@ Najlažje si jih lahko predstavljamo kot škatle, na katerih so etikete z imeni.
 
 Kot pri veliko drugih računalniških pojmov se novih konceptov najlažje privadiš s primeri, tako, da si kar poglejmo prvega:
 
-#box-side-note(
+#box-info(
   title: [Da malo poenostavimo],
 )[
   Od tod naprej se bodo za boljšo berljivost in zmanjšanje prostora, ki ga zasedejo izseki kode v tej knjigi, odvečni deli v blokih kode izpuščali. Še vedno delamo v enakih GDScript datotekah, ki imajo na vrhu direktivo `extends` in v nekaterih primerih še marsikaj drugega, a bodo primeri od tu naprej vsebovali samo izsek, ki je za nas pomemben.
@@ -1791,7 +1834,16 @@ Parser Error: Cannot assign a value of type "String" as "int".
   Če za tako obnašanje ne vemo in nismo pozorni kaj delamo, lahko preteče precej časa preden težavo, povezano s tem, odkrijemo. GDScript ne bo moral vedno paziti na nas, včasih pa nam bo nevede šel celo nasproti, tako da je še vedno pomembno, da kodo pišemo pazljivo in pozorno ter da napisano kodo razumemo.
 ]
 
-#todo[Razloži na hitro še null]
+Poleg navadnih podatkovnih tipov, Godot pozna tudi podatkovni tip #data-type-name("Variant"). To je poseben podatkovni tip, ki predstavlja vse podatkovne tipe. Naše spremenljivke so, če jim nismo eksplicitno dodelili tipa, tipa #data-type-name("Variant"). #data-type-name("Variant") je poseben podatkovni tip, ki predstavlja vse podatkovne tipe, torej lahko v sebi drži katero koli vrednost.
+Spodnji vrstici sta ekvivalentni.
+
+```gd
+var test: Variant = 42
+var test = 42
+```
+
+Poleg navadnih vrednosti lahko naši spremenljivki dodelimo tudi vrednost ```gd null```. O vrednosti ```gd null``` lahko razmišljamo kot o prazni škatli, predstavlja nam namreč pomanjkanje vrednosti. Uporabe vrednosti ```gd null``` se pri programiranju pogosto poskušamo izogibati, saj iz tega lahko izvira ogromno napak. Znotraj tega učbenika bomo ```gd null``` uporabili samo takrat, ko bo to res potrebno. Če je naša spremenljivka navadnega (primitivnega) tipa in je njen tip definiran v kodi, ji vrednosti ```gd null``` ne moremo določiti. ```gd null``` pa lahko dodelimo spremenljivkam, katerih tip je na primer vozlišče ali vir.
+
 
 === Računske operacije
 
@@ -2001,10 +2053,9 @@ else:
 - `<potem>` je koda, ki se bo izvedla če `<pogoj>` drži (njegova vrednost je `true`).
 - `<drugače>` je koda ki se bo izvedla če `<pogoj>` ne drži (njegova vrednost je `false`). Stavek `else` ni nujen in ga lahko, skupaj z `<drugače>` izpustimo.
 
-#box-info(
-  title: "Ponovimo",
-  [`bool` je najbolj enostaven podatkovni tip. Predstavlja lahko le 2 stanji: bodisi `true` (drži) ali `false` (ne drži).],
-)
+#box-repeat[
+  `bool` je najbolj enostaven podatkovni tip. Predstavlja lahko le 2 stanji: bodisi `true` (drži) ali `false` (ne drži).
+]
 
 #todo[Za tale ponovimo bi lahko naredili novo škatlo in malo standardizirali njegovo uporabo, zdaj je dostikrat tak odsek samo znotraj teksta kot navadna poved ali pa v kakšnem oklepaju]
 
@@ -2067,9 +2118,9 @@ Postopek bo torej potekal takole:
 
 Morda ste opazili, da sta 8. in 10. vrstica v zgornji kodi zamaknjeni še bolj, kot smo vrstice zamikali do sedaj. Ta zamik je zelo pomemben, saj GDScript (podobno kot recimo programski jezik Python) pripadnost kode ureja z zamiki vrstic (pripadnost tu pomeni, ali je neka vrstica recimo del funkcije ali ne, oziroma v našem primeru ali je del stavka `if` ali ne). Pripadnost kode lahko hitro pogledamo, tako da se po kodi pomikamo navzgor in najdemo prvo vrstico, ki je zamaknjena en nivo manj kot trenutna.
 
-Ko rečemo, da je nekaj zamaknjeno za "en nivo" to pomeni, da je od levega roba odmaknjeno za en tabulator (takšna predstava je za nas čisto dovolj, če želite o tem malo več preberite spodnji odsek "Za napredne uporabnike".). Če rečemo, da je zamaknjen za "dva nivoja" je zamaknjen za dva tabulatorja in tako dalje. Če vmes dodajamo še kakršnekoli presledke ali uporabimo preveč tabulatorjev nam bo Godot javil napako.
+Ko rečemo, da je nekaj zamaknjeno za "en nivo" to pomeni, da je od levega roba odmaknjeno za en tabulator. Takšna predstava je za nas čisto dovolj. Če želite o tem izvedeti malo več, preberite spodnji odsek "Za napredne uporabnike". Če rečemo, da je zamaknjen za "dva nivoja", je zamaknjen za dva tabulatorja in tako dalje. Če vmes dodajamo še kakršnekoli presledke ali uporabimo preveč tabulatorjev, nam bo Godot javil napako.
 
-To, da kos kode pripada konstruktu, pomeni, da se bo izvedel samo v primeru, da se bo izvedel konstrukt, ki mu pripada. Če na primer del kode pripada stavku `if`, se bo izvedel samo če je trditev v tem stavku pravilna. Če pripada stavku `else` se bo izvedel samo če se bo izvedel stavek `else`. Če pripada funkciji `_ready` se bo izvedel samo če se izvede funkcija `_ready`.
+To, da kos kode pripada konstruktu, pomeni, da se bo izvedel samo v primeru, da se bo izvedel konstrukt, ki mu pripada. Če na primer del kode pripada stavku `if`, se bo izvedel samo če je trditev v tem stavku pravilna. Če pripada stavku `else`, se bo izvedel samo, če se bo izvedel stavek `else`. Če pripada funkciji `_ready`, se bo izvedel samo, če se izvede funkcija `_ready`.
 
 Kako točno to deluje je najlažje predstaviti na primeru:
 
@@ -2087,7 +2138,7 @@ func _ready() -> void: # Brez zamika, pripada skripti
 #box-info(
   title: [#advanced-topic-heading[Za napredne uporabnike]],
   [
-    GDScript podpira zamikanje vrstic s presledki ali tabulatorji. Izbira enega ali drugega je načeloma dokaj osebna stvar, Godot pa privzeto uporablja tabulatorje. Če želite to nastavitev spremeniti, se podajte v nastavitve urejevalnika (pod "Editor", nato "Editor Settings"). Pod kategorijo "Text Editor" boste v podkategoriji "Behaviour" našli nastavitev "Ident", kjer lahko zamikanje spremenite na npr. štiri presledke, kar je tudi pogosto.
+    GDScript podpira zamikanje vrstic s presledki ali tabulatorji. Izbira enega ali drugega je načeloma dokaj osebna stvar, Godot pa privzeto uporablja tabulatorje. Če želite to nastavitev spremeniti, se podajte v nastavitve urejevalnika (pod "Editor", nato "Editor Settings"). Pod kategorijo "Text Editor" boste v podkategoriji "Behaviour" našli nastavitev "Indent", kjer lahko zamikanje spremenite na npr. štiri presledke, kar je tudi pogosto.
 
     Če zamikanje spremenite, je pomembno le, da v eni datoteki uporabite izključno en način zamikanja vrstic, torej ali samo presledke ali samo tabulatorje, drugače skripte ne bodo delovale (na to vas bo opozoril tudi Godot).
   ],
@@ -2283,9 +2334,13 @@ print("3")
 print("10")
 ```
 
-Zdaj si predstavljajte, da bi morali šteti do 100, ali 1000, ali pa v bolj realnem primeru, izvesti operacijo nad vsakim ogliščem 3D modela (za referenco, 3D model Kratosa iz videoigre God of War: Ragnarok je bil ocenjen na približno 40000 do 90000 oglišč).
+Zdaj si predstavljajte, da bi morali šteti do 100, ali 1000, ali pa v bolj realnem primeru, izvesti operacijo nad vsakim ogliščem 3D modela. Na primer, model na #ref(<boulder-example>, supplement: [sliki]) je sestavljen iz 124 tisoč trikotnikov.
 
-#todo[Imamo kakšen bolj relevanten model in primer, ki bi ga mladina poznala? COMMENT (simon): mislim da ne, mogoče bi lahko dala screenshot nekega deloma realističnega modela in povedala, koliko oglišč ima? ker tudi tisti, ki poznajo god of war, verjetno težko v glavo prikličejo točen 3D model]
+#screenshot(
+  path: "assets/poly-haven/boulder_01.webp",
+  width: 50%,
+  caption: [Model kamna, ki ima 124 tisoč trikotnikov. \ (Vir: Poly Haven, Licenca: CC0)],
+) <boulder-example>
 
 Ker takšnega Sizifovega dela ne želi nihče opravljati, imamo tudi za to programske konstrukte. Zgodnji primer bi torej lahko napisali kot:
 ```gd
@@ -2357,9 +2412,7 @@ var katastrofa = [42, "pozdravljen", false, -6.7]
   ],
 )
 
-Seznami so sestavljen tip in vsebujejo metode za delo z njimi. Element lahko na primer dodamo s klicem metode ```gd append(value: Variant)```. `Variant` je poseben podatkovni tip, ki predstavlja vse podatkovne tipe (to pomeni da lahko kot parameter pošljemo karkoli).
-
-`append`, po slovensko "pripni", doda element na konec seznama. Poglejmo si primer:
+Seznami so sestavljen tip in vsebujejo metode za delo z njimi. Element lahko na primer dodamo s klicem metode ```gd append(value: Variant)```. Funkcija `append`, po slovensko "pripni", doda element na konec seznama. Poglejmo si primer:
 
 ```gd
 var seznam: Array[int] = [1, 2]
@@ -2443,7 +2496,7 @@ S kliki na `Add Element` (Dodaj element) in ostale dele vmesnika, lahko potem do
   # NE deluje
   var seznam3: Array[Array[int]]
 
-  # Prav tako ne deluje (čeprav so programsko seznami lahko gnezdeni globje kot
+  # Prav tako ne deluje (čeprav so programsko seznami lahko gnezdeni globlje kot
   # dva nivoja, bi bil drugi seznam v tem primeru eksplicitno tipiran).
   var seznam4: Array[Array[Array]]
   ```
@@ -2680,7 +2733,7 @@ Definiranje funkcij, ki jih Godot kliče in klicanje Godotovih funkcij ni edini 
 
 Primer take vgrajene spremenljivke je `position`, ki jo najdemo na tipu vozlišča `Node2D` in njegovih potomcih.
 
-#box-side-note(title: [Uradna dokumentacija])[
+#box-info(title: [Uradna dokumentacija])[
   Pogosto je fino prebrati tudi dokumentacijo, ki nam jo ponuja že sam pogon Godot. Tokrat lahko dokumentacijo o vozlišču Node2D in polju `position` najdemo na: \ https://docs.godotengine.org/en/stable/classes/class_node2d.html#class-node2d-property-position
 ]
 
@@ -2689,7 +2742,7 @@ Poglejmo si primer uporabe:
 ```gd
 func _process(delta: float) -> void:
   # delto smo tu množili s 100, ker je delta sama po sebi zelo majhno število
-  # in bi se drugače nače vozlišče premikalo zelo počasi
+  # in bi se drugače naše vozlišče premikalo zelo počasi
   position += Vector2(0, delta * 100)
 ```
 
@@ -2764,14 +2817,11 @@ Iz prizora brišite vozlišča tipa `Sprite2D`, dokler vam ne ostane samo dinoza
 Trenutno je prizor precej dolgočasen in statičen. Naredimo najprej, da se ob zagonu projekta kaktus počasi pomika proti nam.
 
 #box-task[
-  Na vozlišče `KaktusSlicica` pripnite skripto "kaktus.gd", ki ob zagonu kaktus premika proti dinozavru (levo po zaslonu). Pri izdelavi skripte si pomagajte s #ref(<using-godot-properties>, supplement: "poglavjem").
+  Na vozlišče `KaktusSlicica` pripnite skripto `kaktus.gd`, ki ob zagonu kaktus premika proti dinozavru (levo po zaslonu). Pri izdelavi skripte si pomagajte s #ref(<using-godot-properties>, supplement: "poglavjem").
 
   Ne pozabite, da je Godotovo privzeto koordinatno izhodišče (0, 0) _levo zgoraj_. X in Y torej rasteta desno in navzdol, kar lahko razumemo tudi kot: če večamo X, se premikamo desno, če večamo Y, se premikamo navzdol.
 
   Če imate z izdelavo skripte še vedno težave, si lahko ogledate #ref(<moving-cactus-example>, supplement: "poglavje"), vseeno pa kot vedno *najprej poskusite sami!* Zahtevana skripta je tokrat res preprosta, tako da verjamemo v vaš uspeh!
-
-  #todo[Mogoče si lahko kako označiva ampak če mava na tej točki koga ki tega ni sposoben narediti sva konkretno spodletela kot učitelja..., COMMENT(goro): kle 80% ludi nebo mel pojma ;)]
-  // TODO (Gorazd): Tega ne pozabita odstraniti iz končne skripte ;)
 ]
 
 Kaktus bi zdaj moral uspešno drseti proti nam. Naš dinozaver pa na žalost še vedno nima možnosti umika. Tudi nanj bi lahko pripeli skripto, ki bi ga premikala proč od kaktusa, vendar to ni cilj naše igre. Z dinozavrom mora upravljati igralec sam.
@@ -2782,9 +2832,7 @@ V Godotu lahko uporabniški vnos obdelujemo na več načinov. Na tej delavnici s
 
 === Urejanje uporabniških dejanj
 
-// TODO (Gorazd): Sem popravil povsod, ampak za naprej: pišemo Godot, Godota, Godotu, Godotov ... Izgovorimo pa res Godoja, Godoju, Godojev.
-
-Mi se bomo uporabniškega vnosa lotili skozi Godotov sistem uporabniških akcij. Uporabniško dejanje lahko izdelamo skozi Godotov vmesnik.
+Mi se bomo uporabniškega vnosa lotili skozi Godotov sistem uporabniških dejanj. Uporabniško dejanje lahko izdelamo skozi Godotov vmesnik.
 
 To naredimo tako, da najprej kliknemo na "Project", nato "Project Settings", s čimer odpremo nastavitve projekta (ne nastavitev urejevalnika), in nato v novem oknu kliknemo na zavihek "Input map".
 
@@ -2833,12 +2881,8 @@ Prožilec na akcijo dodamo s pritiskom na gumb s simbolom "+" desno od imena akc
   caption: [Dodajanje prožilca.],
 ) <add-trigger>
 
-// TODO (Gorazd): Opažam, da ponekod najprej pišeta angleške izraze, ponekod pa najprej slovenske. To je smiselno poenotiti. Ker Godotovega vmesnika še nimamo v slovenščini, predlagam vedno najprej angleški zapis, ko se prvič pojavi v besedilu, pa v oklepaju tudi slovensko razlago.
 
-To nam odpre okno za izbor prožilca. Izberemo ga lahko tako, da se pomaknemo do želenega prožilca skozi uporabniški vmesnik. V primeru tipke preslednice najprej odpremo odsek "tipke tipkovnice" (angl. _Keyboard Keys_) in med njimi najdemo preslednico (angl. _Space_). Ko kliknemo nanjo, nam bo Godot ponudil še dodatne možnosti. Te lahko trenutno ignoriramo, saj jih tekom delavnice ne bomo uporabljali. S pritiskom na tipko "OK" prožilec nato dodamo v akcijo.
-
-#todo[če se ti da, napiši še nekaj o teh možnostih, za napredne uporabnike]
-
+To nam odpre okno za izbor prožilca. Izberemo ga lahko tako, da se pomaknemo do želenega prožilca skozi uporabniški vmesnik. V primeru tipke presledek najprej odpremo odsek "tipke tipkovnice" (angl. _Keyboard Keys_) in med njimi najdemo preslednico (angl. _Space_). Ko kliknemo nanjo, nam bo Godot ponudil še dodatne možnosti. Te lahko trenutno ignoriramo, saj jih tekom delavnice ne bomo uporabljali. S pritiskom na tipko "OK" prožilec nato dodamo v akcijo.
 
 #align(
   center,
@@ -3042,11 +3086,10 @@ Na #ref(<physics_characterbody2d-with-warning-and-sprite>, supplement: [sliki]) 
 
 Opozorilo nam pravi, da vozlišče tipa `CharacterBody2D` potrebuje tudi trkalnik, kar ima smisel! Namreč Godot ne more samodejno zaznati, na kateri del dinozavra naj vpliva fizika, zato mu moramo to povedati sami.
 
-// TODO treba je popravit razmake v vrstici, ki jih naredi inline-button-image ...
 #box-task[
   Ustvarite novo vozlišče tipa `CollisionPolygon2D`, ga preimenujte na `DinozaverPovrsina` in ga postavite za otroka vozlišča `DinozaverLik`.
 
-  Nato enkrat kliknite na vozlišče `DinozaverPovrsina`, da izberete vozlišče in izberite orodje za izbiro (angl. _Select Mode_), ki ga najdete pod ikono #inline-button-image(path: "assets/physics/godot_cursor.png") v orodni vrstici urejevalnika 2D (kot vidimo na #ref(<dino-sprite-in-2d-editor>, supplement: [sliki])) oziroma pod bližnjico `Q`. Sedaj začnimo ustvarjat trkalnik našega dinozavra tako, da kliknemo nekam na rob dinozavra in s tem ustvarimo prvo točko večkotnika. Kjer bomo kliknili, se bo pojavil majhen romb, ki prikazuje dodano točko. Sedaj se premaknimo do naslednje točke ob robu našega dinozavra in zopet kliknimo -- ustvarila se bo nova točka večkotnika, ki bo s prejšnjo povezana z ravno črto. Nadaljujmo ta proces, dokler ne obhodimo celotnega dinozavra; zadnji klik naredimo na prvo točko, ki smo jo ustvarili (prvi romb), in s tem zaključimo večkotnik in zagledamo površino trkalnika, kot jo vidimo na #ref(<physics_characterbody2d-dino-collision>, supplement: [sliki]):
+  Nato enkrat kliknite na vozlišče `DinozaverPovrsina`, da izberete vozlišče in izberite orodje za izbiro (angl. _Select Mode_), ki ga najdete pod ikono miške v orodni vrstici urejevalnika 2D (kot vidimo na #ref(<dino-sprite-in-2d-editor>, supplement: [sliki])) oziroma pod bližnjico `Q`. Sedaj začnimo ustvarjat trkalnik našega dinozavra tako, da kliknemo nekam na rob dinozavra in s tem ustvarimo prvo točko večkotnika. Kjer bomo kliknili, se bo pojavil majhen romb, ki prikazuje dodano točko. Sedaj se premaknimo do naslednje točke ob robu našega dinozavra in zopet kliknimo -- ustvarila se bo nova točka večkotnika, ki bo s prejšnjo povezana z ravno črto. Nadaljujmo ta proces, dokler ne obhodimo celotnega dinozavra; zadnji klik naredimo na prvo točko, ki smo jo ustvarili (prvi romb), in s tem zaključimo večkotnik in zagledamo površino trkalnika, kot jo vidimo na #ref(<physics_characterbody2d-dino-collision>, supplement: [sliki]):
 
   #screenshot(
     path: "assets/physics/godot_physics_dino-with-collision.png",
@@ -3071,7 +3114,7 @@ Preden našemu dinozavru dodamo skok, moramo definirati še tla, pri katerih se 
     caption: [Spustni meni za ustvarjanje nove oblike preprostega trkalnika.],
   ) <physics_staticbody2d-new-collision>
 
-  Po tej izbiri se nam bo v urejevalniku pojavil majhen kvadraten moder objekt, ki predstavlja trkalnik kvadratne oblike, ki smo ga ravnokar ustvarili. Začetna pozicija trkalnika nam skoraj zagotovo ne bo ustrezala, zato vozlišče `Tla` premaknite pod dinozavra, nato pa zopet izberite vozlišče `TlaPovrsina` in trkalno površino raztegnite na željeno širino, kot vidimo na #ref(<physics_scene-dino-with-floor-collision>, supplement: [sliki]):
+  Po tej izbiri se nam bo v urejevalniku pojavil majhen kvadraten moder objekt, ki predstavlja trkalnik kvadratne oblike, ki smo ga ravnokar ustvarili. Začetna pozicija trkalnika nam skoraj zagotovo ne bo ustrezala, zato vozlišče `Tla` premaknite pod dinozavra, nato pa zopet izberite vozlišče `TlaPovrsina` in trkalno površino raztegnite na želeno širino, kot vidimo na #ref(<physics_scene-dino-with-floor-collision>, supplement: [sliki]):
 
   #screenshot(
     path: "assets/physics/godot_physics_dino-and-floor-collision.png",
@@ -3231,7 +3274,7 @@ vozlisce.is_in_group("ime_skupine")
 
 Dve poglavji nazaj smo ustvarili trkalno območje (vozlišče `Area2D`), a se ob vstopu nekega telesa, na primer dinozavra, vanj ne zgodi nič. Razlog za to je, da `Area2D` ob vstopu telesa odda signal, na katerega se moramo mi povezati, če želimo na ta dogodek odreagirati.
 
-Signali so v osnovi dogodki, na katere se lahko prijavimo tako, da na ta dogodek povežemo določeno funkcijo. To je mogoče storiti ali preko urejevalnika ali z uporabo skriptiranja, ampak zaenkrat se bomo osredotočili na povezovanje signalov preko urejevalnika.
+Signali so v osnovi dogodki, na katere se lahko prijavimo tako, da na ta dogodek povežemo določeno funkcijo. To je mogoče storiti ali preko urejevalnika ali z uporabo skriptiranja, ampak zaenkrat se bomo osredotočili na povezovanje signalov preko urejevalnika. Definiramo lahko tudi poljubne signale, a več o tem kasneje.
 
 #box-task[
   V strukturi prizora izberite vozlišče `KaktusTrkalnoObmocje` (`Area2D`) in nato na desni strani med zavihki, kjer imate izbran zavihek s podrobnostmi vozlišča ("Inspector"), izberite zavihek "Signals". Zagledali boste nabor signalov, ki jih izbrano vozlišče oddaja, med njimi pa je tudi signal `body_entered`, ki se sproži takrat, ko določeno telo vstopi v to trkalno območje.
@@ -3270,13 +3313,7 @@ func _ko_je_kaktus_zadet(body: Node2D) -> void:
   caption: [Konzola ob pogonu igre s funkcijo `_ko_je_kaktus_zadet` in `print`.],
 ) <signals_ko-je-kaktus-zadet-print>
 
-Uspešno! Dinozaver sicer še vedno potuje skozi kaktus, a razlog za to je le, da nismo igre v tistem trenutku kar končali.
-
-#todo[TODO treba dodat spremembo, da se tukaj igra konča namesto printa... a bova uporabila pattern scene managerja? kje ga uvedeva? a bo to šele pri uporabniškem vmesniku?]
-
-#todo[Po moje bo to res znotraj poglavja o UI, bom potem tu dodal referenco tja -Andrej]
-
-Definiramo lahko tudi poljubne signale, a več o tem kasneje.
+Uspešno! Dinozaver sicer še vedno potuje skozi kaktus, a razlog za to je le, da nismo igre v tistem trenutku kar končali. Zaenkrat bomo za konec igre gledali kar v konzolo, v prihodnjih poglavjih pa se bomo naučili še o preostalih konceptih, s katerimi bomo potem ta izpis v konzolo spremenili v dejanski konec igre.
 
 
 #pagebreak(weak: true)
@@ -3424,7 +3461,7 @@ Do zdaj smo za prikaz sličic uporabljali vozlišča tipa `Sprite2D`, a sedaj ž
   Vozlišče `DinozaverSlicica` (ki je tipa `Sprite2D`) zamenjajte z novim vozliščem `AnimatedSprite2D`, ki ga poimenujte `DinozaverAnimacija`.
 ]
 
-Če igro sedaj poženemo, bomo ugotovili, da dinozavra ni več videti. To je zato, ker smo izbrisali staro nepremično sličico dinozavra, nismo pa definirali še novih animacij. To lahko storimo tako, da v strukturi prizora izberemo vozlišče `DinozaverAnimacija`, na desni strani pod podrobnostmi pa nato lahko pod parametrom "Sprite Frames" kliknemo na spusni meni in ustvarimo nov vir tipa `SpriteFrames`. Primera okna pred stvaritvijo vira lahko vidimo na #ref(<animation_animatedsprite2d_inspector-empty>, supplement: [sliki]), po stvaritvi vira pa na #ref(<animation_animatedsprite2d_inspector-new>, supplement: [sliki]).
+Če igro sedaj poženemo, bomo ugotovili, da dinozavra ni več videti. To je zato, ker smo izbrisali staro nepremično sličico dinozavra, nismo pa definirali še novih animacij. To lahko storimo tako, da v strukturi prizora izberemo vozlišče `DinozaverAnimacija`, na desni strani pod podrobnostmi pa nato lahko pod parametrom "Sprite Frames" kliknemo na spustni meni in ustvarimo nov vir tipa `SpriteFrames`. Primera okna pred stvaritvijo vira lahko vidimo na #ref(<animation_animatedsprite2d_inspector-empty>, supplement: [sliki]), po stvaritvi vira pa na #ref(<animation_animatedsprite2d_inspector-new>, supplement: [sliki]).
 
 #align(
   center,
@@ -3511,7 +3548,7 @@ var animacije: AnimatedSprite2D = get_node("DinozaverAnimacija")
 Pozneje v kodi lahko sedaj dostopamo do spremenljivke `animacije` in kličemo njene funkcije, torej vse funkcije, ki obstajajo na vozliščih tipa `AnimatedSprite2D`.
 
 
-#box-side-note(title: [Ummm... `@onready`?])[
+#box-info(title: [Ummm... `@onready`?])[
   Morda ste opazili, da smo uporabili oznako `@onready` pred definicijo spremenljivke. Razlog, za to je, da moramo
   izvedbo navadne kode
   ```gd
@@ -3925,7 +3962,7 @@ func _ready() -> void:
 	# da smo si vse pripravili kot je treba zaupamo, da je res tudi
 	# podatkovnega tipa Area2D in kot tak vsebuje signal body_entered.
 	var kaktusov_trkalnik: Area2D = kaktus.find_child("Area2D")
-	# S klicom funkcije connect lahko signalu ročno dodamo funkcijo
+	# S klicem funkcije connect lahko signalu ročno dodamo funkcijo
 	# ki se bo izvedla ko se bo sprožil signal.
 	kaktusov_trkalnik.body_entered.connect(ko_ovira_zadane_dinozavra)
 	# Tu ga dodamo kot svojega otroka.
@@ -4031,7 +4068,7 @@ func _ready() -> void:
 	# da smo si vse pripravili kot je treba zaupamo, da je res tudi
 	# podatkovnega tipa Area2D in kot tak vsebuje signal body_entered.
 	var kaktusov_trkalnik: Area2D = kaktus.find_child("Area2D")
-	# S klicom funkcije connect lahko signalu ročno dodamo funkcijo
+	# S klicem funkcije connect lahko signalu ročno dodamo funkcijo
 	# ki se bo izvedla ko se bo sprožil signal.
 	kaktusov_trkalnik.body_entered.connect(ko_ovira_zadane_dinozavra)
 	# Tu ga dodamo kot svojega otroka.
@@ -4105,20 +4142,15 @@ func _ready() -> void:
   Razmislite tudi o tem, da dele te kode izvozite za urejanje v urejevalniku. Izvozili bi lahko na primer dve spremenljivki, ki bi ju potem uporabili kot parametra `to` in `from` v funkciji `randi_range`.
 ]
 
-#todo[Generacija tal? Se mi zdi še kar nekaj dela, mogoče jim lahko to pustimo kot svojo nalogo ali pa se še doda tu eno poglavje. Lahko se pa tudi poenostavi in so tla fiksna. COMMENT (simong) se strinjam, pomoje so lahko tla fiksna, vsebine je pravzaprav že ogromno]
-
 Osnovno delovanje igre smo zdaj dokončali. Dinozaver ima svoj izziv in hkrati tudi vse kar potrebuje da ga s skoki premaga. Še vedno pa se ob trku s kaktusom zgolj izvede izpis na izhod. Želimo, da bi se igra takrat končala, za igralca pa bi bilo dobro, da bi vedel kako dolgo je uspel zdržati. Kako dodati še vse to, si bomo pogledali v naslednjem poglavju.
 
 #pagebreak(weak: true)
 = Izdelava uporabniškega vmesnika
 
-#todo[Ne vem kje naj to napišem ampak v projektu dinozaver (na GitHubu) sva pozabila prevesti prizor GameOver v slovenščino. Poleg tega je treba nekam dodat opozorilo, da se najin projekt precej razlikuje od tega, ki ga bojo naredili skozi ta učbenik, razen če bova šla vse te spremembe popravljat v tisti projekt.]
 
 == Vozlišča tipa `Control`
 
 Do sedaj smo delali izključno z "modrimi" tipi vozlišč, torej potomci tipa `Node2D`. Če se spomnite #ref(<partial-node-type-structure>, supplement: "slike"), obstaja še cela veja vozlišč, ki izhajajo iz tipa `Control` in se jih sploh še nismo dotikali. (Obstaja seveda še cela veja "rdečih" vozlišč, potomcev tipa `Node3D`, ki so narejena za ustvarjanje 3D iger, a se jih tekom te delavnice ne bomo dotikali.)
-
-#todo[Container -> zaboj?]
 
 Vozlišča tipa `Control` so v pogonu z namenom izdelave klasičnega uporabniškega vmesnika. Gre za konstrukte, kot ste jih verjetno navajeni že iz uporabe klasičnih aplikacij (gumbi, vpisna polja, odstavki teksta...). Med drugim pa med potomci tipa `Control` najdemo tudi razne zaboje, s katerimi lahko ostala vozlišča pametno urejamo (jih postavimo v sredino, uredimo vertikalno/horizontalno, dodamo zamike, ...).
 
@@ -4143,10 +4175,6 @@ Druga možnost, ki jo bomo uredili je malo zakopana. Najdemo jo pod odsekom `Con
   caption: [Možnost za spremembo velikosti fonta.],
 ) <font-size-option>
 
-
-#todo[Theme -> motiv?]
-
-#todo[Theme Overrides -> preglasovanje motiva?]
 
 #box-info(
   title: "Zakaj pod Theme Overrides?",
@@ -4266,7 +4294,7 @@ Noben kos kode, ki smo jo napisali do sedaj nam ne bi smel biti neznan. Če seda
 
 Zdaj moramo voditelju igre nekako sporočiti, ko dinozaver trči v kaktus, da bo lahko igro končal. Dobro si je zapomniti dve generalni pravili glede pošiljanja informacij navzgor in navzdol po drevesu vozlišč:
 
-1. Če informacije pošiljamo navzdol (starš želi nekaj sporočiti otroku/potomcem), to počnemo s klicom funkcij oziroma nastavljanjem spremenljivk, ki jih definirajo potomci. To smo že večkrat počeli.
+1. Če informacije pošiljamo navzdol (starš želi nekaj sporočiti otroku/potomcem), to počnemo s klicem funkcij oziroma nastavljanjem spremenljivk, ki jih definirajo potomci. To smo že večkrat počeli.
 
 2. Če informacije pošiljamo navzgor (otrok želi nekaj sporočiti staršu), to počnemo z uporabo signalov, ki jim lahko starši poljubno poslušajo. Otroci staršev ne kličejo preko funkcij, ker nikoli nimajo garancije, da njihov starš zares obstaja. Spomnimo se da lahko igro testiramo tudi z zagonom prizora `igra.tscn` in ne `voditelj_igre.tscn`. V tem primeru vozlišče `VoditeljIgre` sploh ne obstaja in je korensko vozlišče celotne igre kar `Igra`.
 
@@ -4448,8 +4476,6 @@ In s tem smo končali enostaven zaslon za konec igre.
   Poskusite dodati besedilo na prizor `igra.tscn` v katerem boste v živo prikazovali koliko točk je nabral igralec.
 ]
 
-#todo[V poglavju GDScript nekje razloži še null, kolikor vem ga nikoli nisem.]
-
 
 #pagebreak(weak: true)
 = Zvok
@@ -4466,7 +4492,7 @@ Dvokliknimo na `button-press.wav` in si oglejmo podrobnosti na desni strani urej
   caption: [Predogled datoteke `button-press.wav` v oknu "Inspector".],
 ) <audio_wav-inspector>
 
-Če kliknemo na gumb za predvajanje, bomo zaslišali predogled tega zvočnega učinka -- kratek pisk. V tem trenutku se tudi prepričajte, da vaš računalnik pravilno predvaja zvok. Enako lahko storimo tudi s prestalima dvema zvočnima učinkoma.
+Če kliknemo na gumb za predvajanje, bomo zaslišali predogled tega zvočnega učinka -- kratek pisk. V tem trenutku se tudi prepričajte, da vaš računalnik pravilno predvaja zvok. Enako lahko storimo tudi s preostalima dvema zvočnima učinkoma.
 
 Da bomo lahko zvok predvajali v igri sami, pa moramo spoznati nov tip vozlišča: `AudioStreamPlayer2D`. Gre za vozlišče, kateremu določimo zvok, nato pa skozi skriptiranje uporabimo njegovo vgrajeno funkcijo `.play()`, da predvajamo izbran zvočni učinek.
 
@@ -4526,7 +4552,7 @@ To je vse! Ko igro sedaj poženemo in z dinozavrom skočimo, bomo zaslišali zvo
 
   #v(base-font-size)
 
-  #todo[TODO namigi tlele so odvisni od tega, kakšen bo vzorec managaerja prizorov, ker je treba dat namig, da naj zvok hit.wav dajo v managerja, ne v igro]
+  #todo[TODO Simon: namigi tlele so odvisni od tega, kakšen bo vzorec managaerja prizorov, ker je treba dat namig, da naj zvok hit.wav dajo v managerja, ne v igro]
 ]
 
 
@@ -4538,11 +4564,14 @@ To je vse! Ko igro sedaj poženemo in z dinozavrom skočimo, bomo zaslišali zvo
 - Sami poskusijo implementirati ptiče in sklanjanje
 - Tilemapi
 - Napredne kamere (premikanje kamere, itd.)
+- Generiranje tal
 
 #pagebreak(weak: true)
 = Dodatno branje
 
-== Godot dokumentacija<godot-docs-links>
+== Godot dokumentacija <godot-docs-links>
+
+#todo[TODO Simon malo besedi stvari tukaj]
 
 - Povezava do zadnje stabilne različice Godot dokumentacije: \ https://docs.godotengine.org/en/stable/
 
@@ -4559,7 +4588,7 @@ To je vse! Ko igro sedaj poženemo in z dinozavrom skočimo, bomo zaslišali zvo
 = Priloge
 
 
-== Primer izdelave kalkulatorja<example-calculator-implementation>
+== Primer izdelave kalkulatorja <example-calculator-implementation>
 
 ```gd
 extends Node2D
