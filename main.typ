@@ -25,6 +25,7 @@
 
 
 #let show-references-to-workshop = true;
+// #let show-references-to-workshop = false;
 
 
 /*
@@ -333,6 +334,25 @@
 };
 
 
+#let copyright-text = (value) => {
+  codly-disable()
+  v(8pt)
+  block(
+    width: 100%,
+    stroke: (
+      thickness: 0.5pt
+    ),
+    radius: 3pt,
+    outset: (
+      x: 6pt,
+      y: 8pt
+    ),
+    value
+  )
+  v(8pt)
+  codly-enable()
+};
+
 
 
 /*
@@ -573,13 +593,15 @@
 #align(center + horizon)[
   #v(6.5cm)
   
-  #block(
-    above: 0em,
-    below: 2em,
-    text(size: 14pt)[
-      Poletna šola FRI 2026
-    ],
-  )
+  #reference-to-workshop[
+    #block(
+      above: 0em,
+      below: 20pt,
+      text(size: 16pt)[
+        Poletna šola FRI 2026
+      ],
+    )
+  ]
 
   #block(
     outset: (
@@ -589,12 +611,19 @@
     inset: (
       y: 20pt
     ),
-    fill: rgb("#88b6c5"),
+    // fill: rgb("#b3e3f3"),
+    fill: gradient.linear(
+      angle: 27deg + 180deg,
+      ..(
+        rgb("#b3e1f3"),
+        rgb("#a9ecc5")
+      ),
+    )
   )[
     #block(
       above: 0em,
       below: 2em,
-      text(size: 26pt, weight: "bold")[
+      text(size: 28pt, weight: "bold")[
         Razvoj iger z igralnim pogonom Godot
       ],
     )
@@ -602,11 +631,11 @@
     #block(
       above: 0em,
       below: 0em,
-      text(size: 18pt, smallcaps(all: true)[Vodič in Učna gradiva]),
+      text(size: 22pt, smallcaps(all: true)[Vodič in Učna gradiva]),
     )
   ]
 
-  #v(1fr)
+  #v(0.85fr)
 
   #image(
     "assets/game-assets/dino-sprite.png",
@@ -623,7 +652,7 @@
     *Želiš spoznati ustvarjalni in razvijalni proces videoiger?*
 
     #align(left)[
-      V tem učbeniku bomo spoznali osnove ustvarjanja iger v odprtokodnem igralskem pogonu Godot, od začetnih korakov v njegovem urejevalniku do prvih grafičnih elementov, skriptiranja v programskem jeziku GDScript, uporabniške interaktivnosti, fizikalnih teles, animacij in ustvarjanja uporabniškega vmesnika. Skozi učbenik bomo gradili našo majhno igro z dinozavrom in spoznane koncepte vgradili vanjo.
+      V tej knjigi bomo spoznali osnove ustvarjanja iger v odprtokodnem igralskem pogonu Godot, od začetnih korakov v njegovem urejevalniku pa vse do prvih grafičnih elementov, skriptiranja v programskem jeziku GDScript, interaktivnosti, fizikalnih teles, animacij in ustvarjanja uporabniškega vmesnika. Skozi učbenik bomo ob spoznavanju novih konceptov gradili našo majhno igro z dinozavrom in novo znanje vgrajevali vanjo.
     ]
   ]
 
@@ -634,47 +663,57 @@
 
 #pagebreak(weak: true)
 
-#align(
-  top,
-  block[
-    #set par(spacing: base-font-size * 2)
+#align(top, block[
+  #set par(spacing: base-font-size * 2)
 
-    RAZVOJ IGER Z IGRALNIM POGONOM GODOT
+  RAZVOJ IGER Z IGRALNIM POGONOM GODOT
 
-    #set par(leading: base-font-size - 4pt, spacing: base-font-size + 2pt)
+  #set par(leading: base-font-size - 4pt, spacing: base-font-size + 2pt)
 
-    Avtorja: Andrej Matos in Simon Goričar
+  Avtorja: Andrej Matos in Simon Goričar
 
-    Zadnja sprememba: 26. junij 2026 \
-    Leto izida: 2026
+  Zadnja sprememba: 27. junij 2026#footnote(numbering: "*")[Zadnja stabilna različica pogona Godot je, za časa pisanja, Godot 4.7, ki je bil izdan 18. junija 2026. Avtorja priporočata, da bralci (še posebej začetniki) uporabite to različico pogona, saj zaslonski posnetki ustrezajo Godot 4.7.] \
+  Leto izida: 2026
 
-    #v(1em)
+  #v(1em)
 
-    Avtorja se zahvaljujeta tudi mentorjema Cirilu Bohaku in Gorazdu Gorupu v Laboratoriju za računalniško grafiko in multimedije na Fakulteti za računalništvo in informatiko za svetovanje pri izdelavi knjige, izkazano zaupanje in ponujeno možnost.
+  Avtorja se zahvaljujeta tudi mentorjema Cirilu Bohaku in Gorazdu Gorupu v Laboratoriju za računalniško grafiko in multimedije na Fakulteti za računalništvo in informatiko v Ljubljani za svetovanje pri izdelavi knjige, izkazano zaupanje in ponujeno možnost.
+])
 
-    #v(4em)
+#align(bottom, block[
+  #align(
+    center,
+    stack(
+      dir: ltr,
+      align(
+        center,
+        link(
+          "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en", 
+          image(
+            "assets/licence/by-nc-sa.eu.svg"
+          )
+        )
+      ),
+      align(right + horizon, block(
+        inset: (left: 16pt)
+      )[
+        Vsebina knjige je ponujena pod licenco *#link("https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en", "Creative Commons BY-NC-SA 4.0")*#footnote(numbering: "*")[
+          Določena vizualna vsebina, ki se prikaže v nekaterih posnetkih zaslona v knjigi in ki je na voljo v paketu sredstev ob tej knjigi, je na voljo pod licenco #link("https://spdx.org/licenses/BSD-3-Clause.html", "BSD-3-Clause") iz projekta #link("https://github.com/chromium/chromium", "Chromium").
+        ]. \ Iz te licence je izvzeta koda, ki je namesto tega ponujena pod licenco *#link("https://spdx.org/licenses/MIT.html", "MIT")*.
+      ])
+    )
+  )
 
-    Zadnja stabilna različica pogona Godot je, za časa pisanja, Godot 4.7, ki je bil izdan 18. junija 2026. Avtorja priporočata, da bralci (še posebej začetniki) uporabite to različico pogona, saj zaslonski posnetki ustrezajo Godot 4.7.
-  ]
-)
+  V praktičnem smislu to pomeni, da lahko to knjigo prosto delite naprej in jo celo spreminjate, pri čemer pa morate spoštovati pogoje, ki jih postavlja ta licenca, med drugim: knjiga se ne sme uporabiti za komercialne namene, kopije knjige morajo obdržati imena avtorjev (in kopijo te licence), če pa material spreminjate, ste primorani tudi novo (svojo) različico knjige ponuditi pod isto licenco kot midva#footnote(numbering: "*")[Take licence predstavljajo nabor nepreklicnih pravic, ki jih avtorji določenega dela lahko dodelijo svojemu delu. Ravno v tej nepreklicnosti, ki veljajo le ob sprejemu licenčnih pogojev, je moč odprtokodnih licenc. Na primer, najin namen s to licenco je omogočiti prost dostop do te knjige in vseh njenih prihodnih različic, tudi če se zgodi, da midva v izboljšavah knjige nisva več udeležena!]. Kodo pa lahko uporabljate še bolj prosto kot to, saj je edina obveza to, da obdržite kopijo besedila licence.
 
-#align(
-  bottom,
-  block[
-    #todo[določit morava licenco učbenika (mogoče kodo pod GPL-3.0-only in preostalo pod CC BY-NC-SA?), COMMENT(matosa): Mogoče je za vprašat še Cirila in kompanijo, kako je s tem. Sicer sva, kolikor vem, plačana samo za izvedbo šole tako da je pisanje tega učbenika najina lastna dobra volja, ampak nisem ziher a si FRI lasti delež... Drugače se pa strinjam z licencama. COMMENT(simong): sem napisal gorazdu glede licence in glede tega, kdo mora bit podpisan]
-
-    Določena vizualna vsebina, ki je na voljo v paketu sredstev ob tem učbeniku in ki jo uporabljamo za razvoj igre Dinozaver, je izvzeta iz zgornjih licenc, saj je na voljo pod licenco #link("https://spdx.org/licenses/BSD-3-Clause.html", "BSD-3-Clause"), ki jo uporablja projekt #link("https://github.com/chromium/chromium", "Chromium").
-  ],
-)
+  Podrobnosti vseh licenc tega materiala lahko najdete na koncu knjige v #ref(<licences>, supplement: [poglavju]), nekaj malega več o odprtokodnih licencah na splošno pa bomo spregovorili v #ref(<game-engine-history>, supplement: [poglavju]).
+])
 
 
 #pagebreak(weak: true)
 
-
-// Vsebina dokumenta
-
 #block(
-  below: 2em,
+  below: 3em,
 )[
   #heading(
     depth: 1,
@@ -691,8 +730,8 @@
 
 
 
-#pagebreak(weak: true)
 
+#pagebreak(weak: true)
 
 #let translation-table(translation-pairs) = {
   table(
@@ -763,7 +802,7 @@ Cilj knjige je vzpodbuditi zanimanje in nuditi osnovno podlago za razvoj iger, k
 
 Preden se zakopljemo v samo uporabo igralnega pogona in razvoja iger z njim, je smiselno povedati še nekaj malega o tem, zakaj smo si izbrali prav Godot.
 
-== Kratka zgodovina pogonov
+== Kratka zgodovina pogonov <game-engine-history>
 
 Skozi zgodovino razvoja videoiger so ljudje uporabljali različne pogone. Sprva sta bila pogon in igra precej bolj združen pojem kot danes, saj je bila strojna oprema mnogo bolj omejena, področje pa manj razvito. Skozi leta so zato številni izdelovalci iger razvijali lastne pogone, ki so bili večinoma namenjeni interni rabi in do njih splošna javnost ni imela dostopa.
 
@@ -4829,3 +4868,43 @@ func _process(delta: float) -> void:
 	position += Vector2(-delta * 100, 0)
 
 ```
+
+
+#pagebreak(weak: true)
+= Licence <licences>
+
+_Za podrobnosti glede licence vsebine knjige, ki jo berete, kode in ostalih vsebin, ki niso pokrite z licencami spodaj, si oglejte kolofon na strani 2._
+
+
+== Zunanje licence <external-licences>
+
+Vizualna vsebina, ki je prisotna v paketu sredstev in ki je pogosto prikazana na zaslonskih posnetkih (vse v podmapi `chromium-dino`), izvira iz projekta #link("https://github.com/chromium/chromium", "Chromium") pod licenco #link("https://spdx.org/licenses/BSD-3-Clause.html", "BSD-3-Clause"):
+
+#copyright-text[
+  ```
+  Copyright 2015 The Chromium Authors
+
+  Redistribution and use in source and binary forms, with or without modification, 
+  are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright 
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright 
+      notice, this list of conditions and the following disclaimer in 
+      the documentation and/or other materials provided with the distribution.
+    * Neither the name of Google LLC nor the names of its contributors 
+      may be used to endorse or promote products derived from this software 
+      without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  ```
+]
