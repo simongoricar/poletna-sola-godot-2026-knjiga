@@ -884,7 +884,6 @@ Leta 2014 pa sta se odločila, da pogon odpreta navzven, in ga objavila pod odpr
   Drugič, vsa izvorna koda je javno dostopna in jo lahko prilagajamo, kot se nam zahoče, a seveda v mejah licence, pod katero je koda ponujena. Za dostop do izvorne kode zaprtega pogona, kot je Unity, so potrebna posebna dovoljenja s strani podjetja Unity Technologies.
 ]
 
-// == Osnovna uporaba
 == Zmogljivosti pogona Godot
 
 Čeprav sta bila kot industrijska standarda zgoraj omenjena Unreal Engine in Unity, ima Godot tudi v sami razvijalski industriji vedno večji glas in delež#footnote[
