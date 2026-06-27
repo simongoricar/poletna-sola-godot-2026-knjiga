@@ -45,11 +45,42 @@
 #import "@preview/dtree:0.1.1": dtree
 
 #import "@preview/keyle:0.3.0" as keyle
++
+#let kbd-theme(symb) = {
+  let fill = rgb("#f6f8fa");
+  let stroke = rgb("#d0d7de") + 0.6pt;
+  let radius = 3pt;
+  let inset = (x: 2.5pt, y: 0pt);
+  let outset = (x: 0pt, y: 3pt)
+  let raise = 0pt;
+  let shadow = none;
+  let baseline = 0.08em;
+  let text-args = (fill: rgb("#1f2328"), font: ("DejaVu Sans Mono"), weight: "medium", size: base-font-size - 1pt);
+  let wrap = it => it;
+
+  let body = keyle.style-text(symb, args: text-args, wrap: wrap)
+  let face = rect(inset: inset, outset: outset, radius: radius, stroke: stroke, fill: fill, body)
+  let r = if type(raise) == length { raise } else { float(raise) * 1pt }
+
+  box(
+    baseline: baseline,
+    inset: (right: r, bottom: r),
+    if r == 0pt or shadow == none {
+      face
+    } else {
+      // Same-size block offset diagonally -> a solid bottom-right drop shadow.
+      let lip = rect(inset: inset, radius: radius, fill: shadow, stroke: shadow + 0.6pt, hide(body))
+      place(dx: r, dy: r, lip)
+      face
+    },
+  )
+};
 
 #let kbd = keyle.config(
-  theme: keyle.themes.deep-blue.with(
-    wrap: (it) => it,
-  ),
+  // theme: keyle.themes.deep-blue.with(
+  //   wrap: (it) => it,
+  // ),
+  theme: kbd-theme,
 )
 
 
@@ -278,7 +309,7 @@
 #let node2d-type-name = (name, disable-link: false) => {
   node-type-name(
     name,
-    fill-color: rgb("#6393ff"),
+    fill-color: rgb("#6393ff").darken(10%),
     disable-link: disable-link
   )
 };
@@ -306,6 +337,7 @@
 #let data-type-name = (name) => {
   text(
     fill: rgb("#42ffc2"),
+    weight: "medium",
     name
   )
 };
@@ -317,13 +349,15 @@
 #let function-name = (name) => {
   text(
     fill: rgb("#66e5ff"),
+    weight: "medium",
     name
   )
 };
 
 #let variable-name = (name) => {
   text(
-    fill: rgb("#e0e0e0"),
+    fill: rgb("#6d3d3d"),
+    weight: "medium",
     name
   )
 };
@@ -616,6 +650,13 @@
  */
 
 // Prva stran
+
+#pdf.attach(
+  "data/dinozaver_paket-sredstev_2026-06-27_16-55.zip",
+  relationship: "supplement",
+  mime-type: "application/zip",
+  description: "Paket sredstev, potreben za razvoj igre z dinozavrom skozi knjigo."
+)
 
 #align(center + horizon)[
   #v(7cm)
@@ -1169,7 +1210,7 @@ Odprl se bo kontekstni meni, kjer lahko ustvarimo podmapo, kar storimo tako, da 
 
   #reference-to-workshop[
     Datoteko `.zip`, ki vsebuje paket sredstev, lahko prenesete iz naslova \
-    http://simongoricar.com/poletna-sola-fri/dinozaver-paket-sredstev.zip
+    https://simongoricar.com/poletna-sola-godot-2026/dinozaver_paket-sredstev.zip
   ]
 ]
 
@@ -1192,45 +1233,23 @@ Vrnimo se nazaj v urejevalnik Godot. Preden nadaljujemo z ogledom vsebine, ki sm
 #v(base-font-size)
 
 Prepričajmo se, da je bil uvoz uspešen: struktura našega projekta bi sedaj morala biti sledeča:
-// #no-codly[
-//   ```
-//   mapa "res://"                   ] (koren projekta)
-//   |- mapa "sredstva"              ] (mapa, ki smo jo ustvarili v prejšnjem koraku)
-//      |- mapa "chromium-dino"      \
-//      |- mapa "dinozaver"          |
-//      |- mapa "kaktus"             | (sredstva, ki smo jih
-//      |- mapa "okolje"             |  ravnokar uvozili)
-//      |- mapa "ptic"               |
-//      |- datoteka "piksel.png"     /
-//   ```
-// ]
 
-#context {
-  let raw-tree = "
-  📁 | res://
-    📁 | sredstva
-      📁 | chromium-dino
-      📁 | dinozaver
-      📁 | kaktus
-      📁 | okolje
-      📁 | ptic
-    icon.svg
-  "
-
-  let file-tree = dtree(raw-tree)
-  let file-tree-measurement = measure(file-tree)
-
-  let number-of-lines = raw-tree.split("\n").len()
-  let height-per-line = file-tree-measurement.height / number-of-lines
-
-  file-tree
-}
+#dtree("
+📁 | res://                        (koren projekta)
+  📁 | sredstva                (mapa, ki smo jo ustvarili v prejšnjem koraku)
+    📁 | chromium-dino
+    📁 | dinozaver
+    📁 | kaktus
+    📁 | okolje
+    📁 | ptic
+  icon.svg
+")
 
 #v(base-font-size)
 
-Podrobneje si oglejmo vsebino enega izmed sredstev, ki smo jih ravnokar uvozili: v raziskovalcu datotek poiščimo datoteko `res://sredstva/chromium-dino/200-offline-sprite.png` in dvokliknimo nanjo. Desno zgoraj v urejevalniku v zavihku "Inspector" bomo sedaj zagledali podrobnosti tega sredstva kot na #ref(<inspector-spritesheet-selection>, supplement: [sliki]):
+Podrobneje si oglejmo vsebino enega izmed sredstev, ki smo ga ravnokar uvozili: v raziskovalcu datotek poiščimo datoteko `res://sredstva/chromium-dino/200-offline-sprite.png` in dvokliknimo nanjo. Desno zgoraj v urejevalniku v zavihku "Inspector" bomo sedaj zagledali podrobnosti tega sredstva kot na #ref(<inspector-spritesheet-selection>, supplement: [sliki]):
 - Vidimo, da gre za datoteko z imenom `200-offline-sprite.png`.
-- Vidimo majhen predogled slike - ker gre za plahto sličic (angl. _spritesheet_), je malo težje videti vsebino, a vidimo, da je nekaj notri. Več o vsebini pozneje v #ref(<about-spritesheets>, supplement: [poglavju]) o plahtah sličic.
+- Vidimo majhen predogled slike. Ker gre za plahto sličic (angl. _spritesheet_), je malo težje videti vsebino, a vidimo, da je nekaj notri. Več o vsebini bomo povedali pozneje v #ref(<about-spritesheets>, supplement: [poglavju]) o plahtah sličic.
 - Vidimo metapodatke, kot sta ločljivost in velikost.
 
 
@@ -1569,13 +1588,13 @@ Več o lastnostih bomo spoznali v #ref(<composite-types>, supplement: [poglavju]
   - večji kaktus (datoteka `res://sredstva/kaktus/veliki-kaktus_1.tres`) in
   - ptiča (datoteka `res://sredstva/ptic/ptic_1.tres`).
 
-  #todo[TODO tukaj se bo zgodilo, da bodo dobili neurejeno drevo, ker jim bo dal kot otroke sprite2d - treba razložit, da lahko vozlišča preurejajo]
-
-  #todo[popravi asset pack, ker je siroki-kaktus.tres napačen]
-
   To storite tako, da ustvarite tri nova vozlišča tipa #node2d-type-name("Sprite2D") kot otroke korenskega vozlišča, in nato vsakemu dodelite drugo sličico, kot smo to storili za dinozavra.
 
   *Ne pozabite sproti shranjevati svojega prizora!*
+]
+
+#box-info(title: [Ste ustvarili napačno hierarhijo vozlišč?])[
+  Morda se vam bo na tej točki zgodilo, da boste ponesreči ustvarili hierarhično strukturo, ki je niste želeli. Nič hudega! Če želite preurediti hierarhijo vozlišč, v levim klikom preprosto primite vozlišče, ki ga želite premakniti, in ga povlecite na želeno mesto v hierarhiji. Pomagajte si z vodilno belo črto, ki se pokaže ob vleku: ta črta vam nakazuje, kam se bo vozlišče premaknilo ob spustu klika.
 ]
 
 Ko končate, bi moral biti vaš prizor podoben #ref(<2d-sprites-on-top-of-each-other>, supplement: [sliki]). Sličice oziroma primerki vaših vozlišč #node2d-type-name("Sprite2D") se bodo verjetno prekrivali. To je pričakovan rezultat, saj se vsako novo vozlišče vstavi na položaj starševskega vozlišča, kar je v našem primeru korensko vozlišče, ki je postavljeno v koordinatno izhodišče $(0, 0)$.
@@ -1620,7 +1639,7 @@ Poleg premikanja je dobro poznati še dva načina navigacije po urejevalniku 2D 
 - Če pritisnemo kolešček na miški, ga držimo in med tem premikamo miško naokoli, se bomo pomikali po 2D prostoru. Enako lahko dosežemo tudi z uporabo orodja za premik (angl. "Pan Mode"), ki je na voljo v orodni vrstici, pa tudi pod bližnjico `G`.
 
 #box-warning[
-  Bodite previdni, da pri uporabi vleke z navadnim orodjem za izbiro (prvim orodjem v orodni vrstici) po nesreči ne zagrabite enega izmed osmih okroglih vlečnih gumbov okoli vozlišča, saj bo vleka le-teh povzročila, da se bo sličica začela nenavadno raztegovati, česar zaenkrat nočemo. Zaradi tega priporočamo, da za premike res uporabljate orodje za premik, t.j. drugo orodje v orodni vrstici, ki je na voljo tudi pod bližnjico `W`.
+  Bodite previdni, da pri uporabi vleke z navadnim orodjem za izbiro (to je prvo orodje v orodni vrstici) po nesreči ne zagrabite enega izmed osmih okroglih vlečnih gumbov okoli vozlišča, saj bo vleka le-teh povzročila, da se bo sličica začela nenavadno raztegovati, česar zaenkrat nočemo. Zaradi tega priporočamo, da za premike res uporabljate orodje za premik, t.j. drugo orodje v orodni vrstici, ki je na voljo tudi pod bližnjico `W`.
 
   Če se vam zgodi ta nesreča, se lahko vedno vrnete na prejšnje stanje z uporabo bližnjice `Ctrl+Z` (angl. _undo_).
 ]
@@ -1707,7 +1726,7 @@ Na katero vozlišče je lahko pripet, določa tip (razred) same datoteke. O tem 
 
   V tem primeru imamo dve možnosti: ali spremenimo tip datoteke s stavkom `extends` ali pa spremenimo tip vozlišča z desnim klikom na vozlišče in izbiro "Change type".
 
-  *POZOR!* Večino časa bo Godot za vse to poskrbel sam. Če pride do takšne napake, je potrebno preveriti, ali smo se kje zmotili mi; morda smo na vozlišče pripeli napačno datoteko.
+  *POZOR!* Večino časa bo Godot za vse to poskrbel sam. Če pride do takšne napake, je potrebno preveriti, ali smo se kje zmotili mi. Morda smo na vozlišče pripeli napačno datoteko.
 ]
 
 Datoteko na vozlišče pripnemo s klikom na vozlišče in nato s klikom na ikono zvitka z zelenim plusom, prikazanim tudi na #ref(<attach-script>, supplement: "sliki").
@@ -1880,13 +1899,13 @@ func _ready() -> void:
 ```
 
 #box-warning[
-  GDScript, kot praktično vsi drugi programski jeziki, svoja pravila vleče iz angleščine. Zaradi tega lahko svoje spremenljivke poimenujemo izključno s črkami angleške abecede. V imenih so dovoljene tudi števke in podčrtaj (\_), vendar števka ne sme biti na prvem mestu v imenu.
+  GDScript, kot praktično vsi drugi programski jeziki, svoja pravila vleče iz angleščine. Zaradi tega lahko svoje spremenljivke poimenujemo izključno s črkami angleške abecede. V imenih so dovoljene tudi števke in podčrtaj (~`_`~), vendar števka ne sme biti na prvem mestu v imenu.
 ]
 
 #box-info(
   title: [Kaj je `print`?],
 )[
-  `print` je funkcija (funkcije bomo bolje spoznali kasneje), ki neko vsebino izpiše v Godotov izhod (nam viden pod zavihkom "Output"). V primeru, da `print` prejme neko spremenljivko, na zaslon napiše njeno vrednost in ne njenega imena (kar je v škatli in ne imena škatle).
+  `print` je funkcija, ki neko vsebino izpiše v Godotov izhod (nam viden pod zavihkom "Output"). V primeru, da `print` prejme neko spremenljivko, na zaslon napiše njeno vrednost in ne njenega imena (kar je v škatli in ne imena škatle). Funkcije bomo bolje spoznali kasneje.
 ]
 
 Spremenljivki lahko vrednost kasneje v programu tudi spremenimo. V spremenljivki je naenkrat lahko samo ena vrednost. Vrednost `10` je torej po osmi vrstici, ker je nismo shranili nikamor drugam, izgubljena.
@@ -1919,12 +1938,12 @@ GDScript ima kar nekaj vgrajenih podatkovnih tipov, ki jih lahko uporabljamo. Me
   #box-info(
     title: [Opombi o `float`],
   )[
-    - GDScript pravila pisanja vleče iz angleščine. Med pisanjem se za ločilo med celim delom in decimalnim delom torej ne uporablja vejica (`,`) ampak pika (`.`)! V slovenščini bi seveda navadno uporabljali decimalne vejice, a bomo v tem dokumentu zaradi tega to pravilo kršili in v zvezi z realnimi števili uporabljali pojem decimalna pika.
+    - GDScript pravila pisanja vleče iz angleščine. Med pisanjem se za ločilo med celim delom in decimalnim delom torej ne uporablja decimalna vejica (`,`) ampak pika (`.`)! V slovenščini bi seveda navadno uporabljali decimalne vejice, a bomo v tem dokumentu zaradi tega, ker pišemo kodo, to pravilo kršili in v zvezi z realnimi števili uporabljali pojem decimalna pika.
     - Cela števila so podmnožica realnih števil, to do neke mere drži tudi znotraj naših računalnikov. Celo število 42 bi torej lahko prestavili tudi kot realno število 42.0. V nekaterih primerih je to tudi pravilno, se pa tega zaradi razlogov, ki presegajo vsebino te delavnice, izogibamo. Za vas bo dovolj, enostavno pravilo: če vnaprej veste, da neka vrednost nikoli ne bo zašla iz celoštevilskega v realno, uporabite `int`, torej celoštevilski tip. Če pa se na katerikoli točki pojavi decimalni del, uporabite `float`.
   ]
 - `String` - zaporedje znakov ali `niz`. Na primer "Pozdravljen svet!". V tem primeru je niz sestavljen iz zaporedja `P o z d r a v l j e n <presledek> s v e t !`. Izdelava in uporaba nizov je precej pomemben del programiranja in si ga bomo malo bolje pogledali kasneje.
 
-V zgornjem primeru je `stevilka` celoštevilskega tipa `int`. GDScript je to lahko sam ugotovil, saj smo spremenljivki dodelili vrednost `10`, ki je sama po sebi celo število, tako da nam tega ni bilo treba nikjer napisati. GDScript pa omogoča tudi eksplicitno pisanje tipov; sicer ne bo nikoli zahteval, da tipe pišemo eksplicitno, je pa zapisovanje tipov v kodi dobra praksa, ki nam lahko prepreči lastne napake.
+V zgornjem primeru je `stevilka` celoštevilskega tipa ```gd int```. GDScript je to lahko sam ugotovil, saj smo spremenljivki dodelili vrednost `10`, ki je sama po sebi celo število, tako da nam tega ni bilo treba nikjer napisati. GDScript pa omogoča tudi eksplicitno pisanje tipov; sicer ne bo nikoli zahteval, da tipe pišemo eksplicitno, je pa zapisovanje tipov v kodi dobra praksa, ki nam lahko prepreči lastne napake.
 
 V spodnjem primeru se bo vrstica 4 izvedla normalno in tip spremenljivke `celo_stevilo` se bo potihoma spremenil iz `int` v `String`. Obenem se vrstica 5 ne bo izvedla, ampak nam bo vrnila napako, saj GDScript ve, da želimo imeti v `eksplicitno_celo_stevilo` celo število in pretvorbe ne bo dovolil.
 
