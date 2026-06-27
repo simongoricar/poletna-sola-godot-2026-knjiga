@@ -394,9 +394,8 @@
   header: context {
     let current-page = here().page()
 
-    // This way we remove the header on the first four pages,
-    // up to (excluding) the first chapter.
-    if current-page <= 4 {
+    // This way we remove the header on the first two pages.
+    if current-page <= 2 {
       return
     }
 
@@ -619,7 +618,7 @@
 // Prva stran
 
 #align(center + horizon)[
-  #v(6.5cm)
+  #v(7cm)
   
   #reference-to-workshop[
     #block(
@@ -659,7 +658,7 @@
     #block(
       above: 0em,
       below: 0em,
-      text(size: 22pt, smallcaps(all: true)[Vodič in Učna gradiva]),
+      text(size: 22pt, smallcaps(all: true)[knjiga in učna gradiva]),
     )
   ]
 
@@ -684,7 +683,7 @@
     ]
   ]
 
-  #v(1fr)
+  #v(5.5em)
 
   #text()[Andrej Matos in Simon Goričar \ _junij 2026_]
 ]
@@ -700,8 +699,8 @@
 
   Avtorja: Andrej Matos in Simon Goričar
 
+  Leto izida: 2026 \
   Zadnja sprememba: 27. junij 2026#footnote(numbering: "*")[Zadnja stabilna različica pogona Godot je, za časa pisanja, Godot 4.7, ki je bil izdan 18. junija 2026. Avtorja priporočata, da bralci (še posebej začetniki) uporabite to različico pogona, saj zaslonski posnetki ustrezajo Godot 4.7.] \
-  Leto izida: 2026
 
   #v(1em)
 
@@ -732,9 +731,9 @@
     )
   )
 
-  V praktičnem smislu to pomeni, da lahko to knjigo prosto delite naprej in jo celo spreminjate, pri čemer pa morate spoštovati pogoje, ki jih postavlja ta licenca, med drugim: knjiga se ne sme uporabiti za komercialne namene, kopije knjige morajo obdržati imena avtorjev (in kopijo te licence), če pa material spreminjate, ste primorani tudi novo (svojo) različico knjige ponuditi pod isto licenco kot midva#footnote(numbering: "*")[Take licence predstavljajo nabor nepreklicnih pravic, ki jih avtorji določenega dela lahko dodelijo svojemu delu. Ravno v tej nepreklicnosti, ki veljajo le ob sprejemu licenčnih pogojev, je moč odprtokodnih licenc. Na primer, najin namen s to licenco je omogočiti prost dostop do te knjige in vseh njenih prihodnih različic, tudi če se zgodi, da midva v izboljšavah knjige nisva več udeležena!]. Kodo pa lahko uporabljate še bolj prosto kot to, saj je edina obveza to, da obdržite kopijo besedila licence.
+  V praktičnem smislu to pomeni, da lahko to knjigo prosto delite naprej in jo celo spreminjate, pri čemer pa morate spoštovati pogoje, ki jih postavlja ta licenca. Med drugim: knjiga se ne sme uporabiti za komercialne namene, kopije knjige morajo obdržati imena avtorjev (in kopijo licence), če pa material spreminjate, ste primorani tudi novo različico knjige ponuditi pod isto licenco kot midva#footnote(numbering: "*")[Take licence predstavljajo nabor nepreklicnih pravic, ki jih avtorji določenega dela lahko dodelijo svojemu delu. Ravno v tej nepreklicnosti, ki za uporabnike veljajo le ob sprejemu licenčnih pogojev, je moč odprtokodnih licenc. Najin namen s to licenco je omogočiti prost dostop in redistribucijo te knjige in vseh njenih prihodnih različic, tudi če se zgodi, da midva v izboljšavah knjige nisva več udeležena!]. Kodo pa lahko uporabljate še bolj prosto kot to, saj je edina obveza to, da obdržite kopijo besedila licence. To pomenu, da kodo lahko uporabite tudi v komercialne namene in lahko svoje prihodnje projekte, ki bi morebiti temeljili na tej kodi, licencirate (ali ne) popolnoma poljubno.
 
-  Podrobnosti aktivnih licenc tega materiala lahko najdete na koncu knjige v #ref(<licences>, supplement: [poglavju]), nekaj malega o odprtokodnih licencah na splošno pa bomo spregovorili v #ref(<game-engine-history>, supplement: [poglavju]).
+  Podrobnosti aktivnih licenc tega materiala lahko najdete na koncu knjige v #ref(<licences>, supplement: [poglavju]), nekaj malega o odprtokodnih licencah na splošno pa bomo spregovorili tudi v #ref(<game-engine-history>, supplement: [poglavju]).
 ])
 
 
@@ -763,15 +762,19 @@
 
 #let translation-table(translation-pairs) = {
   table(
-    columns: (auto, auto, auto),
+    columns: (auto, auto),
     inset: (
       x: 8pt,
       y: 6pt,
     ),
-    table.header([*Angleški pojem*], [*Slovenski pojem*], [*_Kontekst prevoda_*]),
+    table.header([*Angleški pojem*], [*Slovenski pojem*]),
     ..(translation-pairs.flatten()),
   )
 }
+
+#let translation-entry-context(ctx) = {
+  text(size: base-font-size - 2pt, style: "italic", ctx)
+};
 
 
 // #show table.cell.where(x: 3): it => text(size: base-font-size - 4pt, it)
@@ -790,30 +793,54 @@
 
 #align(horizon + center, translation-table(
   (
-    ("asset", "sredstvo", ""),
-    ("collider", "trkalnik", ""),
-    ("area", "površina", ""),
-    ("node", "vozlišče", ""),
-    ("root", "koren", ""),
-    ("child", "otrok", ""),
-    ("sibling", "sorojenec", ""),
-    ("parent", "starš", ""),
-    ("grandparent", "stari starš", ""),
-    ("inspector", "podrobnosti", [_podokno urejevalnika Godot_]),
-    ("instance", "primerek", ""),
-    ("scene", "prizor", ""),
-    ("sprite", "sličica", ""),
-    ("spritesheet", "plahta sličic", ""),
-    ("script", "skripta", ""),
-    ("template", "predloga", ""),
-    ("folder", "mapa", ""),
-    ("level", "nivo", ""),
-    ("texture filtering", "filtriranje tekstur", ""),
-    ("linear filtering", "linearno filtriranje", ""),
-    ("nearest neighbour filtering", "filtriranje z najbližjim sosedom", ""),
-    ("container", "zaboj", ""),
-    ("theme", "motiv", ""),
-    ("theme override", "preglasovanje motiva", ""),
+    ("asset", "sredstvo"),
+    ("collider", "trkalnik"),
+    ("area", "površina"),
+    ("node", "vozlišče"),
+    ("root", "koren"),
+    ("child", "otrok"),
+    ("sibling", "sorojenec"),
+    ("parent", "starš"),
+    ("grandparent", "stari starš"),
+    ([
+      inspector \
+      #translation-entry-context[(Godot editor section)]
+    ], [
+      podrobnosti \
+      #translation-entry-context[(podokno urejevalnika Godot)]
+    ]),
+    ("instance", "primerek"),
+    ("scene", "prizor"),
+    ("sprite", "sličica"),
+    ("spritesheet", "plahta sličic"),
+    ("script", "skripta"),
+    ("template", "predloga"),
+    ("folder", "mapa"),
+    ("level", "nivo"),
+    ("texture filtering", "filtriranje tekstur"),
+    ([
+      linear filtering \
+      #translation-entry-context[(texture filtering)]
+    ], [
+      linearno filtriranje \
+      #translation-entry-context[(filtriranje tekstur)]
+    ]),
+    ([
+      nearest neighbour filtering \
+      #translation-entry-context[(texture filtering)]
+    ], [
+      filtriranje z najbližjim sosedom \
+      #translation-entry-context[(filtriranje tekstur)]
+    ]),
+    ([
+      container \
+      #translation-entry-context[(user interface)]
+    ], [
+      zaboj \
+      #translation-entry-context[(uporabniški vmesnik)]
+    ]),
+    ("theme", "motiv"),
+    ("theme override", "preglasovanje motiva"),
   ),
 ))
 
@@ -822,11 +849,11 @@
 #pagebreak(weak: true)
 = Uvod
 
-V tej knjigi bomo spoznali osnove ustvarjanja in razvoja iger v igralnem pogonu Godot. Začeli bomo z namestitvijo pogona Godot, osnovami uporabe urejevalnika in prvimi koraki pisanja kode v jeziku GDScript. Obenem bomo začeli razvijati lastno majhno igro s skakajočim dinozavrom in ob tem spoznali še druge teme, kot so premikanje, fizika, animacije, osnove proceduralne generacije, izdelave uporabniškega vmesnika in še veliko drugih tem.
+V tej knjigi bomo spoznali osnove ustvarjanja in razvoja iger v igralnem pogonu Godot. Začeli bomo z namestitvijo pogona Godot, osnovami uporabe urejevalnika in prvimi koraki pisanja kode v jeziku GDScript. Obenem bomo začeli razvijati lastno majhno igro s skakajočim dinozavrom in kaktusi ter ob tem spoznali še druge teme, kot so premikanje, fizika, animacije, osnove proceduralne generacije in izdelave uporabniškega vmesnika ter še veliko drugih tem.
 
 Knjiga razen osnov uporabe računalnika ne zahteva nobenega predznanja in je namenjena popolnim začetnikom, ki še nikoli niso razvili svoje igre, pa tudi tistim, ki se sploh še niso spoznali s programiranjem.
 
-Cilj knjige je vzpodbuditi zanimanje in nuditi osnovno podlago za razvoj iger, katero lahko bralci in bralke nato nadgrajujejo sami. Razvoj iger je izjemno veliko področje, okoli katerega so ponekod razviti tudi celotni študijski programi. Vsebina te knjige obsega le površinska področja, s katerimi se je morda smiselno spoznati najprej, vsekakor pa to ni vseobsegajoč priročnik za razvoj iger.
+Cilj knjige je vzpodbuditi zanimanje in nuditi osnovno podlago za razvoj iger, katero lahko bralci in bralke nato nadgrajujejo sami. Razvoj iger je izjemno veliko področje, okoli katerega so ponekod razviti tudi večletni študijski programi. Vsebina te knjige obsega le površinska področja, s katerimi se je morda smiselno spoznati najprej, vsekakor pa to ni vseobsegajoč priročnik za razvoj iger.
 
 Preden se zakopljemo v samo uporabo igralnega pogona in razvoja iger z njim, je smiselno povedati še nekaj malega o tem, zakaj smo si izbrali prav Godot.
 
@@ -835,7 +862,7 @@ Preden se zakopljemo v samo uporabo igralnega pogona in razvoja iger z njim, je 
 Skozi zgodovino razvoja videoiger so ljudje uporabljali različne igralne pogone. Sprva sta bila pogon in igra precej bolj združen pojem kot danes, saj je bila strojna oprema mnogo bolj omejena, področje pa manj razvito. Skozi leta so zato številni izdelovalci iger razvijali lastne pogone, ki so bili večinoma namenjeni interni rabi in do njih splošna javnost ni imela dostopa.
 
 Danes se za „resne igre“ večinoma uporabljajo igralni pogoni, ki so dostopni vsem. Za časa pisanja sta na sceni ena izmed največjih igralcev Unreal Engine, ki ga razvija podjetje Epic Games, in Unity, ki ga razvija podjetje Unity Technologies. 
-Oba pogona sta stabilna, testirana, zelo zmogljiva, vendar tudi *plačljiva* in *zaprta*.
+Oba pogona sta stabilna, testirana, zelo zmogljiva, vendar tudi *zaprta* in *plačljiva* (če že ne skozi nakup ali naročnino pa skozi pristojbine).
 
 === Kratka zgodovina pogona Godot
 
@@ -854,14 +881,20 @@ Leta 2014 pa sta se odločila, da pogon odpreta navzven, in ga objavila pod odpr
 
   Prvič, Godot je povsem brezplačen. Nima mesečnih naročnin (kot pogon Unity) ali provizij od zaslužkov (kot ga imata Unity in Unreal Engine) in se preživlja od prostovoljnih donacij in prostovoljnega dela. V teoriji sta plačljiva programska oprema in odprtokodnost združljivi, a kljub vsemu je to pogosto težko doseči. Ponavadi razvijalci v primeru odprtokodnih programov zaračunajo za podporo ali naprednejše funkcije (kot na primer pgModeler in GitLab CE).
 
-  Drugič, vsa izvorna koda je javno dostopna in jo lahko prilagajamo, kot se nam zahoče, v mejah licence, pod katero je koda ponujena. Za dostop do izvorne kode zaprtega pogona, kot je Unity, so potrebna posebna dovoljenja s strani podjetja Unity Technologies.
+  Drugič, vsa izvorna koda je javno dostopna in jo lahko prilagajamo, kot se nam zahoče, a seveda v mejah licence, pod katero je koda ponujena. Za dostop do izvorne kode zaprtega pogona, kot je Unity, so potrebna posebna dovoljenja s strani podjetja Unity Technologies.
 ]
 
 // == Osnovna uporaba
 == Zmogljivosti pogona Godot
 
 Čeprav sta bila kot industrijska standarda zgoraj omenjena Unreal Engine in Unity, ima Godot tudi v sami razvijalski industriji vedno večji glas in delež#footnote[
-  Če gledamo trg iger, narejenih za namizne igre (angl. _PC gaming_), je Godot za časa pisanje te knjige na podlagi podatkov projekta SteamDB četrti najbolj uporabljen pogon po številu izdanih iger z $4340$ izdanih iger. Nad njim stojijo trenutno Unity ($64319$ iger), Unreal Engine ($20101$ iger), GameMaker ($6401$ iger). To pomeni, da je Godot na platformi Steam trenutno najbolj uporabljen odprtokodni pogon. Obenem pa drži tudi, da je Godotova povprečna desetletna rast znatno večja od ostalih večjih pogonov s povprečno rastjo ($78.83%$ proti $47.37%$, $28.12%$ in $26.22%$). (Vir podatkov: #link("https://steamdb.info/tech/", "SteamDB (tech)") in #link("https://steamdb.info/stats/releases/?tech=Engine.Godot", "SteamDB (releases)").)
+  Če gledamo trg iger, narejenih za namizne igre (angl. _PC gaming_), je Godot za časa pisanje te knjige na podlagi podatkov projekta SteamDB na platformi Steam četrti najbolj uporabljen pogon po številu izdanih iger ($4.340$). Nad njim stojijo trenutno Unity ($64.319$ iger), Unreal Engine ($20.101$ iger), GameMaker ($6.401$ iger). To pomeni, da je Godot na platformi Steam trenutno najbolj uporabljen odprtokodni pogon po številu iger. Obenem pa drži tudi, da je Godotova povprečna desetletna rast znatno večja od ostalih večjih pogonov ($78.83%$ proti $47.37%$, $28.12%$ in $26.22%$). Vir podatkov: #link("https://steamdb.info/tech/", "SteamDB (tech)") in #link("https://steamdb.info/stats/releases/?tech=Engine.Godot", "SteamDB (releases)").
+  #pdf.attach(
+    "data/steamdb_top-four-game-engine-growth_2026-06-25.xlsx",
+    relationship: "supplement",
+    mime-type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    description: "Vir podatkov, ki prikazuje letno rast največjih štirih igralnih pogonov na platformi Steam od leta 2006 do vključno leta 2025."
+  )
 ].
 
 Godot nam omogoča ustvarjanje 2D in 3D iger ter iger v razširjeni resničnosti za vse večje platforme, kot so Windows, Linux, maxOS, Android, iOS in splet, ter z nekaj dodanega truda tudi za konzole, kot so PlayStation, Xbox in Nintendo Switch.
@@ -3227,7 +3260,7 @@ V tem poglavju nam bodo zanimivi sledeči štirje novi tipi vozlišč:
 Zaenkrat se bomo osredotočili na #node2d-type-name("CharacterBody2D") za lika dinozavra in #node2d-type-name("StaticBody2D") za uporabo pri tleh, v tem vrstnem redu. Zamenjava dinozavra za #node2d-type-name("CharacterBody2D") nam bo pomagala dodati gravitacijo v svet, #node2d-type-name("StaticBody2D"), s katerim bomo ustvarili tla, pa bo povzročil, da dinozaver zaradi gravitacije ne bo padel skozi tla, temveč se bo ustavil pri njih.
 
 
-== Uporaba #node2d-type-name("CharacterBody2D", disable-link: true)
+== Uporaba `CharacterBody2D`
 
 #box-task[
   V glavnem prizoru ustvarite novo vozlišče tipa #node2d-type-name("CharacterBody2D") in ga poimenujte `DinozaverLik`. Nato v strukturi prizora z miško primite vozlišče s sličico dinozavra (`DinozaverSlicica`) in vozlišče preuredite tako, da bo `DinozaverSlicica` otrok vozlišča `DinozaverLik`.
@@ -3276,7 +3309,7 @@ Opozorilo nam pravi, da vozlišče tipa #node2d-type-name("CharacterBody2D") pot
 
 Zdaj smo dodali večkotnik, ki predstavlja površino trkalnika, kjer dinozaver "obstaja", torej kaj vse zaobjema njegovo telo. Da ne bomo ponesreči dodajali novih točk, v strukturi prizora na levi kar izberimo neko drugo vozlišče, recimo `DinozaverLik`.
 
-== Uporaba #node2d-type-name("StaticBody2D", disable-link: true) <physics_staticbody2d-usage>
+== Uporaba `StaticBody2D` <physics_staticbody2d-usage>
 Preden našemu dinozavru dodamo skok, moramo definirati še tla, pri katerih se bo ustavil. Če tal ne definiramo, bo namreč naš dinozaver preprosto konstantno padal navzdol brez ovir in bi v kratkem izginil iz našega zaslona.
 
 #box-task[
@@ -3302,7 +3335,7 @@ Preden našemu dinozavru dodamo skok, moramo definirati še tla, pri katerih se 
 Če prizor poženemo, bomo ugotovili, da se ne dogaja nič posebej novega: dinozaver je še vedno pri miru, tal pa pravzaprav niti ne vidimo. To je pričakovan rezultat, ki ga bomo rešili v naslednjem poglavju. Pripravljeni smo, da dinozavru dodamo skakanje!
 
 
-== Skok in skriptiranje #node2d-type-name("CharacterBody2D", disable-link: true)
+== Skok in skriptiranje `CharacterBody2D`
 
 Morda se sprašujete, zakaj se dinozaver kljub temu, da smo ga pretvorili v vozlišče tipa #node2d-type-name("CharacterBody2D"), ki podpira fiziko, ne premika. Razlog je, da je vozlišča #node2d-type-name("CharacterBody2D") treba voditi ročno skozi skripto GDScript.
 V glavi moramo imeti dve pomembni lastnosti teh vozlišč:
@@ -3639,7 +3672,7 @@ Zanimali nas bosta dve nastavitvi tega vira: atlas in površina. Atlas je večja
 ]
 
 
-== Vozlišče #node2d-type-name("AnimatedSprite2D", disable-link: true) in vir `SpriteFrames`
+== Vozlišče `AnimatedSprite2D` in vir `SpriteFrames`
 
 Do zdaj smo za prikaz sličic uporabljali vozlišča tipa #node2d-type-name("Sprite2D"), a sedaj želimo tem nepremičnim sličicam dodati animacijo, zato moramo uporabiti #node2d-type-name("AnimatedSprite2D"). Obstoječe uporabe #node2d-type-name("Sprite2D") bomo počasi zamenjali z #node2d-type-name("AnimatedSprite2D").
 
@@ -4337,7 +4370,7 @@ Osnovno delovanje igre smo zdaj dokončali. Dinozaver ima svoj izziv in hkrati t
 = Izdelava uporabniškega vmesnika
 
 
-== Vozlišča tipa #control-type-name("Control", disable-link: true)
+== Vozlišča tipa `Control`
 
 Do sedaj smo delali izključno z "modrimi" tipi vozlišč, torej potomci tipa #node2d-type-name("Node2D"). Če se spomnite #ref(<partial-node-type-structure>, supplement: "slike"), obstaja še cela veja vozlišč, ki izhajajo iz tipa #control-type-name("Control") in se jih sploh še nismo dotikali. (Obstaja seveda še cela veja "rdečih" vozlišč, potomcev tipa `Node3D`, ki so narejena za ustvarjanje 3D iger, a se jih tekom te delavnice ne bomo dotikali.)
 
@@ -4841,6 +4874,8 @@ Znotraj našega projekta smo uporabljali samo privzeto vgrajeno kamero (označen
 #pagebreak(weak: true)
 = Priloge
 
+V tem poglavju najdemo priloge, na katere se ponavadi navezujemo ob besedilu v knjigi.
+
 
 == Primer izdelave kalkulatorja <example-calculator-implementation>
 
@@ -5006,7 +5041,7 @@ Vsebina knjige je ponujena pod licenco *#link("https://creativecommons.org/licen
 
 == Zunanje licence <external-licences>
 
-Vizualna vsebina, ki je prisotna v paketu sredstev in ki je pogosto prikazana na zaslonskih posnetkih (vse v podmapi `chromium-dino`), izvira iz projekta #link("https://github.com/chromium/chromium", "Chromium") pod licenco #link("https://spdx.org/licenses/BSD-3-Clause.html", "BSD-3-Clause"):
+Vizualna vsebina, ki je prisotna v paketu sredstev in ki je pogosto prikazana na zaslonskih posnetkih (vse, kar je v podmapi `chromium-dino`), izvira iz projekta #link("https://github.com/chromium/chromium", "Chromium") pod licenco #link("https://spdx.org/licenses/BSD-3-Clause.html", "BSD-3-Clause"):
 
 #copyright-text[
   ```
