@@ -252,7 +252,7 @@
     smallcaps(
       all: true,
       [
-        #content~#text(fill: red, weight: "bold")[\*]
+        #content~#text(fill: white, weight: "black")[\*]
       ],
     ),
   )
@@ -334,11 +334,43 @@
 /*
  * COLORED DATA TYPE
  */
+#let allowed-linkable-data-types = (
+  "Variant",
+  "CollisionObject2D",
+  "CollisionPolygon2D",
+  "CollisionShape2D"
+);
+
 #let data-type-name = (name) => {
-  text(
-    fill: rgb("#42ffc2"),
-    weight: "medium",
-    name
+  let matches-allowed-linkable-type = allowed-linkable-data-types.contains(name);
+
+  if not matches-allowed-linkable-type {
+    text(
+      fill: rgb("#42ffc2").darken(38%).saturate(15%),
+      weight: "medium",
+      name
+    )
+    return;
+  }
+
+  let base-prefix = "https://docs.godotengine.org/en/4.7/classes/class_"
+  let base-suffix = ".html"
+
+  let target-type-name = std.lower(name)
+
+  let target-link = base-prefix + target-type-name + base-suffix
+
+  box(
+    no-underline(
+      link(
+        target-link,
+        text(
+          fill: rgb("#42ffc2").darken(42%).saturate(25%),
+          weight: "medium",
+          name
+        )
+      )
+    )
   )
 };
 
@@ -1961,7 +1993,7 @@ eksplicitno_celo_stevilo = "nedovoljena operacija"
 Parser Error: Cannot assign a value of type "String" as "int".
 ```
 
-#box-warning[GDScript nam v nekaterih primerih poskuša potihem pomagati in lahko kdaj izvede kakšno operacijo, ki nam potem povzroča preglavice. V spodnjem primeru, na vrstici 5, realno število 10.6 po tihem pretvori v celo število 10, tako da odreže decimalni del.
+#box-warning[GDScript nam v nekaterih primerih poskuša potihem pomagati in lahko kdaj izvede kakšno operacijo, ki nam potem povzroča preglavice. V spodnjem primeru, v vrstici 5, realno število $10.6$ po tihem pretvori v celo število $10$, tako da odreže decimalni del.
   ```gd
   var celo_stevilo = 42
   var eksplicitno_celo_stevilo: int = 42
@@ -2297,9 +2329,8 @@ V zgornjih izsekih kode smo kar nekajkrat napisali nekaj v stilu:
 print("Vrednost stevilke je: " + str(stevilka))
 ```
 
-Programerji smo po naravi lena bitja, zato imajo programski jeziki konstrukte, ki nam omogočajo, da iste kode ne ponavljamo.
-
-En najbolj uporabnih konstruktov, s tega vidika, so funkcije. Funkcije nam omogočajo, da nek kos kode poljubno ponavljamo, ne da bi morali isto kodo ponovno napisati.
+Programerji smo po naravi lena bitja, zato imajo programski jeziki konstrukte, ki nam omogočajo, da iste kode ne ponavljamo. 
+Eden najbolj uporabnih konstruktov, s tega vidika, so funkcije. Funkcije nam omogočajo, da nek kos kode poljubno ponavljamo, ne da bi morali isto kodo ponovno napisati.
 
 Poglejmo si, kako bi iz zgornjega primera naredili funkcijo:
 ```gd
@@ -2307,7 +2338,7 @@ func izpisi_stevilko(stevilka: int):
 	print("Vrednost stevilke je: " + str(stevilka))
 ```
 
-```gd stevilka: int``` v prvi vrstici je posebna vrsta spremenljivke, ki ji rečemo parameter funkcije. Brez parametrov, bi bile funkcije precej omejene, saj bi lahko delale samo z globalnimi spremenljivkami. Tudi tak način dela je popolnoma v redu in pogosto bomo tudi mi napisali funkcijo, ki ne bo prejemala parametrov in bo delala samo z globalnimi spremenljivkami. Je pa velikokrat bolje narediti funkcijo, ki deluje z uporabo parametrov, saj nam omogoča, da jo kličemo z vrednostmi, ki niso na voljo globalno.
+```gd stevilka: int``` v prvi vrstici je posebna vrsta spremenljivke, ki ji rečemo parameter funkcije. Brez parametrov bi bile funkcije precej omejene, saj bi lahko delale samo z globalnimi spremenljivkami. Tudi tak način dela je popolnoma v redu in pogosto bomo tudi mi napisali funkcijo, ki ne bo prejemala parametrov, in bo delala samo z globalnimi spremenljivkami. Je pa velikokrat bolje narediti funkcijo, ki deluje z uporabo parametrov, saj nam omogoča, da jo kličemo z vrednostmi, ki niso na voljo globalno.
 
 Narejeno funkcijo bi potem lahko uporabili takole:
 ```gd
@@ -2485,7 +2516,7 @@ Zdaj si predstavljajte, da bi morali šteti do 100, ali 1000, ali pa v bolj real
 #screenshot(
   path: "assets/poly-haven/boulder_01.webp",
   width: 50%,
-  caption: [Model kamna, ki ima 124 tisoč trikotnikov. \ (Vir: Poly Haven, Licenca: CC0)],
+  caption: [Model kamna, ki ima 124 tisoč trikotnikov. \ Vir: Poly Haven. Licenca: CC0.],
 ) <boulder-example>
 
 Ker takšnega Sizifovega dela ne želi nihče opravljati, imamo tudi za to programske konstrukte. Zgodnji primer bi torej lahko napisali kot:
@@ -2558,7 +2589,7 @@ var katastrofa = [42, "pozdravljen", false, -6.7]
   ],
 )
 
-Seznami so sestavljen tip in vsebujejo metode za delo z njimi. Element lahko na primer dodamo s klicem metode ```gd append(value: Variant)```. Funkcija `append`, po slovensko "pripni", doda element na konec seznama. Poglejmo si primer:
+Seznami so sestavljen tip in vsebujejo metode za delo z njimi. Element lahko na primer dodamo s klicem metode ```gd append(value: Variant)```. Funkcija `append`, ki ji po slovensko rečemo "pripni", doda element na konec seznama. Poglejmo si primer:
 
 ```gd
 var seznam: Array[int] = [1, 2]
@@ -2719,55 +2750,97 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
   Teh sličic ne mešajte s sličicami s področja sredstev (angl. _sprite_), na primer plahtami sličic (angl. _spritesheet_). V tem drugem primeru gre za sredstva, uvožena v igro v procesu razvoja.
 ])
 
-#figure(
-  align(
-    center,
-    cetz.canvas({
-      import cetz.draw: line, set-style
 
-      let default-background-color = rgb("#353232")
-      let green = rgb("#3bc20a")
-      let blue = rgb("#2ba2da")
-      let red = rgb("#e9130b")
+#{
+  let default-background-color = rgb("#353232")
+  let green = rgb("#3bc20a")
+  let blue = rgb("#2ba2da")
+  let red = rgb("#e9130b")
 
-      let node(name, background-color: default-background-color, style: "normal") = {
-        box(
-          fill: background-color,
-          inset: 5pt,
-          radius: 4pt,
-          text(
-            fill: white,
-            weight: "bold",
-            style: style,
-            size: base-font-size - 1pt,
-            name,
-          ),
-        )
-      }
+  let node(name, background-color: default-background-color, style: "normal") = {
+    block(
+      above: 0pt,
+      below: 0pt,
+      fill: background-color,
+      inset: (
+        x: 6pt,
+        y: 8pt,
+      ),
+      radius: 4pt,
+      align(
+        center,
+        text(
+          fill: white,
+          weight: "bold",
+          style: style,
+          size: base-font-size - 1pt,
+          name,
+        ),
+      ),
+    )
+  }
 
-      // Draws a triangle mark at both ends of the line.
-      set-style(mark: (end: "straight"))
+  let node-details = (value) => {
+    text(
+      size: base-font-size - 2pt,
+      weight: "bold"
+    )[
+      #set par(leading: 5pt)
+      #value
+    ]
+  };
 
-      cetz.tree.tree(
-        spread: 0.2,
-        grow: 0.54,
-        (
-          node("Vozlišče je izdelano", background-color: green),
-          (
-            node("Vozlišče vstopi v drevo (klic _ready())", background-color: blue),
-            (
-              node("Vozlišče je v izvajanju (redni klici _process())", background-color: blue),
-              (
-                node("Vozlišče je odstranjeno iz drevesa in uničeno", background-color: red),
-              ),
-            ),
-          ),
+  figure(
+    align(
+      center,
+      fletcher.diagram(
+        node-inset: 2pt,
+        spacing: 1.5em,
+        fletcher.node(
+          (0, 0),
+          node(
+            [Vozlišče je izdelano.],
+            background-color: green
+          )
+        ),
+        fletcher.edge("-|>"),
+        fletcher.node(
+          (0, 1),
+          node(
+            [
+              Vozlišče vstopi v drevo. \
+              #node-details[(povratni klic `_ready()`)]
+            ],
+            background-color: blue
+          )
+        ),
+        fletcher.edge("-|>"),
+        fletcher.node(
+          (0, 2),
+          node(
+            [
+              Vozlišče je v izvajanju.
+              #node-details[
+                (reden povratni klic `_process()`)
+              ]
+            ],
+            background-color: blue,
+          )
+        ),
+        fletcher.edge("-|>"),
+        fletcher.node(
+          (0, 3),
+          node(
+            [Vozlišče je odstranjeno iz drevesa in uničeno.],
+            background-color: red
+          )
         ),
       )
-    }),
-  ),
-  caption: [Zelo osnoven prikaz življenjskega cikla vozlišča.],
-) <simple-node-lifecycle>
+    ),
+    caption: [Bolj podroben prikaz življenjskega cikla vozlišča.],
+  )
+} <simple-node-lifecycle>
+
 
 #box-info(title: [#advanced-topic-heading[Za napredne uporabnike]], [
   Dejanska zgodba življenjskega cikla vozlišča je v resnici mnogo bolj kompleksna kot zgornja poenostavitev. Možnih stanj je mnogo več in vozlišče lahko prosto prehaja med njimi, tudi v drugo smer! Na primer: vozlišče, ki je bilo umaknjeno iz drevesa, se lahko ponovno vrne vanj. #ref(<node-lifecycle>, supplement: [Slika]) prikazuje mal bolj podroben prikaz življenjskega cikla (a še vedno ne popolnega):
@@ -2917,7 +2990,7 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
 
 === Klic Godotovih funkcij <calling-godot-functions>
 
-Klic funkcij, ki nam jih nudi Godot, je v bistvu zelo preprost. Kličemo jih na čisto enak način, kot bi klicali naše lastne funkcije. Glavni problem vgrajenih funkcij je v bistvu njihova ogromna količina. V praksi ni mogoče poznati vseh (avtorja tega učbenika jih recimo skupaj zagotovo na pamet poznata manj kot 5 %), zato se je pogosto potrebno zanašati na Godotovo dokumentacijo. Le-to lahko najdemo na #link("https://docs.godotengine.org/en/stable"). Godot dokumentacija je orjaška in sprva precej strašljiva, zato se je je najbolje lotiti po manjših kosih. Branje dokumentacije je umetnost, ki jo boste izpilili z leti svojih programerskih dogodivščin in vam bo prišla še mnogokrat prav.
+Klic funkcij, ki nam jih nudi Godot, je v bistvu zelo preprost. Kličemo jih na čisto enak način, kot bi klicali naše lastne funkcije. Glavni problem vgrajenih funkcij je v bistvu njihova ogromna količina. V praksi ni mogoče poznati vseh (avtorja tega učbenika jih recimo skupaj zagotovo na pamet poznata manj kot 5 %), zato se je pogosto potrebno zanašati na Godotovo dokumentacijo. Le-to lahko najdemo na #link("https://docs.godotengine.org/en/stable"). Godot dokumentacija je orjaška in sprva precej strašljiva, zato se je je najbolje lotiti po manjših kosih. Učinkovito branje dokumentacije je sposobnost, ki jo boste izpilili z leti svojih programerskih dogodivščin in vam bo prišla še mnogokrat prav.
 
 Poskusimo zdaj poklicati neko vgrajeno funkcijo. Godot na podskupini tipov #node2d-type-name("Node2D") nudi vgrajeno funkcijo ```gd void rotate(radians: float)```, dokumentacijo zanjo lahko najdemo na: \ #link("https://docs.godotengine.org/en/stable/classes/class_node2d.html#class-node2d-method-rotate").
 
@@ -2925,7 +2998,7 @@ Poskusimo zdaj poklicati neko vgrajeno funkcijo. Godot na podskupini tipov #node
   Radiani so enota, ki jo uporabljamo pri merjenju kotov. Velja pretvorba $pi = 180 degree$, torej $pi$ (pi) radianov je $180 degree$ ali iztegnjen kot.
 ])
 
-Ob klicu funkcije bo Godot vozlišče zavrtel za `radians` radianov. Če želimo vozlišče počasi in konstantno vrteti, ga moramo torej vsako sličico malo obrniti. Spomnimo se funkcije ```gd _process(delta: float)```, ki smo jo omenili malo prej in jo Godot kliče vsakič ko izdeluje novo sličico. To znanje lahko potem združimo v navidez zelo preprost kos kode:
+Ob klicu funkcije bo Godot vozlišče zavrtel za `radians` radianov. Če želimo vozlišče počasi in konstantno vrteti, ga moramo torej vsako sličico malo obrniti. Spomnimo se funkcije ```gd _process(delta: float)```, ki smo jo omenili malo prej.  Godot jo kliče vsakič, ko izdeluje novo sličico. To znanje lahko potem združimo v navidez zelo preprost kos kode:
 
 ```gd
 extends Sprite2D
@@ -2941,8 +3014,7 @@ func _process(delta: float) -> void:
 
 === Uporaba vgrajenih spremenljivk <using-godot-properties>
 
-Definiranje funkcij, ki jih Godot kliče in klicanje Godotovih funkcij ni edini način komunikacije s pogonom. Godot nam med drugim nudi tudi dostop do vgrajenih spremenljivk, ki jih lahko beremo ali pa v njih tudi pišemo.
-
+Definiranje funkcij, ki jih Godot kliče, in klicanje Godotovih funkcij ni edini način komunikacije s pogonom. Godot nam med drugim nudi tudi dostop do vgrajenih spremenljivk, ki jih lahko beremo ali pa vanje zapisujemo vrednosti.
 Primer take vgrajene spremenljivke je `position`, ki jo najdemo na tipu vozlišča #node2d-type-name("Node2D") in njegovih potomcih.
 
 #box-info(title: [Uradna dokumentacija])[
@@ -2975,7 +3047,9 @@ func _process(delta: float) -> void:
 #box-task[Poskusite sami najti dokumentacijo o vgrajeni spremenljivki `global_position` in razmislite kakšna je razlika med njo in med spremenljivko `position`.]
 
 #box-info(title: "Pohitritev iskanja dokumentacije", [
-  Če delamo znotraj vgrajenega urejevalnika besedil (kar tekom poletne šole počnemo), lahko kadarkoli, medtem ko na tipkovnici držimo tipko `Ctrl`, kliknemo na nek vgrajeni tip, funkcijo ali spremenljivko. Če to naredimo, se nam bo odprla vgrajena dokumentacija, ki nam jo Godot nudi znotraj pogona in po kateri lahko tudi brskamo. To je priročen in lahek način branja dokumentacije, ki deluje tudi brez dostopa do interneta, in preko katerega si lahko na hitro odgovorimo na kakšno vprašanje glede Godot API-ja. Moramo pa za takšno početje vsaj poznati ime Godot konstrukta, ki ga iščemo.
+  Če delamo znotraj vgrajenega urejevalnika besedil, lahko kadarkoli, medtem ko na tipkovnici držimo tipko #kbd("Ctrl"), kliknemo na nek vgrajeni tip, funkcijo ali spremenljivko. Če to naredimo, se nam bo odprla vgrajena dokumentacija, ki nam jo Godot nudi znotraj pogona in po kateri lahko tudi brskamo. 
+  
+  Ta vgrajena dokumentacija je priročen in lahek način branja dokumentacije, ki deluje tudi brez dostopa do interneta, in preko katerega si lahko na hitro odgovorimo na kakšno vprašanje glede funkcij in lastnosti vozlišč in virov.
 
   #screenshot(
     path: "assets/gd-script/builtin-docs.png",
@@ -2992,9 +3066,9 @@ Razredi so zelo kompleksno področje programiranja, o katerih je bilo napisanih 
 
 V #ref(<gdscript-and-nodes>, supplement: "poglavju") smo na hitro omenili prvo vrstico vsake GDScript datoteke in sicer stavek `extends`.
 
-Kaj ta vrstica v resnici naredi je, da pove Godotu kateri razred ta datoteka razširja. S tem izdelamo nov (zaenkrat neimenovan) razred, ki je podedoval vse lastnosti razreda ki ga razširja.
+Kaj ta vrstica v resnici naredi je, da pove Godotu kateri razred ta datoteka razširja. S tem izdelamo nov, zaenkrat neimenovan, razred, ki je podedoval vse lastnosti razreda ki ga razširja.
 
-To za nas ni pomembno samo za to, da se ognemo napake omenjene v #ref(<gdscript-and-nodes>, supplement: "poglavju"), ampak tudi zato, ker nam ta razred pove do katerih Godotovih vgrajenih funkcij (in še nekaj drugih Godotovih konstruktov) imamo dostop.
+To za nas ni pomembno samo za to, da se ognemo napaki, omenjeni v #ref(<gdscript-and-nodes>, supplement: "poglavju"), ampak tudi zato, ker nam ta razred pove, do katerih Godotovih vgrajenih funkcij in nekaterih drugih Godotovih funkcionalnosti imamo dostop v naši skripti.
 
 #box-info(title: "Poenostavitev", [
   Razrede lahko za lažjo predstavo za čas poletne šole enačite s tipi vozlišč. Od tu naprej se bo namesto "razred" uporabljal izraz "tip vozlišča".
@@ -3011,14 +3085,14 @@ extends Sprite2D
 
 V tem primeru smo naredili nov tip vozlišča imenovan `VrteciSprite`. Če bomo izdelovali novo vozlišče, nam ga bo Godot celo ponudil v oknu za izbiro tipa. Znotraj poletne šole bomo to funkcionalnost nekajkrat uporabili za lažje dokumentiranje kode in razlago, a se tudi v to podrobnost ne bomo preveč spuščali.
 
-Več o tem kakšne funkcionalnosti nam kateri tip vozlišča nudi, si lahko preberemo v Godotovi dokumentaciji. Seznam vseh tipov vozlišč (v abecednem vrstnem redu) je, na primer, dostopen na: https://docs.godotengine.org/en/stable/classes/index.html#nodes. Med njimi lahko, v morju ostalih tipov, prepoznate že znana #node2d-type-name("Node2D") in #node2d-type-name("Sprite2D").
+Več o tem, kakšne funkcionalnosti nam kateri tip vozlišča nudi, si lahko preberemo v Godotovi dokumentaciji. Seznam vseh tipov vozlišč (v abecednem vrstnem redu) je na primer dostopen na: https://docs.godotengine.org/en/stable/classes/index.html#nodes. Med njimi lahko, v morju ostalih tipov, prepoznate že znana #node2d-type-name("Node2D") in #node2d-type-name("Sprite2D").
 
 #pagebreak(weak: true)
 = Premikanje in uporabniški vnos <movement-and-input>
 
-Zdaj lahko zapremo prizor, v katerem smo preizkušali GDScript, in se vrnemo nazaj na prizor, kjer nas čakajo dinozaver in kaktusi. Prizor, v katerem smo se igrali med učenjem osnov GDScripta, lahko po želji izbrišete ali pa pustite, če se vam zdi, da vam bo koda v njemu še kdaj prišla prav.
+Zdaj lahko zapremo prizor, v katerem smo preizkušali GDScript, in se vrnemo nazaj na prizor, kjer nas čakajo dinozaver in kaktusi. Prizor, v katerem smo se igrali med učenjem osnov GDScripta, lahko po želji izbrišete ali pa pustite, če se vam zdi, da vam bo koda v njem še kdaj prišla prav.
 
-Iz prizora brišite vozlišča tipa #node2d-type-name("Sprite2D"), dokler vam ne ostane samo dinozaver in en kaktus. Vaš prizor bi potem moral izgledati približno tako kot na #ref(<user-input-starting-point>, supplement: "sliki"). Ne pozabite preimenovati vozlišča, ki vsebuje kaktus na `KaktusSlicica`.
+Iz prizora brišite vozlišča tipa #node2d-type-name("Sprite2D"), dokler vam ne ostane samo dinozaver in en kaktus. Vaš prizor bi potem moral izgledati približno tako kot na #ref(<user-input-starting-point>, supplement: "sliki"). Ne pozabite preimenovati vozlišča, ki vsebuje kaktus, na `KaktusSlicica`.
 
 #screenshot(
   path: "assets/user-input/starting-point.png",
@@ -3026,7 +3100,7 @@ Iz prizora brišite vozlišča tipa #node2d-type-name("Sprite2D"), dokler vam ne
   caption: [Poenostavljen prvotni prizor.],
 ) <user-input-starting-point>
 
-Trenutno je prizor precej dolgočasen in statičen. Naredimo najprej, da se ob zagonu projekta kaktus počasi pomika proti nam.
+Trenutno je prizor precej dolgočasen in statičen. Najprej dodajmo kodo, s katero se bo po zagonu projekta kaktus počasi pomikal proti nam.
 
 #box-task[
   Na vozlišče `KaktusSlicica` pripnite skripto `kaktus.gd`, ki ob zagonu kaktus premika proti dinozavru (levo po zaslonu). Pri izdelavi skripte si pomagajte s #ref(<using-godot-properties>, supplement: "poglavjem").
