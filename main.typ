@@ -706,7 +706,7 @@
 
   V praktičnem smislu to pomeni, da lahko to knjigo prosto delite naprej in jo celo spreminjate, pri čemer pa morate spoštovati pogoje, ki jih postavlja ta licenca, med drugim: knjiga se ne sme uporabiti za komercialne namene, kopije knjige morajo obdržati imena avtorjev (in kopijo te licence), če pa material spreminjate, ste primorani tudi novo (svojo) različico knjige ponuditi pod isto licenco kot midva#footnote(numbering: "*")[Take licence predstavljajo nabor nepreklicnih pravic, ki jih avtorji določenega dela lahko dodelijo svojemu delu. Ravno v tej nepreklicnosti, ki veljajo le ob sprejemu licenčnih pogojev, je moč odprtokodnih licenc. Na primer, najin namen s to licenco je omogočiti prost dostop do te knjige in vseh njenih prihodnih različic, tudi če se zgodi, da midva v izboljšavah knjige nisva več udeležena!]. Kodo pa lahko uporabljate še bolj prosto kot to, saj je edina obveza to, da obdržite kopijo besedila licence.
 
-  Podrobnosti vseh licenc tega materiala lahko najdete na koncu knjige v #ref(<licences>, supplement: [poglavju]), nekaj malega več o odprtokodnih licencah na splošno pa bomo spregovorili v #ref(<game-engine-history>, supplement: [poglavju]).
+  Podrobnosti aktivnih licenc tega materiala lahko najdete na koncu knjige v #ref(<licences>, supplement: [poglavju]), nekaj malega o odprtokodnih licencah na splošno pa bomo spregovorili v #ref(<game-engine-history>, supplement: [poglavju]).
 ])
 
 
@@ -794,9 +794,9 @@
 #pagebreak(weak: true)
 = Uvod
 
-V tej knjigi bomo spoznali osnove ustvarjanja in razvoja iger v igralnem pogonu Godot. Začeli bomo z namestitvijo pogona Godot, osnovami uporabe urejevalnika in pisanja kode v jeziku GDScript. Začeli bomo razvijati lastno majhno igro in ob tem spoznali še druge teme, kot so premikanje, fizika, animacije, osnove proceduralne generacije, izdelave uporabniškega vmesnika in še veliko drugih tem.
+V tej knjigi bomo spoznali osnove ustvarjanja in razvoja iger v igralnem pogonu Godot. Začeli bomo z namestitvijo pogona Godot, osnovami uporabe urejevalnika in prvimi koraki pisanja kode v jeziku GDScript. Obenem bomo začeli razvijati lastno majhno igro s skakajočim dinozavrom in ob tem spoznali še druge teme, kot so premikanje, fizika, animacije, osnove proceduralne generacije, izdelave uporabniškega vmesnika in še veliko drugih tem.
 
-Knjiga razen osnov uporabe računalnika ne zahteva nobenega predznanja in je namenjena popolnim začetnikom, ki še nikoli niso razvili svoje igre, pa tudi tistim, ki se sploh še niso posvetili svetu programiranja.
+Knjiga razen osnov uporabe računalnika ne zahteva nobenega predznanja in je namenjena popolnim začetnikom, ki še nikoli niso razvili svoje igre, pa tudi tistim, ki se sploh še niso spoznali s programiranjem.
 
 Cilj knjige je vzpodbuditi zanimanje in nuditi osnovno podlago za razvoj iger, katero lahko bralci in bralke nato nadgrajujejo sami. Razvoj iger je izjemno veliko področje, okoli katerega so ponekod razviti tudi celotni študijski programi. Vsebina te knjige obsega le površinska področja, s katerimi se je morda smiselno spoznati najprej, vsekakor pa to ni vseobsegajoč priročnik za razvoj iger.
 
@@ -804,28 +804,27 @@ Preden se zakopljemo v samo uporabo igralnega pogona in razvoja iger z njim, je 
 
 == Kratka zgodovina pogonov <game-engine-history>
 
-Skozi zgodovino razvoja videoiger so ljudje uporabljali različne pogone. Sprva sta bila pogon in igra precej bolj združen pojem kot danes, saj je bila strojna oprema mnogo bolj omejena, področje pa manj razvito. Skozi leta so zato številni izdelovalci iger razvijali lastne pogone, ki so bili večinoma namenjeni interni rabi in do njih splošna javnost ni imela dostopa.
+Skozi zgodovino razvoja videoiger so ljudje uporabljali različne igralne pogone. Sprva sta bila pogon in igra precej bolj združen pojem kot danes, saj je bila strojna oprema mnogo bolj omejena, področje pa manj razvito. Skozi leta so zato številni izdelovalci iger razvijali lastne pogone, ki so bili večinoma namenjeni interni rabi in do njih splošna javnost ni imela dostopa.
 
-Danes se za „resne igre“ večinoma uporabljajo igralni pogoni, ki so dostopni vsem. Za časa pisanja sta na sceni največja igralca Unreal Engine, ki ga razvija podjetje Epic Games, in Unity, ki ga razvija podjetje Unity Technologies.
-
+Danes se za „resne igre“ večinoma uporabljajo igralni pogoni, ki so dostopni vsem. Za časa pisanja sta na sceni ena izmed največjih igralcev Unreal Engine, ki ga razvija podjetje Epic Games, in Unity, ki ga razvija podjetje Unity Technologies. 
 Oba pogona sta stabilna, testirana, zelo zmogljiva, vendar tudi *plačljiva* in *zaprta*.
 
 === Kratka zgodovina pogona Godot
 
 Pogon Godot sta okoli leta 2001 začela razvijati Juan Linietsky in Ariel Manzur. Sprva je bil uporabljen za interne projekte pod različnimi drugimi imeni in je bil, kot skoraj vsi pogoni tega časa, zaprtokoden.
 
-Leta 2014 pa sta se odločila, da pogon odpreta navzven, in ga objavila pod (odprtokodno) licenco MIT. Od takrat ga, kot mnoge druge odprtokodne projekte, razvija globalna skupnost prostovoljcev. Ta je v primeru Godota od leta 2023 pod okriljem neprofitne organizacije Godot Foundation.
+Leta 2014 pa sta se odločila, da pogon odpreta navzven, in ga objavila pod odprtokodno licenco MIT. Od takrat ga, kot mnoge druge odprtokodne projekte, razvija globalna skupnost prostovoljcev. Ta je v primeru Godota od leta 2023 pod okriljem neprofitne organizacije Godot Foundation.
 
 #box-info(title: [Kaj je licenca MIT?])[
   MIT je licenca, namenjena programski kodi in dokumentaciji, pri čemer ta licenca dovoljuje, da se programsko kodo distribuira naprej, jo spreminja, prilagaja, objavlja, licencira pod drugimi pogoji, prodaja itd. Gre za eno izmed glavnih licenc odprtokodnega sveta poleg licenc, kot so GNU GPLv3, GNU AGPLv3, Mozilla Public License 2.0, licence CC idr.
 
-  Več o odprtokodnih licencah si lahko preberete na \ #link("https://choosealicense.com") in #link("https://creativecommons.org").
+  Več o odprtokodnih licencah si lahko preberete na \ #link("https://choosealicense.com"), #link("https://opensource.org") in #link("https://creativecommons.org").
 ]
 
 #box-info(title: [Kaj pomeni, da je Godot odprtokoden?])[
   To, da je nek kos programske opreme odprtokoden, poglavitno pomeni dvoje.
 
-  Prvič, Godot je povsem brezplačen. Nima mesečnih naročnin (kot pogon Unity) ali provizij od zaslužkov (kot ga imata Unity in Unreal Engine) in se preživlja od prostovoljnih donacij in prostovoljnega dela. V teoriji sta plačljiva programska oprema in odprtokodnost združljivi, a kljub vsemu je to pogosto težko doseči -- ponavadi razvijalci v primeru odprtokodnih programov zaračunajo za podporo ali naprednejše funkcije (kot na primer pgModeler in GitLab CE).
+  Prvič, Godot je povsem brezplačen. Nima mesečnih naročnin (kot pogon Unity) ali provizij od zaslužkov (kot ga imata Unity in Unreal Engine) in se preživlja od prostovoljnih donacij in prostovoljnega dela. V teoriji sta plačljiva programska oprema in odprtokodnost združljivi, a kljub vsemu je to pogosto težko doseči. Ponavadi razvijalci v primeru odprtokodnih programov zaračunajo za podporo ali naprednejše funkcije (kot na primer pgModeler in GitLab CE).
 
   Drugič, vsa izvorna koda je javno dostopna in jo lahko prilagajamo, kot se nam zahoče, v mejah licence, pod katero je koda ponujena. Za dostop do izvorne kode zaprtega pogona, kot je Unity, so potrebna posebna dovoljenja s strani podjetja Unity Technologies.
 ]
@@ -839,7 +838,7 @@ Leta 2014 pa sta se odločila, da pogon odpreta navzven, in ga objavila pod (odp
 
 Godot nam omogoča ustvarjanje 2D in 3D iger ter iger v razširjeni resničnosti za vse večje platforme, kot so Windows, Linux, maxOS, Android, iOS in splet, ter z nekaj dodanega truda tudi za konzole, kot so PlayStation, Xbox in Nintendo Switch.
 
-Podpira programiranje v lastnem namenskem jeziku GDScript, v splošnem jeziku C\# (znotraj ogrodja .NET) in v jeziku, v katerem je tudi napisan -- C++. Neuradno Godot skozi sistem, imenovan GDExtension, podpira tudi mnoge druge programske jezike, kot so JavaScript, Python, Rust in še mnogi drugi.
+Podpira programiranje v lastnem namenskem jeziku GDScript, v splošnem jeziku C\# (znotraj ogrodja .NET) in v jeziku, v katerem je tudi napisan -- v C++. Neuradno Godot skozi sistem, imenovan GDExtension, podpira tudi mnoge druge programske jezike, kot so JavaScript, Python, Rust in še mnogi drugi.
 
 Na spletu lahko na naslovu #link("https://store.godotengine.org") najdete knjižnico raznoraznih sredstev. Od modelov, tekstur in plaht sličic (angl. _spritesheets_) do že narejenih kosov funkcionalnosti in skript. Ta knjižnica je tudi vgrajena v Godot sam in je lahko dostopna v samem urejevalniku.
 
@@ -939,7 +938,7 @@ Ker želimo ustvariti nov projekt, kliknemo na gumb #inline-button-image(path: "
 
 == Urejevalnik <urejevalnik>
 
-Po stvaritvi novega projekta bomo pristali v urejevalniku Godot -- to je glavni del programa, v katerem bomo razvijali svojo igro.
+Po stvaritvi novega projekta bomo pristali v urejevalniku Godot. To je glavni del programa, v katerem bomo razvijali svojo igro.
 Urejevalnik nam bo pomagal pri ustvarjanju in urejanju prizorov, programiranju in povezovanju manjših delov naše igre v večje prizore ter pri testiranju naše igre.
 
 
@@ -954,7 +953,7 @@ Kmalu bomo preskočili na druga okolja, ki bodo za našo delavnico precej bolj p
 
 Urejevalnik je sestavljen iz ločenih podoken, označenih z barvnimi okvirčki na #ref(<ui-basics-annotated-sections>, supplement: [sliki]):
 - *Orodna vrstica urejevalnika* (označena z belo, zgoraj levo) nam omogoča urejanje nastavitev in izvažanje projekta, urejanje nastavitev urejevalnika, dostop do dokumentacije in še marsikaj.
-- *Izbirni meni za delovno okolje* (označen z oranžno, zgoraj na sredini) nam omogoča hiter preklop med delovnimi okolji, kot je na primer urejevalnik 2D prizorov, urejevalnik skript, itd.
+- *Izbirni meni za delovno okolje* (označen z oranžno, zgoraj na sredini) nam omogoča hiter preklop med delovnimi okolji, kot je na primer urejevalnik 2D prizorov, urejevalnik skript itd.
 - *Orodna vrstica igre* (označena z belo, zgoraj desno) nam omogoča zagon naše igre (prvi gumb), premor ali ugašanje naše igre (drugi in tretji gumb) ali pa zagon trenutno odprtega prizora (peti gumb).
 - *Struktura prizora* (označena z vijolično, levo) nam omogoča ustvarjanje novega prizora ali urejanje trenutnega. Kot bomo videli čez nekaj poglavij, bomo v tem podoknu dodajali nove elemente v prizor, preurejali drevesno strukturo našega prizora itd.
 - *Raziskovalec datotek* (označen s svetlomodro, spodaj levo) nam omogoča dostop do mape na disku, kjer je shranjen naš projekt. Kot v navadnih raziskovalcih datotek, ki jih srečamo v sistemih Windows, MacOS ali Linux, gre za preprost brskalnik po drevesni strukturi datotek in map. Mapa `res://` predstavlja koren našega projekta, t.j. vrhnjo mapo, v kateri se nahaja naš projekt.
@@ -986,8 +985,6 @@ Kot vidimo na #ref(<delovna-okolja-toolbar>, supplement: [sliki]), imamo na volj
 
   Zaenkrat se tega zavihka ne bomo dotikali, vsaj ne, dokler se ne razdelimo v skupine in začnemo sestavljati lastno igro. Takrat boste izvedli tudi več o paketih sredstev oziroma delovnih materialih.
 ]
-
-// TODO (Gorazd): Če je le mogoče, dajta vse, kar je neposredno vezano na potek delavnice -- to je vse, kar omenja fakultetne računalnike in diske ali delitev v skupine -- v neke ločene okvirčke ali v besedilo druge barve. Tako bo bolj pregledno (tudi za vaju), ker bosta imela jasno označene smernice za potek delavnice, če bomo pa kdaj želeli izdati učbenik, pa bomo lahko te dele enostavno zakomentirali :)
 
 
 === Okolje "Game" <env-game>
@@ -1026,11 +1023,11 @@ Da bo proces testiranja naše igre potekal brezhibno, pred nadaljevanjem spremen
 === Okolje "2D" <okolje-2d>
 Kliknimo na prvi zavihek -- "2D". Zagledali bomo dvodimenzionalno površino, na kateri lahko ustvarimo svojo igro. Pred seboj v sredinskem delu urejevalnika vidimo polje, na katerem bo stala naša igra.
 
-Igre v tem načinu so postavljene na *dve osi: na $X$ in $Y$* -- os $X$ teče od leve proti desni (označena s tanko rdečo črto), os $Y$ pa od zgoraj navzdol (označena s tanko zeleno črto). Kjer se osi sekata v urejevalniku, stoji koordinatno izhodišče -- točka $(0, 0)$, t.j. točka, kjer je $X = 0$ in $Y = 0$.
+Igre v tem načinu so postavljene na *dve osi: na $X$ in $Y$*. Os $X$ teče od leve proti desni (označena s tanko rdečo črto), os $Y$ pa od zgoraj navzdol (označena s tanko zeleno črto). Kjer se osi sekata v urejevalniku, stoji koordinatno izhodišče -- točka $(0, 0)$ (t.j. točka, kjer je $X = 0$ in $Y = 0$).
 
 Vse elemente, ki jih bomo postavljali v našo igro, bomo opisali z določeno lokacijo v tem dvodimenzionalnem svetu. Večja kot je vrednost na osi $X$, bolj desno je naš element. Večja kot je vrednost na osi $Y$, nižje je naš element. Na #ref(<2d-editor-default>, supplement: [sliki]) vidimo, da je koordinatno izhodišče levo zgoraj, kjer se črti sekata.
 
-Ko poženemo našo igro brez posebnih nastavitev kamere, velja, da bo koordinatno izhodišče (lokacija $(0, 0)$) postavljena v levi zgornji kot naše igre. Obenem lahko na #ref(<2d-editor-default>, supplement: [sliki]) s tanko modro črto vidimo oznako velikosti našega pogleda -- vse kar je v tem okvirju, bo privzeto videl igralec. To je seveda mogoče spremeniti z uporabo nastavitev kamere.
+Ko poženemo našo igro brez posebnih nastavitev kamere, velja, da bo koordinatno izhodišče (lokacija $(0, 0)$) postavljena v levi zgornji kot naše igre. Obenem lahko na #ref(<2d-editor-default>, supplement: [sliki]) s tanko modro črto vidimo oznako velikosti našega pogleda. Vse kar je v tem okvirju, bo privzeto videl igralec ob zagonu igre. To je seveda mogoče spremeniti z uporabo nastavitev kamere.
 
 Ker bomo na delavnicah ustvarjali igre v 2D, bomo v tem okolju preživeli precej časa!
 
@@ -1082,9 +1079,9 @@ Raziskovalec datotek nam omogoča dostop do mape na disku, kjer imamo shranjen n
 
 #box-info(title: [Kaj je `res://`?])[
   Mapa `res://` predstavlja koren našega projekta. Torej, če smo naš projekt shranili na primer v mapo `D:/projekti/dinozaver`, potem koren našega raziskovalca datotek, torej ta pot `res://`, kaže v to mapo.
-  Gre samo za "virtualno" mapo -- ta mapa ne obstaja "zares", prav tako pa datotek ali podmap ne moremo ustvarjati _poleg_ te mape, le _v njej!_
+  Gre samo za "virtualno" mapo! Ta mapa ne obstaja zares, prav tako pa datotek ali podmap ne moremo ustvarjati _poleg_ te mape, le _v njej!_
 
-  Razlog za to funkcionalnost je, da se vnaprej izognemo problemom pri premikanju našega projekta -- vse poti znotraj naše igre, na primer reference na zvočne datoteke, teksture, itd., opisujemo z relativno potjo od korena našega projekta `res://`, ki vedno kaže na tisto mesto, kjer je naš projekt v tem trenutku, namesto da bi poti opisovali z absolutno potjo `D:/projekti/dinozaver`, ki bi se lahko v prihodnosti spremenila, če naš projekt premaknemo nekam drugam na disku.
+  Razlog za to funkcionalnost je, da se vnaprej izognemo problemom pri premikanju našega projekta. Vse poti znotraj naše igre, na primer reference na zvočne datoteke, teksture itn. opisujemo z relativno potjo od korena našega projekta `res://`. Le-ta vedno kaže na tisto mesto, kjer je naš projekt v tem trenutku, namesto da bi poti opisovali z absolutno potjo `D:/projekti/dinozaver`, ki bi se lahko v prihodnosti spremenila, če naš projekt premaknemo nekam drugam na disku.
 
   #box-divider()
 
@@ -1123,7 +1120,7 @@ Odprl se bo kontekstni meni, kjer lahko ustvarimo podmapo, kar storimo tako, da 
 ]
 
 Vrnimo se nazaj v urejevalnik Godot. Preden nadaljujemo z ogledom vsebine, ki smo jo uvozili, si oglejmo še dve uporabni funkcionalnosti raziskovalca datotek.
-- Datotečni sistem je predstavljen kot drevesna struktura map: vsaka mapa ima ime in vsebino (datoteke ali podmape). V nasprotju z drugimi raziskovalci, kot je recimo Windowsov, kjer moramo mapo dvoklikniti, če jo želimo odpreti, lahko v raziskovalcu datotek v pogonu Godot vidimo več nivojev map naenkrat. Če želimo videti v notranjost posamezne mape, lahko ime mape dvokliknemo ali pa kliknemo na puščico levo od njenega imena -- naredimo to za mapo `res://sredstva`. Ta akcija bo razširila pogled v notranjost mape, kjer bomo zdaj zagledali podmape `chromium-dino`, `dinozaver`, `kaktus`, ...
+- Datotečni sistem je predstavljen kot drevesna struktura map: vsaka mapa ima ime in vsebino (datoteke ali podmape). V nasprotju z drugimi raziskovalci, kot je recimo Windowsov, kjer moramo mapo dvoklikniti, če jo želimo odpreti, lahko v raziskovalcu datotek v pogonu Godot vidimo več nivojev map naenkrat. Če želimo videti v notranjost posamezne mape, lahko ime mape dvokliknemo ali pa kliknemo na puščico levo od njenega imena. Naredimo to na primer za mapo `res://sredstva`: to dejanje bo razširilo pogled v notranjost mape, kjer bomo zdaj zagledali podmape `chromium-dino`, `dinozaver`, `kaktus`, ...
 - Izberimo poljubno mapo ali datoteko, na primer `res://sredstva/piksel.png`, in kliknemo na datoteko z desnim miškinim gumbom. Pokazal se bo kontekstni meni, v katerem lahko izvajamo kup akcij, vključno s preimenovanjem, premikanjem, podvajanjem in brisanjem. //To pomeni, da se nam za take akcije ni treba vračati v raziskovalec datotek našega operacijskega sistema, ampak lahko te operacije izvedemo kar znotraj urejevalnika Godot.
 
 #box-info(title: [
@@ -1134,7 +1131,7 @@ Vrnimo se nazaj v urejevalnik Godot. Preden nadaljujemo z ogledom vsebine, ki sm
 
 #v(base-font-size)
 
-Prepričajmo se, da je bil uvoz uspešen -- struktura našega projekta bi sedaj morala biti takšna:
+Prepričajmo se, da je bil uvoz uspešen: struktura našega projekta bi sedaj morala biti sledeča:
 // #no-codly[
 //   ```
 //   mapa "res://"                   ] (koren projekta)
@@ -1241,7 +1238,7 @@ Sedaj, ko smo spoznali osnovna podokna urejevalnika in uvozili začetna sredstva
 
 // #v(base-font-size)
 
-Vsaka igra, razvita s pogonom Godot, je osnovana na konceptu *vozlišč* (angl. "nodes"). Vozlišče je najmanjša enota funkcionalnosti, ki jo lahko uporabimo v naši igri. Vozlišča so različnih tipov -- nekatera vozlišča so mišljena za razvoj iger v 2D, nekatera za 3D, nekatera za uporabniški vmesnik (angl. "user interface" oz. "UI"), nekatera za animacije, itd. Primer vozlišča je na primer `Sprite2D`, ki preprosto prikaže 2D teksturo, ali `Camera2D`, ki vzpostavi igralski pogled.
+Vsaka igra, razvita s pogonom Godot, je osnovana na konceptu *vozlišč* (angl. "nodes"). Vozlišče je najmanjša enota funkcionalnosti, ki jo lahko uporabimo v naši igri. Vozlišča so različnih tipov: nekatera vozlišča so mišljena za razvoj iger v 2D, nekatera za 3D, nekatera za uporabniški vmesnik (angl. "user interface" oz. "UI"), nekatera za animacije itd. Primer vozlišča je na primer `Sprite2D`, ki preprosto prikaže 2D teksturo, ali `Camera2D`, ki vzpostavi igralski pogled.
 
 Vozlišča sestavljamo skupaj v *prizore*. Prizori so, poleg skript, glavni način sestavljanja, hranjenja in urejanja naše igre. Vsak prizor ima korensko (t.j. vrhnje) vozlišče. Korensko vozlišče ima nase prilepljene "otroke", na isti način kot recimo v drevesni strukturi raziskovalca datotek. Vsako vozlišče ima lahko poljubno število otrok. Vozlišče, skupaj z njegovimi otroki, imenujemo veja. 
 
@@ -1284,7 +1281,7 @@ Preden zaidemo pregloboko v podrobnosti, ustvarimo nov prizor, ki bo vseboval na
 
 Čestitke! Ustvarili smo svoj prvi prizor, četudi zaenkrat še ne počne ničesar. Preden nadaljujemo, shranimo ta prizor na disk, da ne bomo našega napredka izgubili: pritisnimo `Ctrl+S` (ali kliknimo z desnim klikom na zavihek neshranjenega prizora in izberimo "Save Scene"). V shranjevalnem oknu, ki se prikaže, se premaknimo v korensko mapo `res://`, če slučajno nismo začeli tam, in nato v tej mapi poleg mape `sredstva` ustvarimo novo mapo z imenom `prizori`. To storimo ali z desnim klikom na prazen prostor in klikom na "New Folder ..." v kontekstnem meniju, ali pa s klikom na gumb za novo mapo z zelenim plusom, ki je desno zgoraj v tem podoknu. V mapi `prizori` sedaj ustvarimo še mapo `igra`, nato pa vanjo shranimo naš prizor z imenom `igra.tscn` (namesto privzetega `node_2d.tscn`), kot vidimo na #ref(<scene-save-dialog-igra-tscn>, supplement: [sliki]).
 
-Novo datoteko s končnico `.tscn` bomo sedaj lahko našli tudi spodaj levo v raziskovalcu datotek na poti `res://prizori/igra/igra.tscn`. Če v prihodnosti ta prizor ponesreči ali nalašč zapremo s klikom na `X` ob imenu zavihka na vrhu, lahko ta prizor ponovno odpremo tako, da nanj dvokliknemo v raziskovalcu datotek. Še več kot to -- kot bomo videli v prihodnosti, imamo lahko odprtih več prizorov hkrati, pri čemer lahko med njimi skačemo s kliki na njihove zavihke na vrhu urejevalnika.
+Novo datoteko s končnico `.tscn` bomo sedaj lahko našli tudi spodaj levo v raziskovalcu datotek na poti `res://prizori/igra/igra.tscn`. Če v prihodnosti ta prizor ponesreči ali nalašč zapremo s klikom na `X` ob imenu zavihka na vrhu, lahko ta prizor ponovno odpremo tako, da nanj dvokliknemo v raziskovalcu datotek. Kot bomo videli tekom razvoja, imamo lahko celo odprtih več prizorov hkrati, pri čemer lahko med njimi skačemo s kliki na njihove zavihke na vrhu urejevalnika.
 
 #screenshot(
   path: "assets/ui-basics/godot-ui_scene_save-scene-dialog.png",
@@ -1296,7 +1293,7 @@ Novo datoteko s končnico `.tscn` bomo sedaj lahko našli tudi spodaj levo v raz
 === Osnovni tipi vozlišč <basic-node-types>
 
 
-Kot smo omenili že v začetku #ref(<urejanje-prizorov>, supplement: [poglavja]), obstajajo vozlišča različnih tipov. Nekatere tipe vozlišč uporabljamo za igre 2D, nekatere za 3D, nekatere za uporabniški vmesnik, itd. Kar moramo v osnovi vedeti, je da so tipi vozlišč v osnovi prav tako odvisni med seboj (temu bi rekli drevesna struktura), na primer: vozlišče `Node2D` je specializirana različica tipa `Node`, in vozlišče `Sprite2D` je specializirana različica tipa `Node2D`.
+Kot smo omenili že v začetku #ref(<urejanje-prizorov>, supplement: [poglavja]), obstajajo vozlišča različnih tipov. Nekatere tipe vozlišč uporabljamo za igre 2D, nekatere za 3D, nekatere za uporabniški vmesnik itd. Kar moramo v osnovi vedeti, je da so tipi vozlišč v osnovi prav tako odvisni med seboj (temu bi rekli drevesna struktura), na primer: vozlišče `Node2D` je specializirana različica tipa `Node`, in vozlišče `Sprite2D` je specializirana različica tipa `Node2D`.
 
 #figure(
   align(
@@ -1650,7 +1647,7 @@ Na katero vozlišče je lahko pripet, določa tip (razred) same datoteke. O tem 
 
   V tem primeru imamo dve možnosti: ali spremenimo tip datoteke s stavkom `extends` ali pa spremenimo tip vozlišča z desnim klikom na vozlišče in izbiro "Change type".
 
-  *POZOR!* Večino časa bo Godot za vse to poskrbel sam. Če pride do takšne napake, je potrebno preveriti, ali smo se kje zmotili mi -- morda smo na vozlišče pripeli napačno datoteko.
+  *POZOR!* Večino časa bo Godot za vse to poskrbel sam. Če pride do takšne napake, je potrebno preveriti, ali smo se kje zmotili mi; morda smo na vozlišče pripeli napačno datoteko.
 ]
 
 Datoteko na vozlišče pripnemo s klikom na vozlišče in nato s klikom na ikono zvitka z zelenim plusom, prikazanim tudi na #ref(<attach-script>, supplement: "sliki").
@@ -1985,7 +1982,7 @@ Vrednost stevilke je:
   caption: [Odsek definiran skozi direktivo \@export.],
 ) <export-section>
 
-Če znotraj odseka spremenimo vrednost 42 na nekaj drugega in projekt znova poženemo, lahko vidimo, da se sprememba vrednosti odraža na izhodu, kljub temu da je (privzeta) vrednost v `osnove.gd` še vedno 42 -- ker smo vrednost spremenili v urejevalniku, smo to privzeto vrednost povozili.
+Če znotraj odseka spremenimo vrednost $42$ na nekaj drugega in projekt znova poženemo, lahko vidimo, da se sprememba vrednosti odraža na izhodu, kljub temu da je (privzeta) vrednost v `osnove.gd` še vedno 42. To se zgodi zato, ker smo vrednost spremenili v urejevalniku in tako prejšnjo (privzeto) vrednost povozili.
 
 #box-warning([
   Urejanje izvožene spremenljivke znotraj urejevalnika vozlišč, ureja samo vrednost na trenutnem vozlišču (na katerega je pripeta skripta). Če je skripta pripeta na več vozlišč, oziroma je vozlišče skozi sistem prizorov pripeto večkrat, bo sprememba še vedno vidna samo na vozlišču, ki ga trenutno urejamo.
@@ -2945,7 +2942,7 @@ Naredimo novo dejanje in ga poimenujmo "skok".
   caption: [Dodajanje dejanja.],
 )<add-action>
 
-Dejanje smo uspešno izdelali, dodati mu moramo samo še prožilce. Uporabniška dejanja so lahko: pritisk tipke na tipkovnici, premik miške, pritisk gumba na igralnem ploščku, itd. Godotov sistem uporabniških dejanj nam omogoča, da ima eno dejanje več prožilcev. To je še posebej uporabno, ko izdelujemo igro za več platform in moramo hkrati podpreti različne vrste uporabniškega vnosa (npr. miška in tipkovnica, igralni plošček, VR krmilniki ...) saj tako v kodi ni potrebno ročno preverjati vseh možnih prožilcev.
+Dejanje smo uspešno izdelali, dodati mu moramo samo še prožilce. Uporabniška dejanja so lahko: pritisk tipke na tipkovnici, premik miške, pritisk gumba na igralnem ploščku itd. Godotov sistem uporabniških dejanj nam omogoča, da ima eno dejanje več prožilcev. To je še posebej uporabno, ko izdelujemo igro za več platform in moramo hkrati podpreti različne vrste uporabniškega vnosa (npr. miška in tipkovnica, igralni plošček, VR krmilniki ...) saj tako v kodi ni potrebno ročno preverjati vseh možnih prožilcev.
 
 V naši igri bo dinozaver skakal bodisi s pritiskom na preslednico (angl. _space_) ali pa s pritiskom na tipko "puščica gor" (angl. _up arrow_). Dodajmo torej ta dva prožilca na akcijo "skok".
 // TODO (Gorazd): Te puščice gor/dol magar zapišita z znakcem.
@@ -3065,7 +3062,7 @@ V prejšnjem poglavju smo dodali interaktivnost z uporabo Godotovega sistema akc
 ]
 
 == Kaj so fizikalna telesa?
-Do zdaj smo uporabljali večinoma vozlišča tipa `Node2D` in `Sprite2D`, ki ne podpirajo fizike, zato jih bomo zamenjali oziroma ovili (angl. _wrap_) z vozlišči, ki to podpirajo. Preden nadaljujemo, si na hitro podrobneje oglejmo en del drevesa tipov vozlišč na sliki #ref(<physics-node-type-structure>, supplement: [sliki]). Tu vidimo le majhen del poddrevesa, vidnega v prejšnjem drevesu na #ref(<partial-node-type-structure>, supplement: [sliki]) -- tokrat smo osredotočeni na tipe v `Node2D` in globljem `CollisionObject2D`.
+Do zdaj smo uporabljali večinoma vozlišča tipa `Node2D` in `Sprite2D`, ki ne podpirajo fizike, zato jih bomo zamenjali oziroma ovili (angl. _wrap_) z vozlišči, ki to podpirajo. Preden nadaljujemo, si na hitro podrobneje oglejmo en del drevesa tipov vozlišč na sliki #ref(<physics-node-type-structure>, supplement: [sliki]). Tu vidimo le majhen del poddrevesa, vidnega v prejšnjem drevesu na #ref(<partial-node-type-structure>, supplement: [sliki]) (tokrat smo osredotočeni na tipe v `Node2D` in globljem `CollisionObject2D`).
 
 #figure(
   align(
@@ -3181,7 +3178,7 @@ Opozorilo nam pravi, da vozlišče tipa `CharacterBody2D` potrebuje tudi trkalni
 #box-task[
   Ustvarite novo vozlišče tipa `CollisionPolygon2D`, ga preimenujte na `DinozaverPovrsina` in ga postavite za otroka vozlišča `DinozaverLik`.
 
-  Nato enkrat kliknite na vozlišče `DinozaverPovrsina`, da izberete vozlišče in izberite orodje za izbiro (angl. _Select Mode_), ki ga najdete pod ikono miške v orodni vrstici urejevalnika 2D (kot vidimo na #ref(<dino-sprite-in-2d-editor>, supplement: [sliki])) oziroma pod bližnjico `Q`. Sedaj začnimo ustvarjat trkalnik našega dinozavra tako, da kliknemo nekam na rob dinozavra in s tem ustvarimo prvo točko večkotnika. Kjer bomo kliknili, se bo pojavil majhen romb, ki prikazuje dodano točko. Sedaj se premaknimo do naslednje točke ob robu našega dinozavra in zopet kliknimo -- ustvarila se bo nova točka večkotnika, ki bo s prejšnjo povezana z ravno črto. Nadaljujmo ta proces, dokler ne obhodimo celotnega dinozavra; zadnji klik naredimo na prvo točko, ki smo jo ustvarili (prvi romb), in s tem zaključimo večkotnik in zagledamo površino trkalnika, kot jo vidimo na #ref(<physics_characterbody2d-dino-collision>, supplement: [sliki]):
+  Nato enkrat kliknite na vozlišče `DinozaverPovrsina`, da izberete vozlišče in izberite orodje za izbiro (angl. _Select Mode_), ki ga najdete pod ikono miške v orodni vrstici urejevalnika 2D (kot vidimo na #ref(<dino-sprite-in-2d-editor>, supplement: [sliki])) oziroma pod bližnjico `Q`. Sedaj začnimo ustvarjat trkalnik našega dinozavra tako, da kliknemo nekam na rob dinozavra in s tem ustvarimo prvo točko večkotnika. Kjer bomo kliknili, se bo pojavil majhen romb, ki prikazuje dodano točko. Sedaj se premaknimo do naslednje točke ob robu našega dinozavra in zopet kliknimo. Ustvarila se bo nova točka večkotnika, ki bo s prejšnjo povezana z ravno črto. Nadaljujmo ta proces, dokler ne obhodimo celotnega dinozavra; zadnji klik naredimo na prvo točko, ki smo jo ustvarili (prvi romb), in s tem zaključimo večkotnik in zagledamo površino trkalnika, kot jo vidimo na #ref(<physics_characterbody2d-dino-collision>, supplement: [sliki]):
 
   #screenshot(
     path: "assets/physics/godot_physics_dino-with-collision.png",
@@ -3215,7 +3212,7 @@ Preden našemu dinozavru dodamo skok, moramo definirati še tla, pri katerih se 
   ) <physics_scene-dino-with-floor-collision>
 ]
 
-Če prizor poženemo, bomo ugotovili, da se ne dogaja nič posebej novega -- dinozaver je še vedno pri miru, tal pa pravzaprav niti ne vidimo. To je pričakovan rezultat, ki ga bomo rešili v naslednjem poglavju. Pripravljeni smo, da dinozavru dodamo skakanje!
+Če prizor poženemo, bomo ugotovili, da se ne dogaja nič posebej novega: dinozaver je še vedno pri miru, tal pa pravzaprav niti ne vidimo. To je pričakovan rezultat, ki ga bomo rešili v naslednjem poglavju. Pripravljeni smo, da dinozavru dodamo skakanje!
 
 
 == Skok in skriptiranje `CharacterBody2D`
@@ -3223,7 +3220,7 @@ Preden našemu dinozavru dodamo skok, moramo definirati še tla, pri katerih se 
 Morda se sprašujete, zakaj se dinozaver kljub temu, da smo ga pretvorili v vozlišče tipa `CharacterBody2D`, ki podpira fiziko, ne premika. Razlog je, da je vozlišča `CharacterBody2D` treba voditi ročno skozi skripto GDScript.
 V glavi moramo imeti dve pomembni lastnosti teh vozlišč:
 - Spremenljivka `velocity`, ki je samodejno prisotna v skriptah, ki razširjujejo `CharacterBody2D`, nam omogoča, da nastavljamo hitrost lika in Godotu prepustimo, da samodejno izračuna potreben premik, namesto da bi morali to računati sami.
-- Funkcija `move_and_slide`, ki jo prav tako lahko uporabljamo le v skriptah, ki razširjujejo tip vozlišča `CharacterBody2D`, bo storila prav to -- klicali jo bomo v funkciji `_physics_process`, kjer bomo s tem simulirali fiziko našega dinozavra za majhen korak. Poleg tega bo ta funkcija poskrbela, da ne bomo padli skozi trkalnike!
+- Funkcija `move_and_slide`, ki jo prav tako lahko uporabljamo le v skriptah, ki razširjujejo tip vozlišča `CharacterBody2D`, bo storila ravno to. Klicali jo bomo v funkciji `_physics_process`, kjer bomo s tem simulirali fiziko našega dinozavra za majhen korak. Poleg tega bo ta funkcija poskrbela, da ne bomo padli skozi trkalnike!
 
 
 #box-task[
@@ -3379,7 +3376,7 @@ Signali so v osnovi dogodki, na katere se lahko prijavimo tako, da na ta dogodek
 
   V strukturi prizora izberite vozlišče `KaktusTrkalnoObmocje` (`Area2D`) in nato na desni strani med zavihki, kjer imate izbran zavihek s skupinami ("Groups") ali podrobnostmi vozlišča ("Inspector"), izberite zavihek "Signals". Zagledali boste nabor signalov, ki jih izbrano vozlišče oddaja, med njimi pa je tudi signal `body_entered`, ki se sproži takrat, ko določeno telo vstopi v to trkalno območje.
 
-  Dvokliknite na signal `body_entered` -- zagledali boste pojavno okno, kot ga vidite na #ref(<signals_body-entered-new-dialog>, supplement: [sliki]). Povežite se na vrhnje vozlišče `Igra` in v polje "Receiver Method" vnesite `_ko_je_kaktus_zadet` -- to je ime funkcije, ki se bo v skripti vozlišča `Igra` sprožila, ko neko telo vstopi v trkalno območje kaktusa.
+  Dvokliknite na signal `body_entered`. Zagledali boste pojavno okno, kot ga vidite na #ref(<signals_body-entered-new-dialog>, supplement: [sliki]). Povežite se na vrhnje vozlišče `Igra` in v polje "Receiver Method" vnesite `_ko_je_kaktus_zadet`: to je ime funkcije, ki se bo v skripti vozlišča `Igra` sprožila, ko neko telo vstopi v trkalno območje kaktusa.
 
   #screenshot(
     path: "assets/physics/godot_area_body-entered-signal-dialog.png",
@@ -3388,7 +3385,7 @@ Signali so v osnovi dogodki, na katere se lahko prijavimo tako, da na ta dogodek
   ) <signals_body-entered-new-dialog>
 ]
 
-V začetku bo funkcija zgledala takole (kot jo ustvari Godot):
+V začetku bo funkcija videti takole (takšno jo privzeto ustvari Godot):
 
 ```gd
 func _ko_je_kaktus_zadet(body: Node2D) -> void:
@@ -3419,7 +3416,7 @@ Uspešno! Dinozaver sicer še vedno potuje skozi kaktus, a razlog za to je le, d
 #pagebreak(weak: true)
 = Animacije
 
-Do sedaj smo razvili nekaj osnovnih funkcionalnosti premikanja in proženja ter fizikalnih lastnosti, a so vsi liki, ki jih imamo, popolnoma nepremični -- dinozaver drsi po tleh brez animacije, ptič lebdi v zraku, itd. Čas je, da to spremenimo z uporabo animacij.
+Do sedaj smo razvili nekaj osnovnih funkcionalnosti premikanja in proženja ter fizikalnih lastnosti, a so vsi liki, ki jih imamo, popolnoma nepremični. Dinozaver namreč drsi po tleh brez animacije, ptič lebdi v zraku itd. Čas je, da to spremenimo z uporabo animacij.
 
 == Plahte sličic <about-spritesheets>
 Na tej točki se posvetimo eni podrobnosti, ki je namenoma do tega trenutka nismo omenjali: kaj točno je datoteka `res://sredstva/chromium-dino/200-offline-sprite.png` in kako točno smo iz tega dobili sličico dinozavra, kot je `res://sredstva/dinozaver/dinozaver_1.tres`.
@@ -3434,7 +3431,7 @@ Datoteka `200-offline-sprite.png` je *plahta sličic* (angl. _spritesheet_). To 
 
 Sličice so zložene ena ob drugi in zapakirane v eno samo datoteko s končnico `.png`. Razlog za to je, da želimo čim bolj zmanjšati količino posameznih datotek, ki jih moramo naložiti v delovni spomin. Ta pristop pri igri, ki je tako majhna, kot je naša, ni nujno potreben, a je to kljub vsemu dobra praksa. Tako pakiranje pomeni, da lahko naložimo eno samo datoteko z vsemi teksturami, in nato iz te teksture za uporabo povlečemo manjše kose po potrebi.
 
-Točno to smo tudi naredili v paketu sredstev (angl. _asset pack_), ki smo vam ga dali -- npr. datoteka `res://sredstva/dinozaver/dinozaver_1.tres` le vzame to plahto sličic in na podlagi koordinat ven izvleče željen del, ki vsebuje dinozavra. To storimo tako, da v Godotovem raziskovalcu v poljubni mapi ustvarimo vir (angl. _resource_) tipa `AtlasTexture`. A preden razložimo to, naredimo kratek ovinek in razložimo, kaj viri sploh so.
+Točno to smo tudi naredili v paketu sredstev (angl. _asset pack_), ki smo vam ga dali. Datoteka `res://sredstva/dinozaver/dinozaver_1.tres` na primer le vzame to plahto sličic in na podlagi koordinat ven izvleče željen del, ki vsebuje dinozavra. To storimo tako, da v Godotovem raziskovalcu v poljubni mapi ustvarimo vir (angl. _resource_) tipa `AtlasTexture`. A preden razložimo to, naredimo kratek ovinek in razložimo, kaj viri sploh so.
 
 
 === Viri
@@ -3512,7 +3509,7 @@ Vire lahko shranimo na disk na podoben način kot prizore, le da imajo viri kon�
 
 
 === Vir `AtlasTexture`
-Kot omenjeno v #ref(<about-spritesheets>, supplement: [poglavju]), je funkcionalnost vira `AtlasTexture` to, da iz atlasa (plahte) izvleče manjši del teksture. Točno tako so sestavljene vse sličice dinozavra v mapi `res://sredstva/dinozaver`, vsi kaktusi v `res://sredstva/kaktusi`, itd. Pomembno je povedati, da je ta proces:
+Kot omenjeno v #ref(<about-spritesheets>, supplement: [poglavju]), je funkcionalnost vira `AtlasTexture` to, da iz atlasa (plahte) izvleče manjši del teksture. Točno tako so sestavljene vse sličice dinozavra v mapi `res://sredstva/dinozaver`, vsi kaktusi v `res://sredstva/kaktusi` itd. Pomembno je povedati, da je ta proces:
 - nedestruktiven, torej originalna plahta sličic ostane taka, kot je, in da
 - tak pristop ponavadi ne zahteva dodatnega kopiranja tekstur, s čimer prihranimo na delovnem spominu.
 
@@ -4108,7 +4105,7 @@ if global_position.x < -200:
 	queue_free()
 ```
 
-Na tej točki se lahko še malo poigrate z nastavitvami, kot je interval kaktusov na skripti `igra.gd`. Spomnite se, da smo to spremenljivko izvozili, tako da jo lahko urejate kar iz urejevalnika. Lahko se poigrate tudi s hitrostjo kaktusov -- urejate jo lahko v funkciji `_process` znotraj skripte `kaktus.gd`. Smiselno bi jo bilo tudi izvoziti, da jo lahko med testiranjem lažje spreminjamo.
+Na tej točki se lahko še malo poigrate z nastavitvami, kot je interval kaktusov na skripti `igra.gd`. Spomnite se, da smo to spremenljivko izvozili, tako da jo lahko urejate kar iz urejevalnika. Lahko se poigrate tudi s hitrostjo kaktusov, kar lahko urejate v funkciji `_process` znotraj skripte `kaktus.gd`. Smiselno bi jo bilo tudi izvoziti, da jo lahko med testiranjem lažje spreminjamo.
 
 #box-task[
   Uredite skripto `kaktus.gd` tako, da bo se bo dalo hitrost kaktusov urejati znotraj urejevalnika.
@@ -4873,7 +4870,37 @@ func _process(delta: float) -> void:
 #pagebreak(weak: true)
 = Licence <licences>
 
-_Za podrobnosti glede licence vsebine knjige, ki jo berete, kode in ostalih vsebin, ki niso pokrite z licencami spodaj, si oglejte kolofon na strani 2._
+_Glej tudi kolofon na strani 2._
+
+#v(1em)
+
+Vsebina knjige je ponujena pod licenco *#link("https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en", "Creative Commons BY-NC-SA 4.0")*. Iz te licence je izvzeta koda (tako v knjigi kot v dodatnih materialih): le-ta je namesto tega ponujena pod licenco *#link("https://spdx.org/licenses/MIT.html", "MIT")*:
+
+#copyright-text[
+  ```
+  MIT License
+
+  Copyright (c) 2026 Andrej Matos in Simon Peter Goričar
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+  ```
+]
 
 
 == Zunanje licence <external-licences>
