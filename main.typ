@@ -268,18 +268,19 @@
 /*
  * COLORED NODE TYPE TEXT
  */
-#let node-type-name = (
+#let node-type-name(
   name,
   fill-color: rgb("#e0e0e0"),
   disable-link: false,
-) => {
-  // TODO: Se da mogoče narediti da se link odpre v novem zavihku (če bereš pdf v brskalniku)?
+) = {
+  // TODO: Se da mogoče narediti da se link odpre v novem zavihku (če bereš pdf v brskalniku)? COMMENT(simong): sem malo pogledal naokoli in baje PDF standard te nastavitve ne podpira (še vedno pa lahko ponavadi uporabimo middle click, ki ga ponavadi podpirajo brskalniki).
 
   if disable-link == true {
     box(
       text(
         fill: fill-color,
         weight: "medium",
+        tracking: -0.1pt,
         name,
       ),
     )
@@ -301,6 +302,7 @@
         text(
           fill: fill-color,
           weight: "medium",
+          tracking: -0.1pt,
           name,
         ),
       ),
@@ -308,7 +310,7 @@
   )
 };
 
-#let node2d-type-name = (name, disable-link: false) => {
+#let node2d-type-name(name, disable-link: false) = {
   node-type-name(
     name,
     fill-color: rgb("#6393ff").darken(10%),
@@ -316,7 +318,7 @@
   )
 };
 
-#let node3d-type-name = (name, disable-link: false) => {
+#let node3d-type-name(name, disable-link: false) = {
   node-type-name(
     name,
     fill-color: rgb("#ff5c5c"),
@@ -324,10 +326,10 @@
   )
 };
 
-#let control-type-name = (name, disable-link: false) => {
+#let control-type-name(name, disable-link: false) = {
   node-type-name(
     name,
-    fill-color: rgb("#70ff81"),
+    fill-color: rgb("#70ff81").darken(45%).saturate(15%),
     disable-link: disable-link,
   )
 };
@@ -357,7 +359,7 @@
   "SpriteFrames",
 );
 
-#let data-type-name = name => {
+#let data-type-name(name) = {
   let matches-allowed-linkable-type = allowed-linkable-data-types.contains(name)
 
   if not matches-allowed-linkable-type {
@@ -390,27 +392,36 @@
   )
 };
 
-#let resource-type-name = name => {
+#let resource-type-name(name) = {
   data-type-name(name)
 };
 
-#let function-name = name => {
+#let function-name(name, fill-override: none) = {
+  let default-fill = rgb("#66e5ff").darken(35%).saturate(15%);
+
+  let text-fill = default-fill;
+  if fill-override != none {
+    text-fill = fill-override;
+  }
+
   text(
-    fill: rgb("#66e5ff"),
+    fill: text-fill,
     weight: "medium",
+    tracking: -0.1pt,
     name,
   )
 };
 
-#let variable-name = name => {
+#let variable-name(name) = {
   text(
     fill: rgb("#6d3d3d"),
     weight: "medium",
+    tracking: -0.1pt,
     name,
   )
 };
 
-#let ui-button = name => context {
+#let ui-button(name) = context {
   // let x-padding = 4pt;
   // let y-padding = 7pt;
 
@@ -441,6 +452,21 @@
   //
 
   ["#name"]
+};
+
+#let nested-ui-button(..parts) = {
+  let positional-parts = parts.pos();
+  let num-positional-parts = positional-parts.len();
+
+  for index in array.range(0, num-positional-parts, inclusive: false) {
+    ui-button(positional-parts.at(index))
+    if (index + 1) < num-positional-parts {
+      box(
+        inset: (x: 1.5pt),
+        sym.arrow
+      )
+    }
+  }
 };
 
 
@@ -707,7 +733,7 @@
 )
 
 #align(center + horizon)[
-  #v(7cm)
+  #v(6.5cm)
 
   #reference-to-workshop[
     #block(
@@ -725,7 +751,7 @@
       // y: 20pt,
     ),
     inset: (
-      y: 20pt,
+      y: 24pt,
     ),
     // fill: rgb("#b3e3f3"),
     fill: gradient.linear(
@@ -779,6 +805,8 @@
 
 #pagebreak(weak: true)
 
+<kolofon>
+
 #align(top, block[
   #set par(spacing: base-font-size * 2)
 
@@ -789,11 +817,11 @@
   Avtorja: Andrej Matos in Simon Goričar
 
   Leto izida: 2026 \
-  Zadnja sprememba: 27. junij 2026#footnote(numbering: "*")[Zadnja stabilna različica pogona Godot je, za časa pisanja, Godot 4.7, ki je bil izdan 18. junija 2026. Avtorja priporočata, da bralci (še posebej začetniki) uporabite to različico pogona, saj zaslonski posnetki ustrezajo Godot 4.7.] \
+  Zadnja sprememba: 27. junij 2026#footnote[Zadnja stabilna različica pogona Godot je, za časa pisanja, Godot 4.7, ki je bil izdan 18. junija 2026. Avtorja priporočata, da bralci (še posebej začetniki) uporabite to različico pogona, saj zaslonski posnetki ustrezajo Godot 4.7.] \
 
   #v(1em)
 
-  Avtorja se zahvaljujeta tudi mentorjema Cirilu Bohaku in Gorazdu Gorupu v Laboratoriju za računalniško grafiko in multimedije na Fakulteti za računalništvo in informatiko v Ljubljani za svetovanje pri izdelavi knjige, izkazano zaupanje in ponujeno možnost.
+  Avtorja se zahvaljujeta mentorjema Cirilu Bohaku in Gorazdu Gorupu v Laboratoriju za računalniško grafiko in multimedije na Fakulteti za računalništvo in informatiko v Ljubljani za svetovanje pri izdelavi knjige, izkazano zaupanje in ponujeno možnost.
 ])
 
 #align(bottom, block[
@@ -813,14 +841,14 @@
       align(right + horizon, block(
         inset: (left: 16pt),
       )[
-        Vsebina knjige je ponujena pod licenco *#link("https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en", "Creative Commons BY-NC-SA 4.0")*#footnote(numbering: "*")[
-          Določena vizualna vsebina, ki se prikaže v nekaterih posnetkih zaslona v knjigi in ki je na voljo v paketu sredstev ob tej knjigi, je na voljo pod licenco #link("https://spdx.org/licenses/BSD-3-Clause.html", "BSD-3-Clause") iz projekta #link("https://github.com/chromium/chromium", "Chromium").
+        Vsebina knjige je ponujena pod licenco *#link("https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en", "Creative Commons BY-NC-SA 4.0")*#footnote[
+          Določena vizualna vsebina, ki se prikaže v nekaterih posnetkih zaslona v knjigi in ki je na voljo v paketu sredstev ob tej knjigi, izvira iz vsebine pod licenco #link("https://spdx.org/licenses/BSD-3-Clause.html", "BSD-3-Clause") iz projekta #link("https://github.com/chromium/chromium", "Chromium"). Besedilo licence je na voljo v #ref(<licences>, supplement: [poglavju]). Ker to BSD-3-Clause dovoljuje, je ta knjiga, vključno z omenjeno vizualno vsebino, izvzemši kodo, kljub temu v celoti licencirana pod #link("https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en", "CC BY-NC-SA 4.0").
         ]. \ Iz te licence je izvzeta koda, ki je namesto tega ponujena pod licenco *#link("https://spdx.org/licenses/MIT.html", "MIT")*.
       ]),
     ),
   )
 
-  V praktičnem smislu to pomeni, da lahko to knjigo prosto delite naprej in jo celo spreminjate, pri čemer pa morate spoštovati pogoje, ki jih postavlja ta licenca. Med drugim: knjiga se ne sme uporabiti za komercialne namene, kopije knjige morajo obdržati imena avtorjev (in kopijo licence), če pa material spreminjate, ste primorani tudi novo različico knjige ponuditi pod isto licenco kot midva#footnote(numbering: "*")[Take licence predstavljajo nabor nepreklicnih pravic, ki jih avtorji določenega dela lahko dodelijo svojemu delu. Ravno v tej nepreklicnosti, ki za uporabnike veljajo le ob sprejemu licenčnih pogojev, je moč odprtokodnih licenc. Najin namen s to licenco je omogočiti prost dostop in redistribucijo te knjige in vseh njenih prihodnih različic, tudi če se zgodi, da midva v izboljšavah knjige nisva več udeležena!]. Kodo pa lahko uporabljate še bolj prosto kot to, saj je edina obveza to, da obdržite kopijo besedila licence. To pomenu, da kodo lahko uporabite tudi v komercialne namene in lahko svoje prihodnje projekte, ki bi morebiti temeljili na tej kodi, licencirate (ali ne) popolnoma poljubno.
+  V praktičnem smislu to pomeni, da lahko to knjigo prosto delite naprej in jo celo spreminjate, pri čemer pa morate spoštovati pogoje, ki jih postavlja ta licenca. Med drugim: knjiga se ne sme uporabiti za komercialne namene, kopije knjige morajo obdržati imena avtorjev (in kopijo licence), če pa material spreminjate, ste primorani tudi novo različico knjige ponuditi pod isto licenco kot midva#footnote[Take licence predstavljajo nabor nepreklicnih pravic, ki jih avtorji lahko dodelijo svojemu delu. Ravno v tej nepreklicnosti, ki za uporabnike velja le ob sprejemu licenčnih pogojev, je moč odprtokodnih licenc. Najin namen s to licenco je omogočiti prost dostop in redistribucijo te knjige in vseh njenih prihodnih različic, tudi če se zgodi, da midva v izboljšavah knjige nisva več udeležena!]. Kodo pa lahko uporabljate še bolj prosto kot to, saj je edina obveza to, da obdržite kopijo besedila licence. To pomenu, da kodo lahko uporabite tudi v komercialne namene in lahko svoje prihodnje projekte, ki bi morebiti temeljili na tej kodi, licencirate (ali ne) popolnoma poljubno.
 
   Podrobnosti aktivnih licenc tega materiala lahko najdete na koncu knjige v #ref(<licences>, supplement: [poglavju]), nekaj malega o odprtokodnih licencah na splošno pa bomo spregovorili tudi v #ref(<game-engine-history>, supplement: [poglavju]).
 ])
@@ -1798,7 +1826,7 @@ Vsaka GDScript skripta (datoteka) je namenjena uporabi na enem od tipov vozliš�
 Na katero vozlišče je lahko pripet, določa tip (razred) same datoteke. O tem bomo malo več povedali kasneje, za zdaj si je pomembno zapomniti, da se mora vrstica `extends` na vrhu datoteke ujemati s tipom vozlišča, na katerega pripenjamo datoteko.
 
 #box-info(title: [Kako prepoznam to napako?])[
-  V primeru, da se tip GDScript datoteke ne ujema s tipom vozlišča, bo Godot ob zagonu javil napako: "Script inherits from native type '(tip GDScript datoteke)', so it can't be assigned to an object of type: '(tip vozlišča)'"".
+  V primeru, da se tip GDScript datoteke ne ujema s tipom vozlišča, bo Godot ob zagonu javil napako: "Script inherits from native type '(tip GDScript datoteke)', so it can't be assigned to an object of type: '(tip vozlišča)'".
 
   V tem primeru imamo dve možnosti: ali spremenimo tip datoteke s stavkom `extends` ali pa spremenimo tip vozlišča z desnim klikom na vozlišče in izbiro "Change type".
 
@@ -3637,9 +3665,9 @@ var impulz_za_skok: float = 1000.0
 ```
 
 #box-info(
-  title: "Kaj naj bi bilo #[...]?",
+  title: "Kaj naj bi bilo # [...]?",
   [
-    S takšnimi oznakami programerji pogosto označujemo da je tam še nek kos kode, ki pa je za trenuten primer nepomembna ali pa je bil ta kos kode že napisan malo pred tem in ga ne želimo ponavljati (kot smo že omenili smo precej lena bitja in ne maramo odvečnega pisanja). Če torej znotraj tega dokumenta kdaj naletite na takšno oznako vedite, da ne izpuščamo nič, kar bi bil za vas pomembno, oziroma kar naj bi bilo tam že poznate.
+    S takšnimi oznakami programerji pogosto označujemo, da je na tem mestu še nek skrit ali neprikazan kos kode, ki pa je za trenuten primer nepomembna ali pa je bil ta kos kode že napisan malo pred tem in ga ne želimo ponavljati zaradi boljše berljivosti. Če torej znotraj tega dokumenta kdaj naletite na takšno oznako, vedite, da ne izpuščamo nič, kar bi bilo za vas pomembno, oziroma da ste, kar naj bi bilo tam, že spoznali.
   ],
 )
 
@@ -4238,7 +4266,7 @@ func _ready() -> void:
 
 Zgornja koda deluje popolnoma pravilno in bi jo lahko kot takšno tudi uporabili. A ker že vnaprej vemo točno kateri prizor nalagamo, lahko vse skupaj malo pohitrimo. Godot vsebuje tudi funkcijo ```gd  Resource preload(path: String)```, ki je skoraj identična funkciji #function-name("load"). Edina razlika je, da #function-name("preload") zahteva, da je niz (torej pot do vira) konstanten, kot argument ji torej ne moremo podati na primer spremenljivke, ali nekega kosa kode. V zameno za to omejitev pridobimo hitrost. Funkcijo #function-name("preload") Godot namreč izvede vnaprej, še preden sploh pride do njenega klica, in na točki kjer kličemo #function-name("preload") samo vrne že pripravljen vir. To tudi pomeni, da te kode ni potrebno več izvesti v funkciji #function-name("_ready_") oziroma pod direktivo `@onready`.
 
-Zgornja koda bi torej sedaj izgledala takole:
+Zgornja koda bi torej sedaj bila videti nekako takole:
 ```gd
 # Ker se preload izvede že med nalaganjem skriptne datoteke, lahko na to
 # kar vrne gledamo, kot da je navadna vrednost in jo kar takole dodelimo
@@ -4330,12 +4358,12 @@ func _process(delta):
 Če popravite skripto `igra.gd` tako, da bo vsebovala zgornjo kodo, bi morali na izhod, na intervalu ene sekunde, izpisovati "dodaj kaktus". Kako iz prizora na disku v drevo dodati nova vozlišča, smo ravnokar spoznali. Dodajmo torej še dejansko dodajanje kaktusov.
 
 ```gd
-#[...]
+# [...]
 
 var kaktus_prizor: PackedScene = preload("res://prizori/kaktusi/kaktus.tscn")
 
 func _process(delta):
-	#[...]
+	# [...]
 	if (cas - cas_zadnjega_dodajanja > interval_kaktusov):
 		var kaktus: Node2D = kaktus_prizor.instantiate()
 		add_child(kaktus)
@@ -4366,7 +4394,7 @@ V prizor `igra.tscn` dodajte novo vozlišče tipa #node2d-type-name("Node2D") in
 Dodajmo zdaj še ta zadnji kos sestavljanke v skripto `game.gd`. Ne pozabite tudi umakniti vrstice, ki je naš kaktus premaknila na (400, 400), iz skripte `kaktus.gd`, saj premik zdaj ni več potreben.
 
 ```gd
-#[...]
+# [...]
 
 # @onready je tu nujen, saj funkcija get_node v katero se razširi simbol $
 # ne more preiskovati drevesa preden smo vanj pripeti.
@@ -4379,7 +4407,7 @@ Dodajmo zdaj še ta zadnji kos sestavljanke v skripto `game.gd`. Ne pozabite tud
 var izvor_kaktusov = $IzvorKaktusov
 
 func _process(delta):
-	#[...]
+	# [...]
 	if (cas - cas_zadnjega_dodajanja > interval_kaktusov):
 		var kaktus: Node2D = kaktus_prizor.instantiate()
 		# Novemu kaktusu globalno pozicijo nastavimo na enako pozicijo
@@ -4390,7 +4418,7 @@ func _process(delta):
 		cas_zadnjega_dodajanja = cas
 ```
 
-Če projekt poženete, bi morali na zaslonu videti nekaj podobnega #ref(<cactus-line>, supplement: "sliki"). Preverite, da vam skakanje dinozavra še vedno deluje, saj ga med izdelavo tega dela ne bi smeli pokvariti. Smo pa tekom preobrazbe projekta izgubili en kos funkcionalnosti: morda ste opazili, da se ob trkih s kaktusi, sporočila o trkih ne izpisujejo več na izhod. Popravimo sedaj še to.
+Če projekt poženete, bi morali na zaslonu videti nekaj podobnega #ref(<cactus-line>, supplement: "sliki"). Preverite, da vam skakanje dinozavra še vedno deluje, saj ga med izdelavo tega dela ne bi smeli pokvariti. Smo pa tekom preobrazbe projekta izgubili en kos funkcionalnosti: morda ste opazili, da se ob trkih s kaktusi sporočila o trkih ne izpisujejo več na izhod. Popravimo sedaj še to.
 
 #screenshot(
   path: "assets/procedural-generation/cactus-line.png",
@@ -4407,17 +4435,17 @@ func _ko_je_kaktus_zadet(body: Node2D) -> void:
 
 Nazadnje smo signal na našo funkcijo vezali s pomočjo Godotovega vmesnika. To je priročen in enostaven način, če so vsi faktorji znani že pred zagonom projekta.
 
-Ko smo to delali nazadnje smo _ob času zagona projekta_ vedeli:
-- Točno katero vozlišče preverja svoje trke in kako ga lahko najdemo (to vozlišče je bilo `KaktusTrkalnoObmocje` znotraj `VelikKaktusSlicica`)
-- Kdo je tisti ki bo to poslušal (to je bilo vozlišče `Igra` skozi `igra.gd`)
+Ko smo to delali nazadnje, smo _ob času zagona projekta_ vedeli:
+- Točno katero vozlišče preverja svoje trke in kako ga lahko najdemo. To vozlišče je bilo `KaktusTrkalnoObmocje` znotraj `VelikKaktusSlicica`.
+- Kdo je tisti, ki bo to poslušal. To je bilo vozlišče `Igra` skozi `igra.gd`.
 
 Tokrat:
-- Vemo da bo to poslušalo vozlišče `Kaktus` skozi `kaktus.gd`.
-- *NE* vemo pa katero vozlišče bo preverjalo svoje trke, saj se vozlišče `KaktusTrkalnoObmocje` znotraj `VelikKaktus` ustvari dinamično, šele po zagonu projekta.
+- *Vemo*, da bo to poslušalo vozlišče `Kaktus` skozi `kaktus.gd`.
+- *Ne vemo* pa, katero vozlišče bo preverjalo svoje trke, saj se vozlišče `KaktusTrkalnoObmocje` znotraj `VelikKaktus` ustvari dinamično -- šele po zagonu projekta.
 
-To ni nepremostljiva ovira, vse kar pomeni je, da moramo začeti tudi signal vezati dinamično.
+To ni nepremostljiva ovira. Vse kar to pomeni je, da moramo začeti tudi signal vezati dinamično.
 
-Kot vedno, je tu tudi obvezno opozorilo, da je možnih pristopov več. V večjem projektu, ki bi imel bolj dinamične in raznolike kaktuse, bi verjetno vseeno uvedli skripto na korenskem vozlišču specifičnih kaktusov (kot je "VelikKaktus"), in potem nanjo povezovali trke, prek nje pa potem še višje. Ker pa je naš projekt precej enostaven, kaktusi pa so si med sabo različni samo po velikostih in sličicah, se bomo držali pravila, da imajo vsi kaktusi enako strukturo in poimenovanja, ter ročno vezali signal za trkanje.
+Kot vedno, je tu tudi obvezno, da veste, da je možnih pristopov več. V večjem projektu, ki bi imel še bolj dinamične in raznolike kaktuse, bi verjetno vseeno uvedli skripto na korenskem vozlišču specifičnih kaktusov (kot je `VelikKaktus`), nato pa nanjo povezovali trke, prek nje pa potem pošiljali trke še višje v drevesu. Ker pa je naš projekt precej enostaven, kaktusi pa so si med sabo različni samo po velikostih in sličicah, se bomo držali pravila, da imajo vsi kaktusi enako strukturo in poimenovanja, ter vezali signal za trkanje ročno.
 
 Naša zahtevana struktura bo potemtakem:
 #context {
@@ -4430,11 +4458,11 @@ Naša zahtevana struktura bo potemtakem:
   let file-tree = dtree(raw-tree)
   file-tree
 }
-\* - ime vozlišča mora popolnoma ustrezati imenu v shemi
+\* -- ime vozlišča mora popolnoma ustrezati imenu v shemi!
 
-Naš `velik_kaktus.tscn` se takšne strukture že drži, v mislih pa jo bomo morali imeti, ko bomo izdelovali druge kaktuse.
+Naš prizor `velik_kaktus.tscn` se takšne strukture že drži, v mislih pa jo bomo morali imeti, ko bomo izdelovali druge kaktuse.
 
-Začnimo torej poslušati enak signal, kot smo ga poslušali prej. To bo signal `body_entered` na #node2d-type-name("Area2D"). Najprej moramo najti `KaktusTrkalnoObmocje` (ki je tipa #node2d-type-name("Area2D")) znotraj našega drevesa vozlišč. Do sedaj smo za takšno iskanje uporabljali funkcijo `get_node` (in njeno okrajšavo `$`), obstaja pa tudi funkcija #function-name("find_child"), ki nam v tem primeru omogoča več svobode. Če bi na primer uporabili #function-name("get_node") bi moralo biti tudi ime vozlišča `SličicaKaktusa` fiksno in med `KaktusTrkalnoObmocje` in `KorenskoVozlišče` ne bi smelo biti nobenega drugega vozlišča kot `SličicaKaktusa`.
+Začnimo torej poslušati enak signal, kot smo ga poslušali prej. To bo signal `body_entered` na #node2d-type-name("Area2D"). Najprej moramo najti `KaktusTrkalnoObmocje` (ki je tipa #node2d-type-name("Area2D")) znotraj našega drevesa vozlišč. Do sedaj smo za takšno iskanje uporabljali funkcijo #function-name("get_node") (in njeno okrajšavo #function-name("$")), obstaja pa tudi funkcija #function-name("find_child"), ki nam v tem primeru omogoča več svobode. Če bi na primer uporabili #function-name("get_node") bi moralo biti tudi ime vozlišča `SličicaKaktusa` fiksno in med `KaktusTrkalnoObmocje` in `KorenskoVozlišče` ne bi smelo biti nobenega drugega vozlišča kot `SličicaKaktusa`.
 
 Dovolj razlage! Napišimo spet nekaj kode. Poglejmo si tokrat kar celotno datoteko naenkrat:
 
@@ -4477,7 +4505,7 @@ Skripta je že sama precej dobro pokomentirana. Pojdimo pa zdaj še enkrat čez 
 1. Še preden s skripta začne izvajati se skozi #function-name("preload") v kaktus_prizor naloži zapakiran prizor `velik_kaktus.tscn`.
 2. Vozlišče kaktus se doda v drevo vozlišč, sproži se klic #function-name("_ready") v katerem se:
   1. Zapakirana scena shranjena v kaktus_prizor se razpakira in pretvori v drevo vozlišč.
-  2. Znotraj tega drevesa najdemo vozlišče z imenom "KaktusTrkalnoObmocje" in nanj začnemo, ker zaupamo lastnim pravilom, gledati kot na tip vozlišča #node2d-type-name("Area2D").
+  2. Znotraj tega drevesa najdemo vozlišče z imenom `KaktusTrkalnoObmocje` in nanj začnemo, ker zaupamo lastnim pravilom, gledati kot na tip vozlišča #node2d-type-name("Area2D").
   3. Na signal `body_entered` od vozlišča v `kaktusov_trkalnik` (kjer je naš #node2d-type-name("Area2D")), dodamo poslušalca. To je naša lokalna funkcija #function-name("ko_ovira_zadane_dinozavra").
   4. Vozlišče (in s tem vse njegove otroke, torej celotno drevo vozlišč) znotraj `kaktus` pripnemo nase in s tem v glavno drevo vozlišč, s klicem funkcije #function-name("add_child").
 3. Vozlišče se začne izvajati. V funkciji #function-name("_process_") se začnemo premikati levo.
@@ -4566,7 +4594,7 @@ func _ready() -> void:
 	# Tu ga dodamo kot svojega otroka.
 	add_child(kaktus)
 
-#[...]
+# [...]
 ```
 
 Deli, ki nas zanimajo, so izdelovanje kaktusov in ne njihovo upravljanje, tako da smo vse izven funkcije `_ready` trenutno izpustili, saj drugih delov tudi ne bomo spreminjali.
@@ -4590,14 +4618,14 @@ Ob zagonu moramo zdaj samo vzeti naključen element seznama, ga izdelati in tako
 
 V našem primeru si z njo lahko pomagamo takole:
 ```gd
-#[...]
+# [...]
 
 var kaktus_prizori: Array[PackedScene] = [
 	preload("res://prizori/kaktusi/velik_kaktus.tscn"),
 	preload("res://prizori/kaktusi/velik_kaktus_2.tscn")
 ]
 
-#[...]
+# [...]
 
 func _ready() -> void:
 	# S funkcijo "randi_range" izberemo naključni indeks, ki bo znotraj
@@ -4614,7 +4642,7 @@ func _ready() -> void:
 	# vozlišč.
 	var kaktus: Node2D = kaktus_prizori[nakljucni_indeks].instantiate()
 
-	#[...]
+	# [...]
 
 ```
 
@@ -4644,24 +4672,24 @@ Osnovno delovanje igre smo zdaj dokončali. Dinozaver ima svoj izziv in hkrati t
 
 == Vozlišča tipa `Control`
 
-Do sedaj smo delali izključno z "modrimi" tipi vozlišč, torej potomci tipa #node2d-type-name("Node2D"). Če se spomnite #ref(<partial-node-type-structure>, supplement: "slike"), obstaja še cela veja vozlišč, ki izhajajo iz tipa #control-type-name("Control") in se jih sploh še nismo dotikali. (Obstaja seveda še cela veja "rdečih" vozlišč, potomcev tipa `Node3D`, ki so narejena za ustvarjanje 3D iger, a se jih tekom te delavnice ne bomo dotikali.)
+Do sedaj smo delali izključno z modrimi tipi vozlišč, torej potomci tipa #node2d-type-name("Node2D"). A spomnite se #ref(<partial-node-type-structure>, supplement: "slike"): obstaja še cela veja vozlišč, ki izhajajo iz tipa #control-type-name("Control"), katerih se sploh še nismo dotikali. Obstaja seveda še cela veja rdečih vozlišč, potomcev tipa `Node3D`, ki so narejena za ustvarjanje 3D iger, a se jih tekom te delavnice ne bomo dotikali.
 
-Vozlišča tipa #control-type-name("Control") so v pogonu z namenom izdelave klasičnega uporabniškega vmesnika. Gre za konstrukte, kot ste jih verjetno navajeni že iz uporabe klasičnih aplikacij (gumbi, vpisna polja, odstavki teksta...). Med drugim pa med potomci tipa #control-type-name("Control") najdemo tudi razne zaboje, s katerimi lahko ostala vozlišča pametno urejamo (jih postavimo v sredino, uredimo vertikalno/horizontalno, dodamo zamike, ...).
+Vozlišča tipa #control-type-name("Control") so v pogonu z namenom izdelave klasičnega uporabniškega vmesnika. Gre za konstrukte, kot ste jih verjetno navajeni že iz uporabe klasičnih aplikacij: gumbi, vpisna polja, odstavki teksta itd. Med drugim pa med potomci tipa #control-type-name("Control") najdemo tudi razne zaboje (angl. _containers_), s katerimi lahko ostala vozlišča pametno urejamo: jih postavimo v sredino, uredimo vertikalno ali horizontalno, dodamo razmake, ...
 
-== Prizor "Konec igre"
+== Prizor za konec igre
 
-Začnimo z izdelavo prizora, ki ga bomo prikazali ob koncu igre. Znotraj mape `res://prizori/igra` naredite nov prizor `konec_igre.tscn`, *katerega korensko vozlišče naj bo tipa #control-type-name("Control")*. Če ste nov prizor naredili s klikom na gumb "+" lahko to dosežete s klikom na gumb "User Interface" (uporabniški vmesnik) znotraj raziskovalca vozlišč. Če pa ste prizor naredili skozi raziskovalec datotek, pa to dosežete tako, da v oknu za izdelavo prav tako izberete možnost "User Interface". Preverite da ima korensko vozlišče ime "KonecIgre" in ga, če ima drugačno ime, popravite.
+Začnimo z izdelavo prizora, ki ga bomo prikazali ob koncu igre. Znotraj mape `res://prizori/igra` naredite nov prizor `konec_igre.tscn`, *katerega korensko vozlišče naj bo tokrat tipa #control-type-name("Control") in ne #node2d-type-name("Node2D")!* Če ste nov prizor naredili s klikom na gumb "+" pri koncu seznama zavihkov, lahko to dosežete s klikom na gumb "User Interface" (slov. uporabniški vmesnik) znotraj raziskovalca vozlišč. Če pa ste prizor naredili skozi raziskovalec datotek, pa to dosežete tako, da v oknu za izdelavo prav tako izberete možnost "User Interface". Preverite, da ima korensko vozlišče ime "KonecIgre", in ga, če ima drugačno ime, popravite.
 
-Razmislimo kaj mora naš prizor vsebovati. Želimo da:
-- Igralcu jasno pove da se je igra končala. To lahko dosežemo s prikazom velikega besedila. Na primer "KONEC IGRE".
-- Igralcu prikaže kako dolgo je zdržal. To bi lahko pobrali kar iz naše spremenljivke `cas`, ki se skozi potek igre vztrajno povečuje. Oblika v kateri je trenutno (sekunde od začetka v obliki decimalnega števila) morda ni najbolj primeren a to lahko kasneje popravimo. Želimo torej prikazati neko besedilo v smislu: "Rezultat: `<število-točk>`"
-- Igralcu omogoči da ponovno začne igro. Na primer s pritiskom na gumb: "Nova igra".
+Razmislimo, kaj mora naš prizor vsebovati. Želimo, da:
+- Igralcu jasno pove, kdaj se je igra končala. To lahko dosežemo s prikazom velikega besedila "KONEC IGRE".
+- Igralcu prikaže, kako dolgo je zdržal. Ta podatek bi lahko vzeli kar iz naše spremenljivke #variable-name("cas"), ki se skozi potek igre vztrajno povečuje. Oblika, v kateri je trenutno, to so sekunde od začetka v obliki decimalnega števila, morda ni najbolj primerna, a to lahko kasneje popravimo. Želimo torej prikazati neko besedilo v smislu: "Rezultat: `<število točk>`"
+- Igralcu omogoči, da ponovno začne igro, na primer s pritiskom na gumb "Nova igra".
 
 === Vozlišče Label
 
-Naredimo najprej najlažji del. To je velik napis "KONEC IGRE". Besedilo lahko na zaslon prikažemo s pomočjo vozlišča tipa #control-type-name("Label"). Korenskemu vozlišču torej dodajte vozlišče tega tipa in ga poimenujte "NapisKonecIgre". Na desni strani, v urejevalniku vozlišč, boste ob kliku na novo vozlišče, opazili en kup novih možnosti, unikatnih vozliščem tipa #control-type-name("Label") in pa tudi vozliščem tipa #control-type-name("Control"). Za nas sta trenutno pomembni dve možnosti. Prva je imenovana "Text" in vanjo lahko napišemo besedilo, ki ga bo vozlišče #control-type-name("Label") prikazovalo. Napišimo torej vanj "KONEC IGRE". V plošči delovnega okolja 2D bi se moralo vozlišče sproti posodabljati in odražati vaše spremembe.
+Naredimo najprej najlažji del. To je velik napis "KONEC IGRE". Besedilo lahko na zaslon prikažemo s pomočjo vozlišča tipa #control-type-name("Label"). Korenskemu vozlišču torej dodajte vozlišče tega tipa in ga poimenujte `NapisKonecIgre`. Na desni strani, v urejevalniku vozlišč, boste ob kliku na novo vozlišče opazili en kup novih možnosti, ki so značilne za vozlišča tipa #control-type-name("Label") in #control-type-name("Control"). Za nas sta trenutno pomembni dve možnosti. Prva je imenovana "Text" in vanjo lahko napišemo besedilo, ki ga bo vozlišče #control-type-name("Label") prikazovalo. Vpišimo vanj torej besedilo "KONEC IGRE". V plošči delovnega okolja 2D bi se moralo vozlišče sproti posodabljati in odražati naše spremembe.
 
-Druga možnost, ki jo bomo uredili je malo zakopana. Najdemo jo pod odsekom `Control->Theme Overrides->Font Sizes` in se imenuje "Font Size", možnost je prikazana tudi na #ref(<font-size-option>, supplement: "sliki").
+Druga možnost, ki jo bomo uredili, je malo zakopana v menijih. Najdemo jo pod odsekom #nested-ui-button("Control", "Theme Overrides", "Font Sizes") in se imenuje "Font Size", možnost je prikazana tudi na #ref(<font-size-option>, supplement: "sliki").
 
 #screenshot(
   path: "assets/user-interface/font-size-option.png",
@@ -4675,37 +4703,36 @@ Druga možnost, ki jo bomo uredili je malo zakopana. Najdemo jo pod odsekom `Con
   [
     Godot ima za stiliziranje vozlišč tipa #control-type-name("Control") v sebi celoten sistem za izdelavo motivov. Motiv je skupina pravil, ki definirajo privzet izgled vseh vozlišč #control-type-name("Control") in njihovih potomcev (kot je na primer #control-type-name("Label")). Vsebujejo barve, velikosti fontov, razmake in še marsikaj drugega.
 
-    Privzeto naš projekt uporablja Godotov motiv, ki na primer definira, naj bo besedilo znotraj vozlišč #control-type-name("Label") belo in velikosti 16px (px stoji za "pixel" in je enota za merjenje velikosti fontov, ki _ponavadi_ pomeni en piksel na fizičnem zaslonu standardne resolucije, to za nas niti ni preveč pomembno.).
+    Privzeto naš projekt uporablja Godotov motiv, ki definira na primer, da naj bo besedilo znotraj vozlišč #control-type-name("Label") belo in velikosti $16$ px (okrajšava za angl. _pixel_, gre za enoto velikosti besedila; ponavadi pomeni en piksel višine na fizičnem zaslonu standardne resolucije, a to za nas niti ni preveč pomembno.).
 
-    Ker je naš projekt majhen, ni smiselno da bi izdelovali svoj motiv, zato bomo uporabili kar Godotovega. Na nekaterih točkah pa bi vseeno želeli da se naša vozlišča prikazujejo malo drugače, kot jim privzeto diktira motiv. Ker je to pogosta želja, nam Godot omogoča izredne spremembe vrednosti motiva, ki nato veljajo samo za izbrano vozlišče, v obliki odseka "Theme Overrides" (preglasovanje motiva).
+    Ker je naš projekt majhen, ni smiselno, da bi izdelovali svoj motiv, zato bomo uporabili kar Godotovega. Na nekaterih točkah pa bi vseeno želeli, da se naša vozlišča prikazujejo malo drugače, kot jim privzeto diktira motiv. Ker je to pogosta želja, nam Godot omogoča izredne spremembe vrednosti motiva, ki nato veljajo samo za izbrano vozlišče, v obliki odseka #ui-button("Theme Overrides") (slov. preglasovanje motiva).
   ],
 )
 
-Če vrednost spremenite iz 16 na katero drugo številko, boste opazili da se velikost našega besedila spreminja. Želimo da je naše besedilo "KONEC IGRE", precej veliko zato ga nastavite na 128 ali katero drugo, podobno veliko, vrednost.
+Če vrednost spremenite iz $16$ pikslov na katero drugo številko, boste opazili, da se velikost našega besedila spreminja. Želimo, da je naše besedilo "KONEC IGRE" precej veliko, zato ga nastavite na $128$ px ali neko podobno velikost.
 
 === Zaboji
 
-Zdaj bi želeli da je naše besedilo v sredini. Vozlišče bi lahko prijeli in ga povlekli v sredino, a to zaradi nekaj razlogov v tem primeru ni najboljši način. Takšen premik z miško vozlišču #control-type-name("Label") pove, da naj se za fiksno dolžino premakne od koordinatnega izhodišča. To lahko v številki vidimo, če odpremo odsek `Layout->Transform` in opazujemo vrednost pod izvoženo spremenljivko "Position". So primeri kjer želimo neko vozlišče premakniti za fiksno dolžino a v našem primeru to pomeni da:
+Zdaj bi želeli, da je naše besedilo v sredini. Vozlišče bi lahko prijeli in ga povlekli v sredino, a to v tem primeru ni najboljši način. Takšen premik z miško vozlišču #control-type-name("Label") pove, naj se za fiksno dolžino premakne od koordinatnega izhodišča. To lahko v številki vidimo, če odpremo odsek #nested-ui-button("Layout", "Transform") in opazujemo vrednost pod izvoženo spremenljivko #ui-button("Position"). So primeri, kjer želimo neko vozlišče premakniti za fiksno dolžino, a v našem primeru to pomeni, da:
+- Vozlišče verjetno ne bo pravilno centrirano, saj smo pozicijo ocenjevali na roko.
+- Vozlišče ne bo več v sredini, če se besedilo kadarkoli spremeni, saj je odmaknjeno za fiksno število pikslov glede na zgornji levi kot, zmanjševati pa se bo začelo od spodnjega desnega kota.
+- Vozlišče mogoče niti ne bo v sredini na zaslonu z drugačno resolucijo kot naša, saj je odmaknjeno za fiksno število pikslov, mi pa ne vemo, kako bo Godot to razdaljo prevajal, ko se bo prilagajal drugačnim zaslonom.
 
-- Vozlišče verjetno ni pravilno centrirano, saj smo pozicijo ocenjevali na roko.
-- Vozlišče ne bo več v sredini če se besedilo kadarkoli spremeni, saj je fiksno odmaknjeno glede na zgornji levi kot, zmanjševati pa se bo začelo od spodnjega desnega kota.
-- Vozlišče mogoče ne bo v sredini na zaslonu z drugačno resolucijo, saj je fiksno odmaknjeno in ne vemo kako bo Godot to razdaljo prevajal, ko se bo prilagajal drugačnim zaslonom.
+Zaradi teh problemov se računanje lokacije in velikosti (temu procesu se reče angl. _layout_) takšnih vozlišč ponavadi prepusti pogonu samemu. Tu v zgodbo vstopi #control-type-name("CenterContainer"). To je vozlišče tipa #control-type-name("Control"), ki je samo po sebi nevidno in se uporablja samo za računanje lokacij in pozicij. Njegova dodana vrednost je to, da vse svoje otroke postavi v center prostora, ki ga ima na voljo. A če v naše drevo vozlišč dodamo #control-type-name("CenterContainer") in vozlišče `NapisKonecIgre` premaknemo tako, da postane njegov otrok, se ne bo zgodilo prav nič. Najprej moramo namreč povečati naš #control-type-name("CenterContainer") tako, da bo zasedel ves zaslon (glej #ref(<center-container-drag>, supplement: [sliko])), saj centrira svoje otroke samo znotraj _prostora, ki ga ima na voljo_.
 
-Zaradi teh problemov se računanje lokacije in velikosti (temu procesu se v angleščini reče "layout") takšnih vozlišč ponavadi prepusti pogonu samemu. Tu v zgodbo vstopi #control-type-name("CenterContainer"). To je vozlišče tipa #control-type-name("Control"), ki je samo po sebi nevidno in se uporablja samo za računanje lokacij in pozicij. Njegova dodana vrednost je to, da vse svoje otroke postavi v center prostora, ki ga ima na voljo. Če torej v naše drevo vozlišč dodamo #control-type-name("CenterContainer") in vozlišče `NapisKonecIgre` premaknemo tako, da postane njegov otrok, se ne bo zgodilo prav nič. Najprej moramo namreč povečati naš #control-type-name("CenterContainer") tako, da bo zasedel ves zaslon, saj centrira svoje otroke samo znotraj _prostora ki ga ima na voljo_.
-
-To lahko naredimo tako, da izberemo #control-type-name("CenterContainer") in nato z orodjem za izbiranje (angl. Select tool) povlečemo krogec v spodnjem desnem kotu, do spodnjega desnega kota kamere (kjer se stikata modri črti).
+To lahko naredimo tako, da izberemo #control-type-name("CenterContainer") in nato z orodjem za izbiranje (#ui-button("Select tool")) povlečemo krogec v spodnjem desnem kotu do spodnjega desnega kota kamere, kjer se stikata modri črti. Rezultat lahko vidimo na #ref(<after-center-container-drag>, supplement: [sliki]).
 
 #box-info(
-  title: "Kje že najdem orodje za izbiranje?",
+  title: [Kje že najdem orodje za izbiranje (#ui-button("Select tool"))?],
   [
-    Orodje za izbiranje je prvo v orodni vrstici. Izberete ga lahko s klikom na njegovo ikono ali pa z bližnjico #kbd("Q").
+    Orodje za izbiranje je prvo v orodni vrstici pod seznamom odprtih prizorov. Izberete ga lahko s klikom na njegovo ikono ali pa kar z bližnjico #kbd("Q").
   ],
 )
 
 #screenshot(
   path: "assets/user-interface/center-container-drag.png",
   width: 90%,
-  caption: [Vizualizirana razširitev #control-type-name("CenterContainer")ja.],
+  caption: [Vizualizirana razširitev #control-type-name("CenterContainer")ja. \ Rdeča kvadratka predstavljata začetek in konec vlečenja.],
 ) <center-container-drag>
 #screenshot(
   path: "assets/user-interface/after-center-container-drag.png",
@@ -4723,13 +4750,12 @@ To lahko naredimo tako, da izberemo #control-type-name("CenterContainer") in nat
 //   caption: [Postavitev sider.],
 // ) <anchors>
 
-Napis smo uspešno postavili na sredino zaslona. Dodajmo zdaj število točk, ki jih je igralec nabral tekom igre.
+Napis smo uspešno postavili na sredino zaslona. Dodajmo zdaj še število točk, ki jih je igralec nabral tekom igre. 
+Število točk želimo postaviti pod naš ogromni napis "KONEC IGRE". Število točk bo prav tako kos besedila, tako da bomo spet uporabili vozlišče #control-type-name("Label").
 
-Število točk želimo postaviti pod naš napis "KONEC IGRE". To bo prav tako kos besedila, tako da bomo spet uporabili vozlišče #control-type-name("Label").
+Če vozlišče kar dodate kot še en otrok zaboja #control-type-name("CenterContainer"), boste opazili, da je prav tako centrirano na sredino zaslona in se prekriva z besedilom "KONEC IGRE", poleg tega pa ga z miško ne morete premikati. Če to poskusite, vam bo Godot javil napako "Children of a container get their position and size determined only by their parent." (slov. "Otrokom zabojnika njihovo lokacijo in velikosti določi starš"). Napaka že sama precej dobro opiše, kaj se dogaja. Ko je vozlišče tipa #control-type-name("Control") namreč enkrat znotraj zabojnika, mu lokacijo in velikost določa starš in novega vozlišča torej ne moremo premikati ročno, ampak mu moramo skozi sistem zabojnikov povedati, kje in kako naj se pozicionira.
 
-Če vozlišče kar dodate kot še en otrok zaboja #control-type-name("CenterContainer"), boste opazili, da je prav tako centrirano na sredino zaslona in se prekriva z besedilom "KONEC IGRE". Poleg tega ga z miško ne morete premikati. Še več: če to poskusite, vam Godot javi napako "Children of a container get their position and size determined only by their parent." (Otrokom zabojnika njihovo lokacijo in velikosti določi starš). Napaka že sama precej dobro opiše, kaj se dogaja. Ko je vozlišče tipa #control-type-name("Control") enkrat znotraj zabojnika, mu lokacijo in velikost določa starš. Novega vozlišča torej ne moremo premikati ročno, ampak mu moramo skozi sistem zabojnikov povedati, kje in kako naj se pozicionira.
-
-Želimo, da so elementi na zaslon poravnani v vertikalno (v stolpec). Za to lahko uporabimo zaboj tipa #control-type-name("VBoxContainer"), v imenu stoji za vertical (vertikalna). Kot otrok #control-type-name("CenterContainer") dodajmo torej vozlišče tipa #control-type-name("VBoxContainer") in vanj premaknimo `NapisKonecIgre` in novo vozlišče tipa #control-type-name("Label"), ki ga poimenujte `Rezultat`. Če želite da je tudi to vozlišče poravnano v sredino ga lahko ovijete v še en #control-type-name("CenterContainer"). V vozlišče `Rezultat` lahko, da si bomo lažje predstavljali kako vse skupaj zgleda, napišete nekaj v smislu "Rezultat: 100". Povečajmo tudi velikost fonta tega vozlišča na 48px. Prizor bi zdaj moral biti podoben #ref(<after-result>, supplement: "sliki").
+Želimo, da so elementi na zaslon poravnani v vertikalno, torej v stolpec. Za to lahko uporabimo zaboj tipa #control-type-name("VBoxContainer"); v tem imenu `V` pomeni vertikalno (angl. _vertical_). Vozlišču #control-type-name("CenterContainer") za otroka dodajmo torej vozlišče tipa #control-type-name("VBoxContainer"), nato pa vanj premaknimo `NapisKonecIgre` in novo vozlišče tipa #control-type-name("Label"), ki ga poimenujmo `Rezultat`. Če želimo, da je tudi #control-type-name("Label") poravnan v sredino, ga lahko ovijemo v še en #control-type-name("CenterContainer"). V vozlišče `Rezultat` lahko, da si bomo lažje predstavljali kako vse skupaj zgleda, napišemo nekaj v smislu "Rezultat: 100". Povečajmo tudi velikost besedila tega vozlišča na $48$ px. Prizor bi zdaj moral biti podoben #ref(<after-result>, supplement: "sliki").
 
 #screenshot(
   path: "assets/user-interface/after-result.png",
@@ -4739,9 +4765,11 @@ Napis smo uspešno postavili na sredino zaslona. Dodajmo zdaj število točk, ki
 
 Dinamično prikazovanje števila točk bomo dodali malo kasneje. Najprej dodajmo še gumb, ki bo sprožil ponoven začetek igre.
 
-Vozlišču #control-type-name("VBoxContainer") dodajmo še enega otroka, tokrat tipa #control-type-name("Button"). #control-type-name("Button") kot vsi tipi vozlišč, ki smo jih obravnavali v tem poglavju, prav tako razširja #control-type-name("Control") in se prikaže kot navaden gumb z napisom. V možnost "text" tokrat napišite "Nova igra". Zavijte ga v nov #control-type-name("CenterContainer"), da se bo pravilno poravnal na sredino in mu popravite velikost fonta na 64px. #control-type-name("VBoxContainer") med svoje otroke privzeto da precej malo razmika, tako da sta besedilo "Rezultat: 100" in naš novi gumb precej blizu. To bi lahko uredili skozi možnost "separation" (razmik), ki nam jo nudi #control-type-name("VBoxContainer"), a ker nam je razmik med "KONEC IGRE" in "Rezultat: 100" zadovoljiv, poglejmo raje drugačen način.
+Vozlišču #control-type-name("VBoxContainer") dodajmo še enega otroka, tokrat tipa #control-type-name("Button"). #control-type-name("Button"), kot vsi tipi vozlišč, ki smo jih obravnavali v tem poglavju, prav tako razširja #control-type-name("Control") in se prikaže kot navaden gumb z napisom. V polje #variable-name("text") tokrat vnesite "Nova igra". Zavijte ga v novo vozlišče tipa #control-type-name("CenterContainer"), da se bo pravilno poravnal na sredino, in mu popravite velikost besedila na $64$ px. 
 
-Drugi #control-type-name("CenterContainer"), ki nam ga je Godot sam po sebi poimenoval `CenterContainer2`, zavijte z vozliščem tipa #control-type-name("MarginContainer"). Edina naloga #control-type-name("MarginContainer") (ki seveda širi #control-type-name("Control")), je da nam omogoča izdelavo razmikov med njegovimi otroki in okolico. Spremenimo torej možnost "Margin Top" (razmik navzgor), na približno 50. Možnost "Margin Top" zopet najdete pod "Theme Overrides".
+Sedaj smo naleteli na majhen oblikovni problem: #control-type-name("VBoxContainer") med svoje otroke privzeto da precej malo razmika, tako da sta besedilo "Rezultat: 100" in naš novi gumb precej blizu. To bi lahko uredili skozi možnost razmika (angl. _separation_), ki nam jo nudi #control-type-name("VBoxContainer"), a ker nam je razmik med "KONEC IGRE" in "Rezultat: 100" zadovoljiv, poglejmo raje drugačen način.
+
+Drugi #control-type-name("CenterContainer"), ki nam ga je Godot sam po sebi poimenoval `CenterContainer2`, zavijte z vozliščem tipa #control-type-name("MarginContainer"). Edina naloga vozlišča tipa #control-type-name("MarginContainer") je, da nam omogoča izdelavo razmakov med njegovimi otroki in okolico. Spremenimo torej možnost "Margin Top" (razmik navzgor), na približno $50$. Možnost #ui-button("Margin Top") zopet najdete pod #ui-button("Theme Overrides").
 
 S tem je vizualni del našega prizora končan. Prizor naj bi bil zdaj podoben #ref(<finished-interface>, supplement: "sliki").
 
@@ -4753,9 +4781,9 @@ S tem je vizualni del našega prizora končan. Prizor naj bi bil zdaj podoben #r
 
 == Voditelj igre
 
-Preden začnemo z dinamičnim urejanjem vmesnika, nas čaka še izdelava precej pomembnega kosa naše igre, in sicer njenega voditelja.
+Preden začnemo z dinamičnim urejanjem uporabniškega vmesnika, nas čaka še izdelava precej pomembnega kosa naše igre, in sicer njenega voditelja. Voditelj igre bo upravljal s pod-prizori, v našem primeru s prizoroma z igro in koncem igre. To pomeni, da bo naloga voditelja igre v tem primeru naložiti igro z dinozavrom, in ob koncu igre ta prizor zamenjati s prizorom za konec igre.
 
-Ko se naša igra konča, želimo namreč njeno celotno delovanje ugasniti in zamenjati na prizor, ki smo ga ravnokar naredili. Ob kliku na gumb "Nova igra" pa narediti ravno obratno in zamenjati nazaj na igro, ki pa se mora začeti od začetka. Zato da lahko delamo take menjave prizorov mora nad le temi bdeti nek višji prizor in jih voditi. Tak prizor je očem neviden in le nadzira stanje igre ter po potrebi menja prizore.
+Ko se dinozaver zadane v kaktus, želimo namreč celoten prizor ugasniti in zamenjati na prizor, ki smo ga naredili v prejšnjem poglavju. Ob kliku na gumb "Nova igra" želimo narediti ravno obratno: zamenjati nazaj na igro, ki pa se mora začeti od začetka. Zato, da lahko delamo take menjave prizorov, mora nad vsemi prizori bedeti nek višji prizor in jih voditi. Tak prizor je očem neviden in le nadzira stanje igre ter po zahtevi menja prizore.
 
 V mapi `res://prizori/igra` izdelajte nov prizor `voditelj_igre.tscn`. Njegovo korensko vozlišče naj bo tipa #node2d-type-name("Node2D") in ima ime `VoditeljIgre`. Nanj pripnite skripto `voditelj_igre.gd`, ki jo prav tako izdelajte.
 
@@ -4768,7 +4796,8 @@ var konec_igre: PackedScene = preload("res://prizori/igra/konec_igre.tscn")
 Dodajmo še spremenljivko, v kateri bomo hranili trenutni prizor in funkcijo ki igro zažene. Ker želimo da se ob zagonu igre igra takoj zažene, bomo to funkcijo tudi klicali v funkciji `_ready()`.
 
 ```gd
-# V tej spremenljivki hranimo trenutni prizor.
+# V tej spremenljivki hranimo trenutni prizor 
+# (igra, konec igre ali null, torej nič).
 var trenutni_prizor: Node = null
 
 func _ready() -> void:
@@ -4780,30 +4809,29 @@ func zacni_igro():
     add_child(trenutni_prizor)
 ```
 
-Noben kos kode, ki smo jo napisali do sedaj nam ne bi smel biti neznan. Če sedaj poženemo prizor `voditelj_igre.tscn`, bi morali videti enako igro, kot smo je že vajeni.
+Noben kos kode, ki smo ga napisali do sedaj, nam ne bi smel biti neznan. Če sedaj poženemo prizor `voditelj_igre.tscn`, bi morali videti enako igro, kot smo je že vajeni.
 
-Zdaj moramo voditelju igre nekako sporočiti, ko dinozaver trči v kaktus, da bo lahko igro končal. Dobro si je zapomniti dve generalni pravili glede pošiljanja informacij navzgor in navzdol po drevesu vozlišč:
+Zdaj moramo voditelju igre nekako sporočiti da, ko dinozaver trči v kaktus, igro konča. Dobro si je zapomniti dve splošni pravili glede pošiljanja informacij navzgor in navzdol po drevesu vozlišč:
 
-1. Če informacije pošiljamo navzdol (starš želi nekaj sporočiti otroku/potomcem), to počnemo s klicem funkcij oziroma nastavljanjem spremenljivk, ki jih definirajo potomci. To smo že večkrat počeli.
+1. Če informacije pošiljamo navzdol (t.j. ko starš želi nekaj sporočiti otroku ali globljim potomcem), to počnemo s klicem funkcij ali nastavljanjem spremenljivk, ki jih definirajo potomci. To smo počeli že večkrat.
 
-2. Če informacije pošiljamo navzgor (otrok želi nekaj sporočiti staršu), to počnemo z uporabo signalov, ki jim lahko starši poljubno poslušajo. Otroci staršev ne kličejo preko funkcij, ker nikoli nimajo garancije, da njihov starš zares obstaja. Spomnimo se da lahko igro testiramo tudi z zagonom prizora `igra.tscn` in ne `voditelj_igre.tscn`. V tem primeru vozlišče `VoditeljIgre` sploh ne obstaja in je korensko vozlišče celotne igre kar `Igra`.
+2. Če informacije pošiljamo navzgor (t.j. ko otrok želi nekaj sporočiti staršu), to počnemo z uporabo signalov, katere starši poslušajo po potrebi. Otroci staršev ne kličejo preko funkcij, ker nikoli nimajo zagotovila, da njihov starš zares obstaja. Spomnimo se, da lahko igro testiramo tudi z zagonom prizora `igra.tscn` in ne `voditelj_igre.tscn`. V tem primeru vozlišče `VoditeljIgre` sploh ne obstaja in je korensko vozlišče celotne igre kar `Igra`!
 
-Tudi drugo pravilo smo že enkrat uporabili, znotraj skripte `kaktus.gd`, smo napisali vrstico:
+Tudi drugo pravilo smo že enkrat uporabili: znotraj skripte `kaktus.gd` smo napisali vrstico:
 ```gd
 kaktusov_trkalnik.body_entered.connect(ko_ovira_zadane_dinozavra)
 ```
-kjer smo poslušali signal našega otroka.
+kjer smo poslušali za signal, ki ga pošlje naš otrok #variable-name("kaktusov_trkalnik").
 
 Dodajmo zdaj signale na vseh potrebnih mestih za to, da bo dogodek na koncu prispel do voditelja igre.
-
-Najprej dodajmo signal v skripto `kaktus.gd` in popravimo funkcijo `ko_ovira_zadane_dinozavra`, ki mora zdaj prožiti ta signal. `print` lahko zaenkrat pustimo, da bomo lažje reševali probleme če se pojavijo.
+Najprej dodajmo signal v skripto `kaktus.gd` in popravimo funkcijo `ko_ovira_zadane_dinozavra`, ki mora sedaj prožiti ta signal. Funkcijo #function-name("print") lahko zaenkrat pustimo, da bomo lažje reševali probleme, če se pojavijo.
 
 ```gd
-#[...]
+# [...]
 
 signal zadel_dinozavra
 
-#[...]
+# [...]
 
 func _ko_je_kaktus_zadet(body: Node2D):
 	if body.is_in_group("dinozaver"):
@@ -4812,31 +4840,31 @@ func _ko_je_kaktus_zadet(body: Node2D):
 ```
 
 #box-info(
-  title: "funkcija emit()",
+  title: [Funkcija #function-name("emit", fill-override: white)],
   [
-    S funkcijo ```gd emit()```, lahko ročno prožimo nek signal. Funkcija prejme poljubno število argumentov, ki jih bo potem poslala vsem poslušalcem.
+    S funkcijo #function-name("emit") lahko ročno prožimo nek signal. Funkcija prejme poljubno število argumentov, ki jih bo potem poslala vsem poslušalcem.
   ],
 )
 
-V skripti `igra.gd` lahko sedaj ponovno uporabimo funkcijo ```gd _ko_je_kaktus_zadet()```, ki smo jo začasno zavrgli, ko smo izdelali proceduralno generacijo kaktusov. `igra.gd` ni zadnji poslušalec v verigi, sporočilo želimo spraviti do voditelja igre, tako da bomo tudi tu izdelali nov signal, na katerega bo potem poslušal voditelj.
+V skripti `igra.gd` lahko sedaj ponovno uporabimo funkcijo #function-name("_ko_je_kaktus_zadet"), ki smo jo začasno zavrgli, ko smo izdelovali proceduralno generacijo kaktusov. `igra.gd` ni zadnji poslušalec v verigi, saj želimo sporočilo spraviti do voditelja igre, tako da bomo tudi na tem nivoju izdelali nov signal `konec_igre`, katerega bo potem poslušal voditelj.
 
 Za vse to moramo dodati samo:
 
 ```gd
-#[...]
+# [...]
 
 signal konec_igre
 
 func _process(delta):
 
-  #[...]
+  # [...]
 
   if (cas - cas_zadnjega_dodajanja > interval_kaktusov):
-    #[...]
+    # [...]
 
     kaktus.zadel_dinozavra.connect(_ko_je_kaktus_zadet)
 
-    #[...]
+    # [...]
 
 
 func _ko_je_kaktus_zadet() -> void:
@@ -4846,10 +4874,10 @@ func _ko_je_kaktus_zadet() -> void:
   konec_igre.emit(cas)
 ```
 
-Nato lahko v `voditelj_igre.gd` začnemo poslušati temu signalu:
+Nato pa lahko v `voditelj_igre.gd` začnemo poslušati ta signal:
 
 ```gd
-#[...]
+# [...]
 
 func zacni_igro():
 	trenutni_prizor = igra.instantiate()
@@ -4864,7 +4892,7 @@ func _ko_je_konec_igre(rezultat: float):
 	print("KONEC!")
 ```
 
-Če sedaj poženete igro in pustite, da se dinozaver zaleti v kaktus, boste na Godotovem izhodu videli nekaj podobnega:
+Če sedaj igro poženete in pustite, da se dinozaver zaleti v kaktus, boste na Godotovem izhodu videli nekaj podobnega sledečemu:
 
 ```izhod
 Dinozaver je trčil v kaktus!
@@ -4872,8 +4900,7 @@ Igra je prejela, da je dinozaver zadet!
 KONEC!
 ```
 
-Sedaj lahko umaknemo vse 3 vrstice s `print` in naredimo, da se prizor zamenja.
-
+Deluje! Sedaj lahko umaknemo vse 3 vrstice s klici funkcije #function-name("print") in dodamo kodo, ki je potrebna, da se prizor zamenja.
 Popravimo torej `voditelj_igre.gd` takole:
 
 ```gd
@@ -4891,7 +4918,7 @@ func _ko_je_konec_igre(rezultat: float):
 Usposobimo še gumb "Nova igra". Tokrat zopet pošiljamo informacije navzgor, saj mora za zahtevo po novi igri zopet izvedeti voditelj igre. Na hitro lahko z urejanjem `voditelj_igre.gd` to dosežemo takole:
 
 ```gd
-#[...]
+# [...]
 
 func zacni_igro():
 	# To je potrebno preveriti, saj je možno da se vračamo iz prizora
@@ -4920,20 +4947,20 @@ func ko_je_konec_igre(rezultat: float):
 	add_child(trenutni_prizor)
 ```
 
-Vozlišča tipa #control-type-name("Button") imajo na sebi signal imenovan `pressed`, ki se sproži ko igralec klikne na gumb. Na vrstici 26 na ta signal povežemo našo funkcijo `zacni_igro`, ki potem igro znova zažene. Ker se prizor `igra` še enkrat izdela na novo, se vse obnaša enako, kot če bi igro ravnokar zagnali.
+Vozlišča tipa #control-type-name("Button") imajo na sebi signal imenovan `pressed`, ki se sproži ko igralec klikne na gumb. Na vrstici 26 na ta signal povežemo našo funkcijo #function-name("zacni_igro"), ki potem igro znova zažene. Ker se prizor `igra.tscn` še enkrat izdela na novo, se vse obnaša enako, kot če bi igro ravnokar zagnali.
 
-Dodajmo še, kako dolgo se je igralec uspešno izogibal kaktusom. Čas od začetka igre že prejmemo v našo funkcijo `ko_je_konec_igre` v obliki parametra `rezultat`. Ta parameter smo nastavili s tem, da smo spremenljivko `cas` poslali v funkcijo `emit` znotraj `igra.gd`.
-Vozlišču tipa #control-type-name("Label") lahko nastavimo besedilo, ki ga prikazuje tako, da mu nastavimo lastnost (spremenljivko) `text`:
+Dodajmo še prikaz tega, kako dolgo se je igralec uspešno izogibal kaktusom. Čas od začetka igre že prejmemo v našo funkcijo #function-name("ko_je_konec_igre") v obliki parametra #variable-name("rezultat"). Ta parameter smo nastavili tako, da smo spremenljivko #variable-name("cas") poslali v funkcijo #function-name("emit") znotraj `igra.gd`.
+Vozlišču tipa #control-type-name("Label") lahko nastavimo besedilo, ki ga prikazuje tako, da mu nastavimo lastnost (spremenljivko) #variable-name("text"):
 
 ```gd
 func _ko_je_konec_igre(rezultat: float):
-  #[...]
+  # [...]
 
-  # Ta vrstica zahteva, da se naš napis imenuje "Rezultat"!
+  # Ta vrstica zahteva, da se vozlišče z našim napisom imenuje "Rezultat"!
   trenutni_prizor.find_child("Rezultat").text = "Rezultat: " + str(rezultat)
 ```
 
-Če dinozavra zopet pošljete v bodečo pogubo, vas bo pričakalo nekaj podobnega #ref(<result-as-float>, supplement: "sliki").
+Če dinozavra zopet pošljete v bodečo pogubo, vas bo pričakalo nekaj podobnega kot na #ref(<result-as-float>, supplement: "sliki").
 
 #screenshot(
   path: "assets/user-interface/result-as-float.png",
@@ -4941,11 +4968,11 @@ func _ko_je_konec_igre(rezultat: float):
   caption: [Prizor za konec igre, kjer je rezultat decimalno število.],
 ) <result-as-float>
 
-Ko Godot pretvarja decimalno število v niz z ```gd str(rezultat)```, napiše vsa decimalna mesta ki jih ima na voljo. To zgleda precej grdo, saj bi si zagotovo želeli, da je naš rezultat celo število. Zelo enostavna rešitev je, da rezultat v sekundah enostavno pomnožimo z 100 in nato pretvorimo v celoštevilsko spremenljivko, kar bo odrezalo decimalni del a vseeno ohranilo kar nekaj natančnosti:
+Ko Godot pretvarja decimalno število v niz z ```gd str(rezultat)```, izpiše vsa decimalna mesta, ki jih ima na voljo. To zgleda precej grdo, saj bi si zagotovo želeli, da je naš rezultat celo število. Zelo enostavna rešitev je, da rezultat v sekundah enostavno pomnožimo z 100 in nato pretvorimo v celoštevilsko spremenljivko, kar bo odrezalo decimalni del, a vseeno v nekem smislu ohranilo dve decimalni mesti časovne natančnosti, ki pa sta prikazani kot enica in desetica:
 
 ```gd
 func _ko_je_konec_igre(rezultat: float):
-	#[...]
+	# [...]
 
 	var lep_rezultat: int = rezultat * 100
 
@@ -4953,16 +4980,16 @@ func _ko_je_konec_igre(rezultat: float):
 	trenutni_prizor.find_child("Rezultat").text = "Rezultat: " + str(lep_rezultat)
 ```
 
-In s tem smo končali enostaven zaslon za konec igre.
+In s tem smo končali enostaven zaslon za konec igre!
 
 #box-task[
   Malo se poigrajte s prizorom `konec_igre.tscn`. Poskusite spremeniti kakšno barvo, zamenjati velikost pisave, spremeniti lokacije elementov...
 
-  Naredite ga takšnega da bo všeč vam. Pri tem si seveda lahko pomagate tudi z drugimi vozlišči, ki so potomci tipa #control-type-name("Control"). Vsa so dobro razložena na Godotovi dokumentaciji.
+  Naredite prizor takšen, da vam bo všeč. Pri tem si seveda lahko pomagate tudi z drugimi tipi vozlišč, ki so potomci tipa #control-type-name("Control"). Vsa so dobro razložena v Godotovi dokumentaciji: \ https://docs.godotengine.org/en/stable/tutorials/ui/index.html
 ]
 
 #box-task[
-  Poskusite dodati besedilo na prizor `igra.tscn` v katerem boste v živo prikazovali koliko točk je nabral igralec.
+  Poskusite dodati besedilo v prizor `igra.tscn`, da boste lahko v živo prikazovali, koliko točk ste nabrali.
 ]
 
 
@@ -4977,18 +5004,18 @@ Dvokliknimo na `button-press.wav` in si oglejmo podrobnosti na desni strani urej
 
 #screenshot(
   path: "assets/audio/godot_audio_inspector-preview-single.png",
-  width: 26%,
+  width: 30%,
   caption: [Predogled datoteke `button-press.wav` v oknu "Inspector".],
 ) <audio_wav-inspector>
 
-Če kliknemo na gumb za predvajanje, bomo zaslišali predogled tega zvočnega učinka -- kratek pisk. V tem trenutku se tudi prepričajte, da vaš računalnik pravilno predvaja zvok. Enako lahko storimo tudi s preostalima dvema zvočnima učinkoma.
+Če kliknemo na gumb za predvajanje, bomo zaslišali predogled tega zvočnega učinka: en kratek pisk. V tem trenutku lahko se tudi prepričamo, da naš računalnik pravilno predvaja zvok. Enako lahko storimo tudi s preostalima dvema zvočnima učinkoma, da vemo, s čim imamo opravka.
 
-Da bomo lahko zvok predvajali v igri sami, pa moramo spoznati nov tip vozlišča: `AudioStreamPlayer2D`. Gre za vozlišče, kateremu določimo zvok, nato pa skozi skriptiranje uporabimo njegovo vgrajeno funkcijo `.play()`, da predvajamo izbran zvočni učinek.
+Da bomo lahko zvok predvajali v igri sami, pa moramo spoznati nov tip vozlišča: `AudioStreamPlayer2D`. Gre za vozlišče, kateremu določimo zvočno datoteko, nato pa skozi skriptiranje uporabimo njegovo vgrajeno funkcijo `.play()`, da predvajamo izbran zvočni učinek.
 
 #box-task[
-  V prizor `igra.tscn` dodajte novo vozlišče tipa `AudioStreamPlayer2D`, ga preimenujte v `ZvokSkok` in ga namestite kot otroka vozlišča `DinozaverLik`. Nato izberite vozlišče `ZvokSkok` in si na desni strani oglejte njegove podrobnosti, primer katerih vidimo na #ref(<audio_audiostreamplayer2d_inspector-empty>, supplement: [sliki]).
+  V prizor `igra.tscn` dodajte novo vozlišče tipa #node2d-type-name("AudioStreamPlayer2D"), ga preimenujte v `ZvokSkok` in ga namestite kot otroka vozlišča `DinozaverLik`. Nato izberite vozlišče `ZvokSkok` in si na desni strani oglejte njegove podrobnosti, primer katerih vidimo na #ref(<audio_audiostreamplayer2d_inspector-empty>, supplement: [sliki]).
 
-  V Godotovem raziskovalcu datotek poiščite datoteko `button-press.wav` in jo potegnite na mesto vrednosti nastavitve "Stream", kot vidimo na #ref(<audio_audiostreamplayer2d_inspector-with-file>, supplement: [sliki]).
+  V Godotovem raziskovalcu datotek poiščite datoteko `button-press.wav` in jo potegnite na mesto vrednosti nastavitve #ui-button("Stream"), kot vidimo na #ref(<audio_audiostreamplayer2d_inspector-with-file>, supplement: [sliki]).
 
   #align(
     center,
@@ -5013,7 +5040,7 @@ Da bomo lahko zvok predvajali v igri sami, pa moramo spoznati nov tip vozlišča
   )
 ]
 
-Če sedaj poženemo igro, se seveda ne bo zgodilo popolnoma nič novega, saj nismo definirali, kdaj se mora zvok sprožiti. Sproženje zvočnih učinkov moramo namreč definirati v skripti našega dinozavra:
+Če sedaj poženemo igro, se seveda ne bo zgodilo popolnoma nič novega, saj nismo definirali, kdaj se mora zvok sprožiti. Proženje zvočnih učinkov moramo namreč definirati v skripti našega dinozavra:
 ```gd
 # [...]
 
@@ -5040,11 +5067,12 @@ To je vse! Ko igro sedaj poženemo in z dinozavrom skočimo, bomo zaslišali zvo
   - zvok `hit.wav` naj se predvaja ob koncu igre,
   - zvok `score-reached.wav` pa naj se predvaja vsakih deset pridobljenih točk.
 
-  #v(base-font-size)
+  // #v(base-font-size)
+  #box-divider()
 
-  Prvega izmed teh dveh ciljev lahko dosežete tako, da na isti način kot zgoraj dodate novo vozlišče tipa `AudioStreamPlayer2D`, le da ga dodate v prizor `voditelj_igre.tscn`. Dodelite mu zvočni učinek `hit.wav` in funkcijo `.play()` tega predvajalnika kličite v funkciji `_ko_je_konec_igre`.
+  Prvega izmed teh dveh ciljev lahko dosežete tako, da na isti način kot zgoraj dodate novo vozlišče tipa #node2d-type-name("AudioStreamPlayer2D"), le da ga dodate v prizor `voditelj_igre.tscn`. Dodelite mu zvočni učinek `hit.wav` in funkcijo #function-name("play") tega predvajalnika kličite v funkciji #function-name("_ko_je_konec_igre").
 
-  Drugega izmed teh ciljev lahko dosežete tako, da dodate nov `AudioStreamPlayer2D` v prizor `igra.tscn` in nato ta zvočni učinek (`score-reached.wav`) v skripti `igra.gd` prožite v enakomernih intervalih.
+  Drugega izmed teh ciljev lahko dosežete tako, da dodate nov #node2d-type-name("AudioStreamPlayer2D") v prizor `igra.tscn` in nato ta zvočni učinek (`score-reached.wav`) v skripti `igra.gd` prožite v enakomernih intervalih.
 ]
 
 
@@ -5282,7 +5310,7 @@ func _process(delta: float) -> void:
 #pagebreak(weak: true)
 = Licence <licences>
 
-_Glej tudi kolofon na strani 2._
+_Glej tudi kolofon na #no-underline(link(<kolofon>, "strani 2"))._
 
 #v(1em)
 
