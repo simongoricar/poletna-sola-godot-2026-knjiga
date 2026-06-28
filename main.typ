@@ -5171,7 +5171,7 @@ Znotraj našega projekta smo uporabljali samo privzeto vgrajeno kamero (označen
 - demonstracijski projekt za igro v izometričnem načinu, ki je na voljo na spletu v Godot Asset Library: \
   https://godotengine.org/asset-library/asset/2718
 
-V primeru, da boste začeli delati na lastnih, bolj resnih projektih, vam bo verjetno prav prišel Godotov Asset Store (trgovina sredstev). Trgovina vam nudi na volj pester nabor sredstev, ki jih je izdelal Godotova skupnost. Najdete lahko vse od 3D modelov, tekstur, plaht sličic, GDSCript skript in celo celotne projekte. Trgovina je dostopna na https://store.godotengine.org/ ali pa z menjavo na delovno okolje "Asset Store" znotraj pogona. Več o njej pa lahko seveda preberete tudi na uradni dokumentaciji: https://docs.godotengine.org/en/stable/community/asset_store/index.html.
+V primeru, da boste začeli delati na lastnih (morda bolj resnih) projektih, vam bo verjetno prav prišel Godotov Asset Store (trgovina sredstev). Trgovina vam nudi pester nabor sredstev, ki jih je izdelala Godotova skupnost. Najdete lahko vse od 3D modelov, tekstur, plaht sličic, skript in celo celotne projekte. Trgovina je dostopna na https://store.godotengine.org ali pa z menjavo na delovno okolje "Asset Store" znotraj pogona. Več o njej lahko preberete tudi v uradni dokumentaciji: https://docs.godotengine.org/en/stable/community/asset_store/index.html.
 
 
 
