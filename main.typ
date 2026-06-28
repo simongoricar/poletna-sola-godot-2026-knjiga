@@ -273,8 +273,6 @@
   fill-color: rgb("#e0e0e0"),
   disable-link: false,
 ) = {
-  // TODO: Se da mogoče narediti da se link odpre v novem zavihku (če bereš pdf v brskalniku)? COMMENT(simong): sem malo pogledal naokoli in baje PDF standard te nastavitve ne podpira (še vedno pa lahko ponavadi uporabimo middle click, ki ga ponavadi podpirajo brskalniki).
-
   if disable-link == true {
     box(
       text(
@@ -458,7 +456,7 @@
   let positional-parts = parts.pos();
   let num-positional-parts = positional-parts.len();
 
-  for index in array.range(0, num-positional-parts, inclusive: false) {
+  for index in array.range(0, num-positional-parts) {
     ui-button(positional-parts.at(index))
     if (index + 1) < num-positional-parts {
       box(
@@ -3422,7 +3420,6 @@ Nastavitve projekta lahko zdaj zapremo in se vrnemo v urejevalnik. Čas je, da n
 Na vozlišče `DinozaverSlicica` pripnite novo skripto `dinozaver.gd` in jo odprite.
 
 
-// TODO(matosa): Tu sem spremenil #variable-name("Input") v #data-type-name, ker gre dejansko za vrsto tipa (ki je potomec Object), ki jo ima Godot, ki pa je hkrati singleton, ki je poseben in se ga zato dostopa kar prek imena tipa, in to NISO statične metode. Zato se tudi nisem spuščal v razlago.
 Kot smo že omenili, obstaja več načinov na katere bi sedaj lahko uporabili našo akcijo. Tekom te delavnice bomo to dosegli s pomočjo vgrajenega tipa #data-type-name("Input"). Tip #data-type-name("Input") nam omogoča dostop do raznih funkcij, s katerimi lahko dostopamo do Godotovega sistema za uporabniški vnos.
 
 Poskusimo torej zaznati ali je akcija "skok" pritisnjena. To lahko dosežemo z uporabo vgrajene funkcije ```gd bool is_action_pressed(action: String)```. V parametru `action` pošljemo ime akcije, za katero želimo preveriti, ali je pritisnjena, funkcija pa nam nato vrne ```gd true``` če je akcija pritisnjena, oziroma ```gd false```, če ni.
@@ -3726,7 +3723,7 @@ To nam bomo omogočilo, da na kaktusih definiramo trkalna območja in, ko zaznam
 
   #box-divider()
 
-  Na izbrano vozlišče kaktusa dodajte najprej podvozlišče tipa #node2d-type-name("Area2D") z imenom `KaktusTrkalnoObmocje`, nato pa temu novemu vozlišču dodajte še podvozlišče tipa #resource-type-name("CollisionPolygon2D") z imenom `KaktusPovrsina`. Izbranemu kaktusu definirajte površino trkalnika, kot smo se to naučili v #ref(<physics_staticbody2d-usage>, supplement: [poglavju]), da bo kaktus zgledal podobno, kot na #ref(<physics_cactus-with-collision>, supplement: [sliki]).
+  Na izbrano vozlišče kaktusa dodajte najprej podvozlišče tipa #node2d-type-name("Area2D") z imenom `KaktusTrkalnoObmocje`, nato pa temu novemu vozlišču dodajte še podvozlišče tipa #resource-type-name("CollisionPolygon2D") z imenom `KaktusPovrsina`. Izbranemu kaktusu definirajte površino trkalnika, kot smo se to naučili v #ref(<physics_staticbody2d-usage>, supplement: [poglavju]), da bo kaktus videti podobno, kot na #ref(<physics_cactus-with-collision>, supplement: [sliki]).
 
   #screenshot(
     path: "assets/physics/godot_physics_cactus-with-collision.png",
@@ -4023,7 +4020,7 @@ Na levi strani urejevalnika animacij vidimo seznam animacij po imenu. Trenutno j
 Na desni strani urejevalnika animacij vidimo (trenutno prazen) seznam sličic, ki pripadajo izbrani animaciji na levi. Sem noter bomo dodajali posamezne sličice animacije.
 
 #box-task[
-  Preimenujte privzeto animacijo iz "default" na "tek" (to storite tako, da kliknete na ime animacije in vtipkate novo ime). Sedaj na levi v Godotovem raziskovalcu datotek poiščite datoteki `dinozaver_3.tres` in `dinozaver_4.tres` (v mapi `res://sredstva/dinozaver`) ter ju potegnite na desno stran urejevalnika "SpriteFrames". Končni rezultat mora zgledati podobno kot na #ref(<animation_animatedsprite2d_editor_with-run>, supplement: [sliki]).
+  Preimenujte privzeto animacijo iz "default" na "tek" (to storite tako, da kliknete na ime animacije in vtipkate novo ime). Sedaj na levi v Godotovem raziskovalcu datotek poiščite datoteki `dinozaver_3.tres` in `dinozaver_4.tres` (v mapi `res://sredstva/dinozaver`) ter ju potegnite na desno stran urejevalnika "SpriteFrames". Končni rezultat mora biti videti podobno kot na #ref(<animation_animatedsprite2d_editor_with-run>, supplement: [sliki]).
 
   #screenshot(
     path: "assets/animation/godot_animatedsprite2d_spriteframes-editor-with-run-animation.png",
@@ -5087,21 +5084,23 @@ To je vse! Ko igro sedaj poženemo in z dinozavrom skočimo, bomo zaslišali zvo
 
 == Ideje za samostojno delo
 
-Prvi izmed načinov, kako izboljšati svoje znanje, je skozi iterativno nadgrajevanje svoje igre, pri čemer se počasi spoznavamo z novimi temami in jih, tako kot skozi to knjigo, takoj integriramo v našo igro. Sledi nekaj tem in idej za nadgradnjo naše igre z dinozavrom.
+Prvi izmed načinov, kako izboljšati svoje znanje, je skozi iterativno nadgrajevanje svoje igre, pri čemer se počasi spoznavamo z novimi temami in jih, tako kot skozi to knjigo, takoj integriramo v našo igro. Sledi nekaj tem in idej za nadgradnjo naše igre z dinozavrom v dveh dimenzijah.
 
 === Okolje
 
-Trenutno naš dinozaver lebdi, čeprav ima pod sabo nevidna tla. Poskusite pod njega dodati premikajoča tla. Nekaj nasvetov:
-- Paket sredstev v mapi `okolje` vsebuje `tla_1.tres` in `krajsa-tla_1.tres`; pomagajte si z njima. Če želite, lahko uporabite tudi `oblak_1.tres` in dodate oblačke na nebo.
+Trenutno naš dinozaver lebdi, ker ima pod sabo nevidna tla. Poskusite zato pod njega dodati tudi vizualno premikajoča tla. Nekaj nasvetov:
+- Paket sredstev v mapi `okolje` vsebuje `tla_1.tres` in `krajsa-tla_1.tres`, s katerima si pomagajte. Če želite, lahko uporabite tudi `oblak_1.tres` in dodate oblačke na nebo.
 - Pazite, da se tla premikajo z enako hitrostjo kot kaktusi, drugače bo videti, kot da tudi kaktusi deloma drsijo po tleh.
 - Premikajoča tla so lahko samo vizualna! S tem mislimo, da jim ni potrebno dodajati trkalnikov, ampak lahko pod dinozavrom pustite samo en neviden statični trkalnik, ki je poravnan z nivojem tal.
-- Ko boste dinamično dodajali tla, pazite, da jih na osi $X$ pravilno poravnate s prejšnjimi. Godot vam ne zagotavlja, da se bo trkalnik sprožil takoj, ko se tla zaletijo vanj, ampak so tla lahko že malce znotraj trkalnika, ko se trk sproži. To se zgodi, ker se premik tal zgodi v intervalih, čeprav se morda zdi, kot da lepo drsijo (naše oči niso sposobne zaznavati tako hitrih sprememb kot stopničastih, še posebej kadar ima naš zaslon večjo hitrost osveževanja). Pri tem je lahko za navdih spodnji kos kode:
+- Ko boste dinamično dodajali tla, pazite, da jih na osi $X$ pravilno poravnate s prejšnjimi. 
+
+Če boste za ustvarjanje novih tal slučajno uporabili sistem trkalnikov, vedite, da Godot ne zagotavlja, da se bo trkalnik sprožil takoj, ko se tla zaletijo vanj, ampak so tla lahko že malce znotraj trkalnika, ko se trk sproži. To se zgodi, ker se premik tal zgodi v intervalih, čeprav se morda zdi, kot da lepo drsijo (naše oči niso sposobne zaznavati tako hitrih sprememb kot stopničastih, še posebej kadar ima naš zaslon večjo hitrost osveževanja). Pri tem je lahko za navdih spodnji kos kode:
 
 ```gd
-# Ta funkcija se sproži ko je kos tal zavržen.
+# Ta funkcija se sproži, ko je kos tal zavržen.
 func ko_menjamo_tla(lokacija_starega_kosa):
-    # Vemo da je en kos tal dolg 1400 in da imamo trenutno dva kosa.
-    # Zato da nov kos tal postavimo na pravilno mesto ga moramo torej
+    # Vemo, da je en kos tal dolg 1400 in da imamo trenutno dva kosa.
+    # Zato, da nov kos tal postavimo na pravilno mesto, ga moramo torej
     # zamakniti za 2800.
     lokacija_starega_kosa.x += 2800
     ustvari_tla(lokacija_starega_kosa)
@@ -5119,8 +5118,7 @@ func ustvari_tla(lokacija_tal):
 
 === Ptiči
 
-V klasični igri dinozaver, kot jo lahko igramo v brskalniku Chrome, nam v oviro niso samo kaktusi, ampak tudi ptiči. Ptiči lahko letijo na treh različnih višinah. Če so na vrhu zaslona, lahko dinozaver mirno teče pod njimi. Če so v sredini, se mora dinozaver pod njimi _skloniti_, da se z glavo ne zadane vanje. Če so na dnu, pa jih mora dinozaver preskočiti.
-
+V klasični igri dinozaver, kot jo lahko igramo v brskalniku Chrome, nam v oviro niso samo kaktusi, ampak tudi ptiči. Ptiči lahko letijo na treh različnih višinah. Če so na vrhu zaslona, lahko dinozaver mirno teče pod njimi. Če so v sredini, se mora dinozaver pod njimi _skloniti_, da se z glavo ne zadane vanje. Če so na dnu, pa jih mora dinozaver preskočiti. 
 Če imate na računalniku nameščen brskalnik Chrome, si lahko originalno igro ogledate tako, da v iskalno vrstico napišete `chrome://dino/`.
 
 V igro dodajte ptiče in dinozavru omogočite, da se sklanja, na primer s pritiskom na puščico navzdol. Nekaj nasvetov ob delu:
@@ -5133,7 +5131,7 @@ V igro dodajte ptiče in dinozavru omogočite, da se sklanja, na primer s pritis
 
 == Dodatno branje <additional-reading>
 
-Poleg razvoja novih funkcionalnosti je zelo pomembno tudi, da se znajdete v dokumentaciji, ki vam jo ponuja Godot. Učinkovito branje dokumentacije je namreč zelo pomemben del programiranja in računalniškega inženirstva na sploh. Ko boste osnove razvoja iger utrdili, boste zelo verjetno ugotovili, da se vam je naučiti vsako naslednjo tehnično podrobnost ali funkcijo, za katero še niste slišali, vedno lažje, saj novo znanje stoji na trdni podlagi.
+Poleg razvoja novih funkcionalnosti je zelo pomembno tudi, da se znajdete v dokumentaciji, ki vam jo ponuja Godot. Učinkovito branje dokumentacije je namreč zelo pomemben del programiranja in računalniškega inženirstva na sploh. Ko boste osnove razvoja iger utrdili, boste zelo verjetno ugotovili, da se vam je naučiti vsako naslednjo tehnično podrobnost ali funkcijo, za katero še niste slišali, vedno lažje, saj bo vaše novo znanje stalo na trdni podlagi osnov, s katerimi si veliko naprednejših tem deli veliko konceptov.
 
 Predlagamo, da si ogledate dokumentacijo zadnje stabilne različice pogona Godot, ki jo lahko najdemo na sledeči povezavi: https://docs.godotengine.org/en/stable. Ko ste pripravljeni, da si izberete kakšno novo temo, o kateri želite zvedeti več, si lahko na primer ogledate poglavje "#link("https://docs.godotengine.org/en/stable/tutorials/index.html", [Tutorials])"" v tej spletni knjigi.
 
@@ -5314,7 +5312,7 @@ _Glej tudi kolofon na #no-underline(link(<kolofon>, "strani 2"))._
 
 #v(1em)
 
-Vsebina knjige je ponujena pod licenco *#link("https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en", "Creative Commons BY-NC-SA 4.0")*. Iz te licence je izvzeta koda (tako v knjigi kot v dodatnih materialih): le-ta je namesto tega ponujena pod licenco *#link("https://spdx.org/licenses/MIT.html", "MIT")*:
+Vsebina knjige je ponujena pod licenco *#link("https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en", "Creative Commons BY-NC-SA 4.0")*. Iz te licence je izvzeta koda (tako v knjigi kot v dodatnih materialih). Le-ta je namesto tega ponujena pod licenco *#link("https://spdx.org/licenses/MIT.html", "MIT")*:
 
 #copyright-text[
   ```
@@ -5346,7 +5344,7 @@ Vsebina knjige je ponujena pod licenco *#link("https://creativecommons.org/licen
 == Zunanje licence <external-licences>
 
 Vizualna vsebina, ki je prisotna v paketu sredstev in ki je pogosto prikazana na zaslonskih posnetkih (vse, kar je v podmapi `chromium-dino`), izvira iz projekta #link("https://github.com/chromium/chromium", "Chromium") pod licenco #link("https://spdx.org/licenses/BSD-3-Clause.html", "BSD-3-Clause"):
-
+,
 #copyright-text[
   ```
   Copyright 2015 The Chromium Authors
