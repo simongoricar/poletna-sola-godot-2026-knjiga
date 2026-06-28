@@ -815,7 +815,7 @@
   Avtorja: Andrej Matos in Simon Goričar
 
   Leto izida: 2026 \
-  Zadnja sprememba: 27. junij 2026#footnote[Zadnja stabilna različica pogona Godot je, za časa pisanja, Godot 4.7, ki je bil izdan 18. junija 2026. Avtorja priporočata, da bralci (še posebej začetniki) uporabite to različico pogona, saj zaslonski posnetki ustrezajo Godot 4.7.] \
+  Zadnja sprememba: 28. junij 2026#footnote[Zadnja stabilna različica pogona Godot je, za časa pisanja, Godot 4.7, ki je bil izdan 18. junija 2026. Avtorja priporočata, da bralci (še posebej začetniki) uporabite to različico pogona, saj zaslonski posnetki ustrezajo Godot 4.7.] \
 
   #v(1em)
 
