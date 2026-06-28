@@ -812,10 +812,10 @@
 
   #set par(leading: base-font-size - 4pt, spacing: base-font-size + 2pt)
 
-  Avtorja: Andrej Matos in Simon Goričar
+  Avtorja: Andrej Matos#footnote(numbering: "A")[E-poštni naslov: #link("mailto:matosandrej@gmail.com")] in Simon Goričar#footnote(numbering: "A")[E-poštni naslov: #link("mailto:simon.peter.goricar@gmail.com")]
 
   Leto izida: 2026 \
-  Zadnja sprememba: 28. junij 2026#footnote[Zadnja stabilna različica pogona Godot je, za časa pisanja, Godot 4.7, ki je bil izdan 18. junija 2026. Avtorja priporočata, da bralci (še posebej začetniki) uporabite to različico pogona, saj zaslonski posnetki ustrezajo Godot 4.7.] \
+  Zadnja sprememba: 29. junij 2026#footnote[Zadnja stabilna različica pogona Godot je, za časa pisanja, Godot 4.7, ki je bil izdan 18. junija 2026. Avtorja priporočata, da bralci (še posebej začetniki) uporabite to različico pogona, saj zaslonski posnetki ustrezajo Godot 4.7.] \
 
   #v(1em)
 
