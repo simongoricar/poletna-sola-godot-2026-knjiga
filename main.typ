@@ -45,18 +45,18 @@
 #import "@preview/dtree:0.1.1": dtree
 
 #import "@preview/keyle:0.3.0" as keyle
-+
+
 #let kbd-theme(symb) = {
-  let fill = rgb("#f6f8fa");
-  let stroke = rgb("#d0d7de") + 0.6pt;
-  let radius = 3pt;
-  let inset = (x: 2.5pt, y: 0pt);
+  let fill = rgb("#f6f8fa")
+  let stroke = rgb("#d0d7de") + 0.6pt
+  let radius = 3pt
+  let inset = (x: 2.5pt, y: 0pt)
   let outset = (x: 0pt, y: 3pt)
-  let raise = 0pt;
-  let shadow = none;
-  let baseline = 0.08em;
-  let text-args = (fill: rgb("#1f2328"), font: ("DejaVu Sans Mono"), weight: "medium", size: base-font-size - 1pt);
-  let wrap = it => it;
+  let raise = 0pt
+  let shadow = none
+  let baseline = 0.08em
+  let text-args = (fill: rgb("#1f2328"), font: "DejaVu Sans Mono", weight: "medium", size: base-font-size - 1pt)
+  let wrap = it => it
 
   let body = keyle.style-text(symb, args: text-args, wrap: wrap)
   let face = rect(inset: inset, outset: outset, radius: radius, stroke: stroke, fill: fill, body)
@@ -178,9 +178,9 @@
 
 // #show figure.where(kind: "frame"): set block(breakable: true)
 
-#let reference-to-workshop = (content) => {
+#let reference-to-workshop = content => {
   if not show-references-to-workshop {
-    return;
+    return
   }
 
   content
@@ -271,17 +271,19 @@
 #let node-type-name = (
   name,
   fill-color: rgb("#e0e0e0"),
-  disable-link: false
+  disable-link: false,
 ) => {
+  // TODO: Se da mogoče narediti da se link odpre v novem zavihku (če bereš pdf v brskalniku)?
+
   if disable-link == true {
     box(
       text(
         fill: fill-color,
         weight: "medium",
-        name
-      )
+        name,
+      ),
     )
-    return;
+    return
   }
 
   let base-prefix = "https://docs.godotengine.org/en/4.7/classes/class_"
@@ -299,10 +301,10 @@
         text(
           fill: fill-color,
           weight: "medium",
-          name
-        )
-      )
-    )
+          name,
+        ),
+      ),
+    ),
   )
 };
 
@@ -310,7 +312,7 @@
   node-type-name(
     name,
     fill-color: rgb("#6393ff").darken(10%),
-    disable-link: disable-link
+    disable-link: disable-link,
   )
 };
 
@@ -318,7 +320,7 @@
   node-type-name(
     name,
     fill-color: rgb("#ff5c5c"),
-    disable-link: disable-link
+    disable-link: disable-link,
   )
 };
 
@@ -326,7 +328,7 @@
   node-type-name(
     name,
     fill-color: rgb("#70ff81"),
-    disable-link: disable-link
+    disable-link: disable-link,
   )
 };
 
@@ -336,21 +338,35 @@
  */
 #let allowed-linkable-data-types = (
   "Variant",
+  "Object",
+  "String",
+  "StringName",
+  "int",
+  "float",
+  "bool",
+  "Array",
+  "Vector2",
   "CollisionObject2D",
   "CollisionPolygon2D",
-  "CollisionShape2D"
+  "CollisionShape2D",
+  "PackedScene",
+  "RectangleShape2D",
+  "AtlasTexture",
+  "Texture",
+  "Texture2D",
+  "SpriteFrames",
 );
 
-#let data-type-name = (name) => {
-  let matches-allowed-linkable-type = allowed-linkable-data-types.contains(name);
+#let data-type-name = name => {
+  let matches-allowed-linkable-type = allowed-linkable-data-types.contains(name)
 
   if not matches-allowed-linkable-type {
     text(
       fill: rgb("#42ffc2").darken(38%).saturate(15%),
       weight: "medium",
-      name
+      name,
     )
-    return;
+    return
   }
 
   let base-prefix = "https://docs.godotengine.org/en/4.7/classes/class_"
@@ -367,34 +383,34 @@
         text(
           fill: rgb("#42ffc2").darken(42%).saturate(25%),
           weight: "medium",
-          name
-        )
-      )
-    )
+          name,
+        ),
+      ),
+    ),
   )
 };
 
-#let resource-type-name = (name) => {
+#let resource-type-name = name => {
   data-type-name(name)
 };
 
-#let function-name = (name) => {
+#let function-name = name => {
   text(
     fill: rgb("#66e5ff"),
     weight: "medium",
-    name
+    name,
   )
 };
 
-#let variable-name = (name) => {
+#let variable-name = name => {
   text(
     fill: rgb("#6d3d3d"),
     weight: "medium",
-    name
+    name,
   )
 };
 
-#let ui-button = (name) => context {
+#let ui-button = name => context {
   // let x-padding = 4pt;
   // let y-padding = 7pt;
 
@@ -422,26 +438,26 @@
   //   #base-text
   // ]
   // [~]
-  // 
-  
+  //
+
   ["#name"]
 };
 
 
-#let copyright-text = (value) => {
+#let copyright-text = value => {
   codly-disable()
   v(8pt)
   block(
     width: 100%,
     stroke: (
-      thickness: 0.5pt
+      thickness: 0.5pt,
     ),
     radius: 3pt,
     outset: (
       x: 6pt,
-      y: 8pt
+      y: 8pt,
     ),
-    value
+    value,
   )
   v(8pt)
   codly-enable()
@@ -687,12 +703,12 @@
   "data/dinozaver_paket-sredstev_2026-06-27_16-55.zip",
   relationship: "supplement",
   mime-type: "application/zip",
-  description: "Paket sredstev, potreben za razvoj igre z dinozavrom skozi knjigo."
+  description: "Paket sredstev, potreben za razvoj igre z dinozavrom skozi knjigo.",
 )
 
 #align(center + horizon)[
   #v(7cm)
-  
+
   #reference-to-workshop[
     #block(
       above: 0em,
@@ -709,16 +725,16 @@
       // y: 20pt,
     ),
     inset: (
-      y: 20pt
+      y: 20pt,
     ),
     // fill: rgb("#b3e3f3"),
     fill: gradient.linear(
       angle: 27deg + 180deg,
       ..(
         rgb("#b3e1f3"),
-        rgb("#a9ecc5")
+        rgb("#a9ecc5"),
       ),
-    )
+    ),
   )[
     #block(
       above: 0em,
@@ -788,20 +804,20 @@
       align(
         center,
         link(
-          "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en", 
+          "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en",
           image(
-            "assets/licence/by-nc-sa.eu.svg"
-          )
-        )
+            "assets/licence/by-nc-sa.eu.svg",
+          ),
+        ),
       ),
       align(right + horizon, block(
-        inset: (left: 16pt)
+        inset: (left: 16pt),
       )[
         Vsebina knjige je ponujena pod licenco *#link("https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en", "Creative Commons BY-NC-SA 4.0")*#footnote(numbering: "*")[
           Določena vizualna vsebina, ki se prikaže v nekaterih posnetkih zaslona v knjigi in ki je na voljo v paketu sredstev ob tej knjigi, je na voljo pod licenco #link("https://spdx.org/licenses/BSD-3-Clause.html", "BSD-3-Clause") iz projekta #link("https://github.com/chromium/chromium", "Chromium").
         ]. \ Iz te licence je izvzeta koda, ki je namesto tega ponujena pod licenco *#link("https://spdx.org/licenses/MIT.html", "MIT")*.
-      ])
-    )
+      ]),
+    ),
   )
 
   V praktičnem smislu to pomeni, da lahko to knjigo prosto delite naprej in jo celo spreminjate, pri čemer pa morate spoštovati pogoje, ki jih postavlja ta licenca. Med drugim: knjiga se ne sme uporabiti za komercialne namene, kopije knjige morajo obdržati imena avtorjev (in kopijo licence), če pa material spreminjate, ste primorani tudi novo različico knjige ponuditi pod isto licenco kot midva#footnote(numbering: "*")[Take licence predstavljajo nabor nepreklicnih pravic, ki jih avtorji določenega dela lahko dodelijo svojemu delu. Ravno v tej nepreklicnosti, ki za uporabnike veljajo le ob sprejemu licenčnih pogojev, je moč odprtokodnih licenc. Najin namen s to licenco je omogočiti prost dostop in redistribucijo te knjige in vseh njenih prihodnih različic, tudi če se zgodi, da midva v izboljšavah knjige nisva več udeležena!]. Kodo pa lahko uporabljate še bolj prosto kot to, saj je edina obveza to, da obdržite kopijo besedila licence. To pomenu, da kodo lahko uporabite tudi v komercialne namene in lahko svoje prihodnje projekte, ki bi morebiti temeljili na tej kodi, licencirate (ali ne) popolnoma poljubno.
@@ -824,7 +840,11 @@
 ]
 
 #show outline.entry.where(level: 1): set block(above: 1.5em)
-#show outline.entry.where(level: 1): set text(weight: "extrabold", fill: heading-1-sup-font-color.saturate(50%), size: base-font-size + 2pt)
+#show outline.entry.where(level: 1): set text(
+  weight: "extrabold",
+  fill: heading-1-sup-font-color.saturate(50%),
+  size: base-font-size + 2pt,
+)
 
 #outline(depth: 4, title: none)
 
@@ -875,13 +895,16 @@
     ("sibling", "sorojenec"),
     ("parent", "starš"),
     ("grandparent", "stari starš"),
-    ([
-      inspector \
-      #translation-entry-context[(Godot editor section)]
-    ], [
-      podrobnosti \
-      #translation-entry-context[(podokno urejevalnika Godot)]
-    ]),
+    (
+      [
+        inspector \
+        #translation-entry-context[(Godot editor section)]
+      ],
+      [
+        podrobnosti \
+        #translation-entry-context[(podokno urejevalnika Godot)]
+      ],
+    ),
     ("instance", "primerek"),
     ("scene", "prizor"),
     ("sprite", "sličica"),
@@ -891,27 +914,36 @@
     ("folder", "mapa"),
     ("level", "nivo"),
     ("texture filtering", "filtriranje tekstur"),
-    ([
-      linear filtering \
-      #translation-entry-context[(texture filtering)]
-    ], [
-      linearno filtriranje \
-      #translation-entry-context[(filtriranje tekstur)]
-    ]),
-    ([
-      nearest neighbour filtering \
-      #translation-entry-context[(texture filtering)]
-    ], [
-      filtriranje z najbližjim sosedom \
-      #translation-entry-context[(filtriranje tekstur)]
-    ]),
-    ([
-      container \
-      #translation-entry-context[(user interface)]
-    ], [
-      zaboj \
-      #translation-entry-context[(uporabniški vmesnik)]
-    ]),
+    (
+      [
+        linear filtering \
+        #translation-entry-context[(texture filtering)]
+      ],
+      [
+        linearno filtriranje \
+        #translation-entry-context[(filtriranje tekstur)]
+      ],
+    ),
+    (
+      [
+        nearest neighbour filtering \
+        #translation-entry-context[(texture filtering)]
+      ],
+      [
+        filtriranje z najbližjim sosedom \
+        #translation-entry-context[(filtriranje tekstur)]
+      ],
+    ),
+    (
+      [
+        container \
+        #translation-entry-context[(user interface)]
+      ],
+      [
+        zaboj \
+        #translation-entry-context[(uporabniški vmesnik)]
+      ],
+    ),
     ("theme", "motiv"),
     ("theme override", "preglasovanje motiva"),
   ),
@@ -934,7 +966,7 @@ Preden se zakopljemo v samo uporabo igralnega pogona in razvoja iger z njim, je 
 
 Skozi zgodovino razvoja videoiger so ljudje uporabljali različne igralne pogone. Sprva sta bila pogon in igra precej bolj združen pojem kot danes, saj je bila strojna oprema mnogo bolj omejena, področje pa manj razvito. Skozi leta so zato številni izdelovalci iger razvijali lastne pogone, ki so bili večinoma namenjeni interni rabi in do njih splošna javnost ni imela dostopa.
 
-Danes se za „resne igre“ večinoma uporabljajo igralni pogoni, ki so dostopni vsem. Za časa pisanja sta na sceni ena izmed največjih igralcev Unreal Engine, ki ga razvija podjetje Epic Games, in Unity, ki ga razvija podjetje Unity Technologies. 
+Danes se za „resne igre“ večinoma uporabljajo igralni pogoni, ki so dostopni vsem. Za časa pisanja sta na sceni ena izmed največjih igralcev Unreal Engine, ki ga razvija podjetje Epic Games, in Unity, ki ga razvija podjetje Unity Technologies.
 Oba pogona sta stabilna, testirana, zelo zmogljiva, vendar tudi *zaprta* in *plačljiva* (če že ne skozi nakup ali naročnino pa skozi pristojbine).
 
 === Kratka zgodovina pogona Godot
@@ -965,7 +997,7 @@ Leta 2014 pa sta se odločila, da pogon odpreta navzven, in ga objavila pod odpr
     "data/steamdb_top-four-game-engine-growth_2026-06-25.xlsx",
     relationship: "supplement",
     mime-type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    description: "Vir podatkov, ki prikazuje letno rast največjih štirih igralnih pogonov na platformi Steam od leta 2006 do vključno leta 2025."
+    description: "Vir podatkov, ki prikazuje letno rast največjih štirih igralnih pogonov na platformi Steam od leta 2006 do vključno leta 2025.",
   )
 ].
 
@@ -1003,7 +1035,7 @@ Na naš računalnik se bo prenesla datoteka s končnico `.zip`, ki jo razširimo
     *To velja tudi za pogon Godot, ki smo ga pravkar namestili.*
 
     Če temu dokumentu sledite v domačem okolju, lahko to opozorilo prezrete.
-  ]
+  ],
 )
 
 #box-info(title: "Samozadostni način", [
@@ -1049,7 +1081,7 @@ Ker želimo ustvariti nov projekt, kliknemo na gumb #ui-button("Create") levo zg
 - vnesemo ime našega projekta, naj bo to kar "Dinozaver";
 - na disku D ustvarimo ali izberemo mapo, kamor bomo shranili naš projekt;
 - pri "Version Control Metadata" v spustnem meniju izberemo "None";
-- nato kliknimo na gumb "Create".
+- nato kliknimo na gumb #ui-button("Create").
 
 
 #box-warning[
@@ -1114,14 +1146,14 @@ Kot vidimo na #ref(<delovna-okolja-toolbar>, supplement: [sliki]), imamo na volj
 
 
 #box-info(title: [Kaj pa "Asset Store"?])[
-  Poleg omenjenih štirih ste zagotovo opazili še petega, *Asset Store*. To je zavihek, kjer lahko dostopamo do Godotove brezplačne oblačne storitve, preko katere lahko prenesemo različne pakete sredstev (angl. _asset packs_), senčilnikov (angl. _shaders_), razširitev (angl. _extensions_), ikon, skript, zvokov in drugih vsebin, s katerimi si lahko pomagamo pri razvoju iger.
+  Poleg omenjenih štirih ste zagotovo opazili še petega, #ui-button("Asset Store"). To je zavihek, kjer lahko dostopamo do Godotove brezplačne oblačne storitve, preko katere lahko prenesemo različne pakete sredstev (angl. _asset packs_), senčilnikov (angl. _shaders_), razširitev (angl. _extensions_), ikon, skript, zvokov in drugih vsebin, s katerimi si lahko pomagamo pri razvoju iger.
 
   Zaenkrat se tega zavihka ne bomo dotikali, vsaj ne, dokler se ne razdelimo v skupine in začnemo sestavljati lastno igro. Takrat boste izvedli tudi več o paketih sredstev oziroma delovnih materialih.
 ]
 
 
 === Okolje "Game" <env-game>
-Čeprav ob prvem odpiranju Godota zagledamo okolje 3D, ga zaenkrat zanemarimo in si najprej oglejmo zavihek *Game*. V tem pogledu bomo našo igro poganjali in igrali.
+Čeprav ob prvem odpiranju Godota zagledamo okolje 3D, ga zaenkrat zanemarimo in si najprej oglejmo zavihek #ui-button("Game"). V tem pogledu bomo našo igro poganjali in igrali.
 
 #screenshot(
   path: "assets/ui-basics/godot-ui_game-section.png",
@@ -1154,7 +1186,7 @@ Da bo proces testiranja naše igre potekal brezhibno, pred nadaljevanjem spremen
 ]
 
 === Okolje "2D" <okolje-2d>
-Kliknimo na prvi zavihek -- "2D". Zagledali bomo dvodimenzionalno površino, na kateri lahko ustvarimo svojo igro. Pred seboj v sredinskem delu urejevalnika vidimo polje, na katerem bo stala naša igra.
+Kliknimo na prvi zavihek -- #ui-button("2D"). Zagledali bomo dvodimenzionalno površino, na kateri lahko ustvarimo svojo igro. Pred seboj v sredinskem delu urejevalnika vidimo polje, na katerem bo stala naša igra.
 
 Igre v tem načinu so postavljene na *dve osi: na $X$ in $Y$*. Os $X$ teče od leve proti desni (označena s tanko rdečo črto), os $Y$ pa od zgoraj navzdol (označena s tanko zeleno črto). Kjer se osi sekata v urejevalniku, stoji koordinatno izhodišče -- točka $(0, 0)$ (t.j. točka, kjer je $X = 0$ in $Y = 0$).
 
@@ -1182,7 +1214,7 @@ Ker bomo na delavnicah ustvarjali igre v 2D, bomo v tem okolju preživeli precej
 
 
 === Okolje "3D"
-Kliknimo na drugi zavihek -- "3D". Tako kot ob zagonu urejevalnika bomo sedaj spet zagledali tridimenzionalno površino. Ta je podobna kot pri 2D, le da ima še tretjo globinsko dimenzijo. Koordinate v 3D svetu so sestavljene iz treh komponent, ki označujejo položaj vzdolž *osi $X$, $Y$ in $Z$*.
+Kliknimo na drugi zavihek -- #ui-button("3D"). Tako kot ob zagonu urejevalnika bomo sedaj spet zagledali tridimenzionalno površino. Ta je podobna kot pri 2D, le da ima še tretjo globinsko dimenzijo. Koordinate v 3D svetu so sestavljene iz treh komponent, ki označujejo položaj vzdolž *osi $X$, $Y$ in $Z$*.
 
 Ker bo naša igra izdelana v načinu 2D, se v koncepte 3D iger ne bomo poglabljali.
 
@@ -1195,7 +1227,7 @@ Ker bo naša igra izdelana v načinu 2D, se v koncepte 3D iger ne bomo poglablja
 
 === Okolje "Script"
 
-Kliknimo še na tretji zavihek -- "Script". V tem načinu bomo pozneje pisali skripte (t.j. kodo) v jeziku GDScript. Te skripte bomo prilepili na določene objekte v prizorih, na primer na naš lik dinozavra, in s skripto dosegli, da bo dinozaver skočil ob pritisku na določen gumb. Rečeno drugače: s skriptami bomo dosegli interaktivnost naše igre.
+Kliknimo še na tretji zavihek -- #ui-button("Script"). V tem načinu bomo pozneje pisali skripte (t.j. kodo) v jeziku GDScript. Te skripte bomo prilepili na določene objekte v prizorih, na primer na naš lik dinozavra, in s skripto dosegli, da bo dinozaver skočil ob pritisku na določen gumb. Rečeno drugače: s skriptami bomo dosegli interaktivnost naše igre.
 
 #screenshot(
   path: "assets/ui-basics/godot-ui_script_bare.png",
@@ -1266,7 +1298,8 @@ Vrnimo se nazaj v urejevalnik Godot. Preden nadaljujemo z ogledom vsebine, ki sm
 
 Prepričajmo se, da je bil uvoz uspešen: struktura našega projekta bi sedaj morala biti sledeča:
 
-#dtree("
+#dtree(
+  "
 📁 | res://                        (koren projekta)
   📁 | sredstva                (mapa, ki smo jo ustvarili v prejšnjem koraku)
     📁 | chromium-dino
@@ -1275,7 +1308,8 @@ Prepričajmo se, da je bil uvoz uspešen: struktura našega projekta bi sedaj mo
     📁 | okolje
     📁 | ptic
   icon.svg
-")
+",
+)
 
 #v(base-font-size)
 
@@ -1351,7 +1385,7 @@ Sedaj, ko smo spoznali osnovna podokna urejevalnika in uvozili začetna sredstva
 
 Vsaka igra, razvita s pogonom Godot, je osnovana na konceptu *vozlišč* (angl. "nodes"). Vozlišče je najmanjša enota funkcionalnosti, ki jo lahko uporabimo v naši igri. Vozlišča so različnih tipov: nekatera vozlišča so mišljena za razvoj iger v 2D, nekatera za 3D, nekatera za uporabniški vmesnik (angl. "user interface" oz. "UI"), nekatera za animacije itd. Primer vozlišča je na primer #node2d-type-name("Sprite2D"), ki preprosto prikaže 2D teksturo, ali `Camera2D`, ki vzpostavi igralski pogled.
 
-Vozlišča sestavljamo skupaj v *prizore*. Prizori so, poleg skript, glavni način sestavljanja, hranjenja in urejanja naše igre. Vsak prizor ima korensko (t.j. vrhnje) vozlišče. Korensko vozlišče ima nase prilepljene "otroke", na isti način kot recimo v drevesni strukturi raziskovalca datotek. Vsako vozlišče ima lahko poljubno število otrok. Vozlišče, skupaj z njegovimi otroki, imenujemo veja. 
+Vozlišča sestavljamo skupaj v *prizore*. Prizori so, poleg skript, glavni način sestavljanja, hranjenja in urejanja naše igre. Vsak prizor ima korensko (t.j. vrhnje) vozlišče. Korensko vozlišče ima nase prilepljene "otroke", na isti način kot recimo v drevesni strukturi raziskovalca datotek. Vsako vozlišče ima lahko poljubno število otrok. Vozlišče, skupaj z njegovimi otroki, imenujemo veja.
 
 Če bi želeli na primer sestaviti avto, bi vrhnje vozlišče bilo splošno vozlišče za 2D, njegovi otroci pa bi bili lahko tipa #node2d-type-name("Sprite2D") in vsebovali komponente avta (kolesa, okvir, ...), razporejene vizualno tako, da skupaj sestavijo izgled avtomobila.
 
@@ -1390,7 +1424,7 @@ Preden zaidemo pregloboko v podrobnosti, ustvarimo nov prizor, ki bo vseboval na
   ),
 )
 
-Čestitke! Ustvarili smo svoj prvi prizor, četudi zaenkrat še ne počne ničesar. Preden nadaljujemo, shranimo ta prizor na disk, da ne bomo našega napredka izgubili: pritisnimo `Ctrl+S` (ali kliknimo z desnim klikom na zavihek neshranjenega prizora in izberimo "Save Scene"). V shranjevalnem oknu, ki se prikaže, se premaknimo v korensko mapo `res://`, če slučajno nismo začeli tam, in nato v tej mapi poleg mape `sredstva` ustvarimo novo mapo z imenom `prizori`. To storimo ali z desnim klikom na prazen prostor in klikom na "New Folder ..." v kontekstnem meniju, ali pa s klikom na gumb za novo mapo z zelenim plusom, ki je desno zgoraj v tem podoknu. V mapi `prizori` sedaj ustvarimo še mapo `igra`, nato pa vanjo shranimo naš prizor z imenom `igra.tscn` (namesto privzetega `node_2d.tscn`), kot vidimo na #ref(<scene-save-dialog-igra-tscn>, supplement: [sliki]).
+Čestitke! Ustvarili smo svoj prvi prizor, četudi zaenkrat še ne počne ničesar. Preden nadaljujemo, shranimo ta prizor na disk, da ne bomo našega napredka izgubili: pritisnimo #kbd(keyle.biolinum-key.Ctrl, "S") (ali kliknimo z desnim klikom na zavihek neshranjenega prizora in izberimo "Save Scene"). V shranjevalnem oknu, ki se prikaže, se premaknimo v korensko mapo `res://`, če slučajno nismo začeli tam, in nato v tej mapi poleg mape `sredstva` ustvarimo novo mapo z imenom `prizori`. To storimo ali z desnim klikom na prazen prostor in klikom na "New Folder ..." v kontekstnem meniju, ali pa s klikom na gumb za novo mapo z zelenim plusom, ki je desno zgoraj v tem podoknu. V mapi `prizori` sedaj ustvarimo še mapo `igra`, nato pa vanjo shranimo naš prizor z imenom `igra.tscn` (namesto privzetega `node_2d.tscn`), kot vidimo na #ref(<scene-save-dialog-igra-tscn>, supplement: [sliki]).
 
 Novo datoteko s končnico `.tscn` bomo sedaj lahko našli tudi spodaj levo v raziskovalcu datotek na poti `res://prizori/igra/igra.tscn`. Če v prihodnosti ta prizor ponesreči ali nalašč zapremo s klikom na `X` ob imenu zavihka na vrhu, lahko ta prizor ponovno odpremo tako, da nanj dvokliknemo v raziskovalcu datotek. Kot bomo videli tekom razvoja, imamo lahko celo odprtih več prizorov hkrati, pri čemer lahko med njimi skačemo s kliki na njihove zavihke na vrhu urejevalnika.
 
@@ -1426,7 +1460,7 @@ Kot smo omenili že v začetku #ref(<urejanje-prizorov>, supplement: [poglavja])
         name,
         fill-color: white,
         background-color: default-background-color,
-        style: "normal"
+        style: "normal",
       ) = {
         box(
           fill: background-color,
@@ -1473,13 +1507,23 @@ Kot smo omenili že v začetku #ref(<urejanje-prizorov>, supplement: [poglavja])
               node("AnimatedSprite2D", background-color: two-d-bg-color),
               // node("Camera2D", background-color: two-d-bg-color),
               (
-                node("CollisionObject2D", background-color: two-d-bg-color, style: "italic", fill-color: grayed-fill-color),
-                (
-                  node("PhysicsBody2D", background-color: two-d-bg-color, style: "italic", fill-color: grayed-fill-color),
-                  node("StaticBody2D", background-color: two-d-bg-color),
-                  node("CharacterBody2D", background-color: two-d-bg-color)
+                node(
+                  "CollisionObject2D",
+                  background-color: two-d-bg-color,
+                  style: "italic",
+                  fill-color: grayed-fill-color,
                 ),
-                node("Area2D", background-color: two-d-bg-color)
+                (
+                  node(
+                    "PhysicsBody2D",
+                    background-color: two-d-bg-color,
+                    style: "italic",
+                    fill-color: grayed-fill-color,
+                  ),
+                  node("StaticBody2D", background-color: two-d-bg-color),
+                  node("CharacterBody2D", background-color: two-d-bg-color),
+                ),
+                node("Area2D", background-color: two-d-bg-color),
               ),
               node("Sprite2D", background-color: two-d-bg-color),
             ),
@@ -1487,7 +1531,7 @@ Kot smo omenili že v začetku #ref(<urejanje-prizorov>, supplement: [poglavja])
               node("Control", background-color: control-bg-color),
               (
                 node("Container", background-color: control-bg-color),
-                node("CenterContainer", background-color: control-bg-color)
+                node("CenterContainer", background-color: control-bg-color),
               ),
               node("TextEdit", background-color: control-bg-color),
               node("Label", background-color: control-bg-color),
@@ -1528,12 +1572,12 @@ Kar vidimo na #ref(<partial-node-type-structure>, supplement: [sliki]) je samo m
 
 === Sprememba lastnosti vozlišč
 
-Vozlišči, ki smo ju do sedaj dodali, sta bili tipa #node2d-type-name("Node2D") in #node2d-type-name("Sprite2D"). Morda ste dobili vtis, da se tip vozlišča prikaže kot besedilo v tej drevesni strukturi (na podlagi #ref(<scene-root-with-sprite>, supplement: [slike])), a stvar ni tako preprosta. Vozlišča imajo poleg svojega tipa namreč tudi lastno *ime*! To ime je tisto, kar vidimo kot besedilo ob ikoni vozlišča. Zaenkrat vidimo imeni #node2d-type-name("Node2D") in #node2d-type-name("Sprite2D") le zato, ker se vozlišča privzeto poimenujejo glede na svoj tip, a mi lahko ta vozlišča poljubno preimenujemo, kar je pravzaprav precej zaželeno, da se ne izgubimo.  
+Vozlišči, ki smo ju do sedaj dodali, sta bili tipa #node2d-type-name("Node2D") in #node2d-type-name("Sprite2D"). Morda ste dobili vtis, da se tip vozlišča prikaže kot besedilo v tej drevesni strukturi (na podlagi #ref(<scene-root-with-sprite>, supplement: [slike])), a stvar ni tako preprosta. Vozlišča imajo poleg svojega tipa namreč tudi lastno *ime*! To ime je tisto, kar vidimo kot besedilo ob ikoni vozlišča. Zaenkrat vidimo imeni #node2d-type-name("Node2D") in #node2d-type-name("Sprite2D") le zato, ker se vozlišča privzeto poimenujejo glede na svoj tip, a mi lahko ta vozlišča poljubno preimenujemo, kar je pravzaprav precej zaželeno, da se ne izgubimo.
 To storimo tako, da ali dvokliknemo na vozlišče ali pa z desnim klikom nanj odpremo kontekstni meni in izberemo akcijo "Rename". Lahko pa sprožite preimenovanje tudi z bližnjico #kbd("F2"), kadar imate izbrano določeno vozlišče.
 
 
 #box-task[
-  Preimenujte korensko vozlišče #node2d-type-name("Node2D") v `Igra` in vozlišče #node2d-type-name("Sprite2D") v `DinozaverSlicica`, ter nato prizor shranite z bližnjico #kbd("Ctrl", "S") ali desnim klikom na zavihek prizora in klikom na akcijo "Save Scene".
+  Preimenujte korensko vozlišče #node2d-type-name("Node2D") v `Igra` in vozlišče #node2d-type-name("Sprite2D") v `DinozaverSlicica`, ter nato prizor shranite z bližnjico #kbd(keyle.biolinum-key.Ctrl, "S") ali desnim klikom na zavihek prizora in klikom na akcijo "Save Scene".
 
   #screenshot(
     path: "assets/ui-basics/godot-ui_scene_node-and-sprite-tree_post-rename.png",
@@ -1545,7 +1589,7 @@ To storimo tako, da ali dvokliknemo na vozlišče ali pa z desnim klikom nanj od
 #box-info(
   title: "Kaj je bližnjica?",
   [
-    Bližnjica (angl. shortcut) je alternativni (ponavadi hitrejši) način, da izvedemo neko akcijo (kot na primer, izberemo orodje v urejevalniku, shranimo projekt, zaženemo projekt, ...). Bližnjico ponavadi aktiviramo s pritiskom tipke ali kombinacije tipk na tipkovnici. Za aktivacijo bližnjice "shrani" na primer pritisnemo tipko `Ctrl` in nato tipko `S`.
+    Bližnjica (angl. shortcut) je alternativni (ponavadi hitrejši) način, da izvedemo neko akcijo (kot na primer, izberemo orodje v urejevalniku, shranimo projekt, zaženemo projekt, ...). Bližnjico ponavadi aktiviramo s pritiskom tipke ali kombinacije tipk na tipkovnici. Za aktivacijo bližnjice "shrani" na primer pritisnemo tipko #kbd(keyle.biolinum-key.Ctrl) in nato tipko #kbd("S").
 
     Definira jih program, ki ga uporabljamo, torej v našem primeru Godot. Seznam vseh bližnjic, ki jih vsebuje, lahko najdete in spreminjate pod `Editor -> Editor Settings -> Shortcuts`.
 
@@ -1668,12 +1712,12 @@ Z našim ročnim premikom smo torej le spremenili vrednost teh dveh koordinat, n
 
 Poleg premikanja je dobro poznati še dva načina navigacije po urejevalniku 2D prizorov:
 - Če vrtimo kolešček na miški gor ali dol, medtem ko imamo miško na 2D polju, bomo naš pogled približevali ali oddaljevali. Enako lahko dosežemo tudi s kliki na gumbe za plus in minus pod orodno vrstico 2D urejevalnika.
-- Če pritisnemo kolešček na miški, ga držimo in med tem premikamo miško naokoli, se bomo pomikali po 2D prostoru. Enako lahko dosežemo tudi z uporabo orodja za premik (angl. "Pan Mode"), ki je na voljo v orodni vrstici, pa tudi pod bližnjico `G`.
+- Če pritisnemo kolešček na miški, ga držimo in med tem premikamo miško naokoli, se bomo pomikali po 2D prostoru. Enako lahko dosežemo tudi z uporabo orodja za premik (angl. "Pan Mode"), ki je na voljo v orodni vrstici, pa tudi pod bližnjico #kbd("G").
 
 #box-warning[
-  Bodite previdni, da pri uporabi vleke z navadnim orodjem za izbiro (to je prvo orodje v orodni vrstici) po nesreči ne zagrabite enega izmed osmih okroglih vlečnih gumbov okoli vozlišča, saj bo vleka le-teh povzročila, da se bo sličica začela nenavadno raztegovati, česar zaenkrat nočemo. Zaradi tega priporočamo, da za premike res uporabljate orodje za premik, t.j. drugo orodje v orodni vrstici, ki je na voljo tudi pod bližnjico `W`.
+  Bodite previdni, da pri uporabi vleke z navadnim orodjem za izbiro (to je prvo orodje v orodni vrstici) po nesreči ne zagrabite enega izmed osmih okroglih vlečnih gumbov okoli vozlišča, saj bo vleka le-teh povzročila, da se bo sličica začela nenavadno raztegovati, česar zaenkrat nočemo. Zaradi tega priporočamo, da za premike res uporabljate orodje za premik, t.j. drugo orodje v orodni vrstici, ki je na voljo tudi pod bližnjico #kbd("W").
 
-  Če se vam zgodi ta nesreča, se lahko vedno vrnete na prejšnje stanje z uporabo bližnjice `Ctrl+Z` (angl. _undo_).
+  Če se vam zgodi ta nesreča, se lahko vedno vrnete na prejšnje stanje z uporabo bližnjice #kbd(keyle.biolinum-key.Ctrl, "Z") (angl. _undo_).
 ]
 
 #screenshot(
@@ -1721,10 +1765,10 @@ Poleg premikanja je dobro poznati še dva načina navigacije po urejevalniku 2D 
 #box-info(title: [Relativne koordinate])[
   Na tej točki je pomembno, da spoznamo koncept relativnih koordinat. V #ref(<okolje-2d>, supplement: [poglavju]) smo spoznali dvodimenzionalni koordinatni sistem in ravno malo pred kratkim spoznali še, da lahko naša dvodimenzionalna vozlišča premikamo po tem koordinatnem sistemu.
 
-  Kar pa je poleg tega pomembno razumeti je, da je naš prizor sestavljen hierarhično: če premaknemo pozicijo nekega starševskega vozlišča, bomo obenem sorazmerno premaknili tudi vse potomce tega vozlišča. 
-  
+  Kar pa je poleg tega pomembno razumeti je, da je naš prizor sestavljen hierarhično: če premaknemo pozicijo nekega starševskega vozlišča, bomo obenem sorazmerno premaknili tudi vse potomce tega vozlišča.
+
   #box-divider()
-  
+
   Na primer, če starševsko vozlišče premaknemo na $(5, 10)$, se bo tudi potomec tega vozlišča premaknil na $(5, 10)$, četudi je njegova lastnost #variable-name("position") nastavljena na $(0, 0)$. Zakaj? Zato, ker je pozicija potomca relativna na vsa starševska vozlišča! Če bi lastnost #variable-name("position") potomca nastavili na $(2, 4)$, bi to vozlišče zagledali na poziciji $(7, 14)$, saj se bi njegova pozicija seštela z njegovim staršem.
 ]
 
@@ -1741,7 +1785,7 @@ Da ne bomo preveč smetili po našem trenutnem prizoru, najprej ustvarimo novega
 
 #box-task[
   Izdelajte nov prizor. Nov prizor lahko ustvarite tako, da kliknete na gumbek "+", nad orodno vrstico in desno od vseh trenutno odprtih prizorov. Nato lahko sledite navodilom v #ref(<scene-creation>, supplement: "poglavju").
-  
+
   Korenski tip novega prizora naj bo kar #node2d-type-name("Node2D"), poimenujte ga `Osnove`. Nov prizor poimenujte `osnove.tscn` in ga shranite v mapo z imenom `gdscript_osnove` v korenski mapi `res://`.
 ]
 
@@ -1754,7 +1798,7 @@ Vsaka GDScript skripta (datoteka) je namenjena uporabi na enem od tipov vozliš�
 Na katero vozlišče je lahko pripet, določa tip (razred) same datoteke. O tem bomo malo več povedali kasneje, za zdaj si je pomembno zapomniti, da se mora vrstica `extends` na vrhu datoteke ujemati s tipom vozlišča, na katerega pripenjamo datoteko.
 
 #box-info(title: [Kako prepoznam to napako?])[
-  V primeru, da se tip GDScript datoteke ne ujema s tipom vozlišča, bo Godot ob zagonu javil napako: `Script inherits from native type '(tip GDScript datoteke)', so it can't be assigned to an object of type: '(tip vozlišča)'`.
+  V primeru, da se tip GDScript datoteke ne ujema s tipom vozlišča, bo Godot ob zagonu javil napako: "Script inherits from native type '(tip GDScript datoteke)', so it can't be assigned to an object of type: '(tip vozlišča)'"".
 
   V tem primeru imamo dve možnosti: ali spremenimo tip datoteke s stavkom `extends` ali pa spremenimo tip vozlišča z desnim klikom na vozlišče in izbiro "Change type".
 
@@ -1781,9 +1825,9 @@ Ob kliku na ta gumb nam bo Godot odprl pojavno okno za izdelavo nove skripte, oz
 - Polje "Inherits" (dedovanje) *večino časa pustimo na miru*. Če smo skripto naredili po zgoraj opisanem postopku, ga bo Godot sam izpolnil pravilno in se nam napaka z neujemanjem tipa skripte in vozlišča ne more pojaviti.
 - Polje "Template" (predloga) prav tako lahko pustimo pri miru. Vse kar naredi, je, da nam novo skriptno datoteko napolni z vnaprej definirano predlogo, ki je za nas uporabna. Ponavadi bomo želeli "Node: Default" ali pa bomo predlogo kar ugasnili.
 - Polje "Built-in Script" (vgrajena skripta) lahko prav tako ignoriramo, saj tega mehanizma ne bomo obravnavali, ker za nas ni pomemben.
-- Polje "Path" je za nas pravzaprav najbolj pomembno in pogosto se pri izdelavi nove skripte spremeni samo tega. To polje nam v `res://` formatu pove, kam bo shranjena nova skripta.
+- Polje "Path" je za nas pravzaprav najbolj pomembno in pogosto se pri izdelavi nove skripte spremeni samo tega. To polje nam v formatu `res://` pove, kam bo shranjena nova skripta.
 
-Potem ko vsa polja nastavimo na želene vrednosti, kliknemo na gumb "Create" (slov. "Ustvari").
+Potem ko vsa polja nastavimo na želene vrednosti, kliknemo na gumb #ui-button("Create") (slov. _Ustvari_).
 Godot bo izdelal novo skripto s končnico `.gd` in nam jo odprl v pogledu urejevalnik (Script), obravnavanem v #ref(<urejevalnik>, supplement: [poglavju]).
 
 #box-task[
@@ -1808,7 +1852,7 @@ func _process(delta: float) -> void:
 	pass
 ```
 
-Da na zaslon izpišemo "Pozdravljen, svet!", moramo poklicati funkcijo `print` v funkciji `_ready()`. Če vam te besede zvenijo kot marsovščina, nič hudega, vse bo bolje razloženo v prihodnjih poglavjih. Za zdaj samo spremenite šesto vrstico in `pass` nadomestite s `print("Pozdravljen svet!")`. Pri tem bodite pozorni, na zamik pred besedo `print`. Zakaj bomo malo bolje razložili kasneje, zaenkrat se samo prepričajte da je `print` zamaknjen enako, kakor je bil pred tem `pass`. Če ne veste kako ga pravilno zamakniti, izbrišite vse znake pred njim, dokler ne bo poravnan popolnoma levo in nato enkrat pritisnite tipko "tab" na tipkovnici.
+Da na zaslon izpišemo "Pozdravljen, svet!", moramo poklicati funkcijo `print` v funkciji #function-name("_ready"). Če vam te besede zvenijo kot marsovščina, nič hudega, vse bo bolje razloženo v prihodnjih poglavjih. Za zdaj samo spremenite šesto vrstico in ```gd pass``` nadomestite s ```gd print("Pozdravljen svet!")```. Pri tem bodite pozorni, na zamik pred besedo #function-name("print"). Zakaj bomo malo bolje razložili kasneje, zaenkrat se samo prepričajte da je #function-name("print") zamaknjen enako, kakor je bil pred tem ```gd pass```. Če ne veste kako ga pravilno zamakniti, izbrišite vse znake pred njim, dokler ne bo poravnan popolnoma levo in nato enkrat pritisnite tipko #kbd("tab " + keyle.svg-key.tab) na tipkovnici.
 
 Vse pod to vrstico lahko sedaj zaenkrat izbrišemo, da nas vsebina ne bo preveč medla. Vaša koda bi po tem morala izgledati nekako takole:
 
@@ -1832,8 +1876,6 @@ Na tej točki nam preostane le, da kodo poženemo. Za ta namen ima Godot na svoj
   caption: [Gumbi za poganjanje projekta.],
 )
 
-#todo[Popravi screenshot ker so umaknili gumb za oddaljeno konfiguracijo.]
-
 Ti gumbi so, od leve proti desni:
 
 - *Poženi*: zažene privzet prizor. Ob prvem kliku na ta gumb nas bo Godot vprašal, kateri prizor želimo nastaviti kot privzeti. To lahko pozneje spremenimo v nastavitvah projekta.
@@ -1842,23 +1884,19 @@ Ti gumbi so, od leve proti desni:
 
 - *Ustavi*: ustavi izvajanje projekta.
 
-- _Zaženi oddaljeno konfiguracijo_: tega gumba ne bomo uporabljali in ga lahko ignorirate.
-
 - *Zaženi trenuten prizor*: požene prizor, na katerem trenutno delamo v strukturi prizora (ta prizor je tudi viden v zavihkih nad urejevalnikom). Ta gumb bomo najbolj pogosto uporabljali za zaganjanje.
 
 - *Zaženi prizor z diska*: odpre meni, v katerem lahko izberemo, kateri prizor želimo pognati.
 
 - _Vklop načina za izdelavo videoposnetka_: tega gumba ne bomo uporabljali in ga lahko ignorirate.
 
-Projekt lahko sedaj zaženemo s klikom na "Zaženi trenuten prizor". Godot nas bo sam prestavil v okno Igra (okolje "Game"), v izhodni konzoli (zavihek "Output") pa bi se moralo prikazati naše sporočilo.
+Projekt lahko sedaj zaženemo s klikom na #ui-button("Zaženi trenuten prizor"). Godot nas bo sam prestavil v okno Igra (okolje "Game"), v izhodni konzoli (zavihek "Output") pa bi se moralo prikazati naše sporočilo.
 
 #screenshot(
   path: "assets/gd-script/hello-world.png",
   width: 90%,
   caption: [Urejevalnik, kjer se je v zavihku "Output" izpisalo sporočilo "Pozdravljen svet!".],
 )<hello-world>
-
-#todo[Popravi tudi ta screenshot da ob imel vejico v pozdravljen svet.]
 
 S tem smo uspešno preverili, da osnovne funkcije našega okolja delujejo pravilno!
 
@@ -1879,13 +1917,13 @@ func _ready() -> void:
 
 Pojdimo zdaj skupaj čez ta najbolj osnoven program.
 
-Začnemo z besedo `extends`, ki ji sledi tip vozlišča s katerim delamo. V našem primeru delamo na vozlišču #node2d-type-name("Node2D") zato je tam tudi njegovo ime. `extends` bo bolj podrobno razložen v #ref(<classes-and-extends>, supplement: "poglavju") in se z njim še ne rabimo obremenjevati.
+Začnemo z besedo ```gd extends```, ki ji sledi tip vozlišča s katerim delamo. V našem primeru delamo na vozlišču #node2d-type-name("Node2D") zato je tam tudi njegovo ime. ```gd extends``` bo bolj podrobno razložen v #ref(<classes-and-extends>, supplement: "poglavju") in se z njim še ne rabimo obremenjevati.
 
 Nato sledi nekaj praznih vrstic. Prazne vrstice uporabljamo, da kodo strukturiramo. Torej da nam jo je lažje brati. Prazne vrstice Godot ob izvedbi skripte ignorira in nimajo nobenega vpliva na delovanje naše igre.
 
 Nato sledi vrstica 4, ki se začne z znakom \#. Gre za komentar, torej del "kode", ki opisuje drugo kodo in jo bo Godot prav tako ignoriral. Komentarji so bolj podrobno razloženi kasneje.
 
-Nato pride vrstica 5, ki je malo bolj kompleksna. Ta vrstica se začne z besedo `func`, ki deklarira funkcijo. Nadaljuje se s podpisom te funkcije, v našem primeru `_ready() -> void`, ki pravi da ta funkcija ne prejema argumentov in nič ne vrača. Vse kar je bilo ravnokar napisano bomo bolje razložili kasneje, v #ref(<functions>, supplement: "poglavju"). Kar je za nas pomembno je, da tako Godotu povemo, kateri kos kode naj izvede, ko se zažene.
+Nato pride vrstica 5, ki je malo bolj kompleksna. Ta vrstica se začne z besedo ```gd func```, ki deklarira funkcijo. Nadaljuje se s podpisom te funkcije, v našem primeru ```gd _ready() -> void```, ki pravi da ta funkcija ne prejema argumentov in nič ne vrača. Vse kar je bilo ravnokar napisano bomo bolje razložili kasneje, v #ref(<functions>, supplement: "poglavju"). Kar je za nas pomembno je, da tako Godotu povemo, kateri kos kode naj izvede, ko se zažene.
 
 Sledi vrstica 6, v kateri je klic funkcije `print`. Kličemo jo z enim samim argumentom - "Pozdravljen svet!". Zopet je vse kar rabimo vedeti, da ta vrstica povzroči izpis, prikazan na #ref(<hello-world>, supplement: "sliki"). Zamik ki smo ga prej tako poudarili, Godotu pove, da ta vrstica pripada funkciji `_ready`. To bo bolj podrobno razloženo v #ref(<indents>, supplement: "poglavju"). Do takrat se samo držite enakih zamikov, kot jih delamo v primerih, oziroma vse po ```gd func _ready() -> void:``` zamikajte za en tabulator.
 
@@ -1916,9 +1954,9 @@ Vrednost stevilke je:
 10
 ```
 
-V zgornjem primeru smo v spremenljivko z imenom `stevilka` shranili vrednost 10. Če program zaženemo, bo to tudi vidno na Godotovem izhodu (v konzoli, oziroma v zavihku "Output").
+V zgornjem primeru smo v spremenljivko z imenom #variable-name("stevilka") shranili vrednost 10. Če program zaženemo, bo to tudi vidno na Godotovem izhodu (v konzoli, oziroma v zavihku "Output").
 
-Spremenljivko deklariramo s ključno besedo `var`, ki ji sledi ime spremenljivke (etiketa na škatli). Spremenljivki vrednost nastavimo tako, da napišemo njeno ime in nato enačaj, nakar sledi vrednost, ki ji bo dodeljena (desno stran enačaja postavljamo v škatlo).
+Spremenljivko deklariramo s ključno besedo ```gd var```, ki ji sledi ime spremenljivke (etiketa na škatli). Spremenljivki vrednost nastavimo tako, da napišemo njeno ime in nato enačaj, nakar sledi vrednost, ki ji bo dodeljena (desno stran enačaja postavljamo v škatlo).
 
 
 Ker se zelo pogosto zgodi, da želimo oboje narediti hkrati, lahko ta ukaza združimo. Kako bi zgornji primer naredili na tak način, lahko vidite spodaj. Tak način izdelave je priporočen.
@@ -1961,12 +1999,12 @@ Nova vrednost stevilke je:
 
 === Podatkovni tipi
 
-Vse vrednosti imajo tudi svoj podatkovni tip. V zgornjem primeru je število `10` celo število, torej pripada celoštevilskemu tipu. Posledično je tudi spremenljivka `stevilka` celoštevilskega tipa.
+Vse vrednosti imajo tudi svoj podatkovni tip. V zgornjem primeru je število `10` celo število, torej pripada celoštevilskemu tipu. Posledično je tudi spremenljivka #variable-name("stevilka") celoštevilskega tipa.
 
 GDScript ima kar nekaj vgrajenih podatkovnih tipov, ki jih lahko uporabljamo. Med pogosto uporabljene spadajo:
-- `bool` - je najbolj enostaven tip in lahko predstavlja samo dve stanji. `true` - drži ali `false` - ne drži.
-- `int` - celo število. Na primer -5, 0 ali 42.
-- `float` - realno število. Na primer -2.6, 0.0005 ali 4.2.
+- #data-type-name("bool") - je najbolj enostaven tip in lahko predstavlja samo dve stanji. ```gd true``` - drži ali ```gd false``` - ne drži.
+- #data-type-name("int") - celo število. Na primer -5, 0 ali 42.
+- #data-type-name("float") - realno število. Na primer -2.6, 0.0005 ali 4.2.
   #box-info(
     title: [Opombi o `float`],
   )[
@@ -1975,9 +2013,9 @@ GDScript ima kar nekaj vgrajenih podatkovnih tipov, ki jih lahko uporabljamo. Me
   ]
 - `String` - zaporedje znakov ali `niz`. Na primer "Pozdravljen svet!". V tem primeru je niz sestavljen iz zaporedja `P o z d r a v l j e n <presledek> s v e t !`. Izdelava in uporaba nizov je precej pomemben del programiranja in si ga bomo malo bolje pogledali kasneje.
 
-V zgornjem primeru je `stevilka` celoštevilskega tipa ```gd int```. GDScript je to lahko sam ugotovil, saj smo spremenljivki dodelili vrednost `10`, ki je sama po sebi celo število, tako da nam tega ni bilo treba nikjer napisati. GDScript pa omogoča tudi eksplicitno pisanje tipov; sicer ne bo nikoli zahteval, da tipe pišemo eksplicitno, je pa zapisovanje tipov v kodi dobra praksa, ki nam lahko prepreči lastne napake.
+V zgornjem primeru je #variable-name("stevilka") celoštevilskega tipa #data-type-name("int"). GDScript je to lahko sam ugotovil, saj smo spremenljivki dodelili vrednost `10`, ki je sama po sebi celo število, tako da nam tega ni bilo treba nikjer napisati. GDScript pa omogoča tudi eksplicitno pisanje tipov; sicer ne bo nikoli zahteval, da tipe pišemo eksplicitno, je pa zapisovanje tipov v kodi dobra praksa, ki nam lahko prepreči lastne napake.
 
-V spodnjem primeru se bo vrstica 4 izvedla normalno in tip spremenljivke `celo_stevilo` se bo potihoma spremenil iz `int` v `String`. Obenem se vrstica 5 ne bo izvedla, ampak nam bo vrnila napako, saj GDScript ve, da želimo imeti v `eksplicitno_celo_stevilo` celo število in pretvorbe ne bo dovolil.
+V spodnjem primeru se bo vrstica 4 izvedla normalno in tip spremenljivke #variable-name("celo_stevilo") se bo potihoma spremenil iz #data-type-name("int") v #data-type-name("String"). Obenem se vrstica 5 ne bo izvedla, ampak nam bo vrnila napako, saj GDScript ve, da želimo imeti v #variable-name("eksplicitno_celo_stevilo") celo število in pretvorbe ne bo dovolil.
 
 ```gd
 var celo_stevilo = 42
@@ -2012,7 +2050,7 @@ Parser Error: Cannot assign a value of type "String" as "int".
   Če za tako obnašanje ne vemo in nismo pozorni kaj delamo, lahko preteče precej časa preden težavo, povezano s tem, odkrijemo. GDScript ne bo moral vedno paziti na nas, včasih pa nam bo nevede šel celo nasproti, tako da je še vedno pomembno, da kodo pišemo pazljivo in pozorno ter da napisano kodo razumemo.
 ]
 
-Poleg navadnih podatkovnih tipov, Godot pozna tudi podatkovni tip #data-type-name("Variant"). To je poseben podatkovni tip, ki predstavlja vse podatkovne tipe. Naše spremenljivke so, če jim nismo eksplicitno dodelili tipa, tipa #data-type-name("Variant"). #data-type-name("Variant") je poseben podatkovni tip, ki predstavlja vse podatkovne tipe, torej lahko v sebi drži katero koli vrednost.
+Poleg navadnih podatkovnih tipov, Godot pozna tudi podatkovni tip #data-type-name("Variant"). To je poseben podatkovni tip, ki predstavlja vse podatkovne tipe, torej lahko drži katerokoli vrednost. Se pa še vedno zaveda, katerega tipa je vrednost, ki jo drži. Naše spremenljivke so, če jim nismo eksplicitno dodelili tipa, tipa #data-type-name("Variant").
 Spodnji vrstici sta ekvivalentni.
 
 ```gd
@@ -2020,7 +2058,23 @@ var test: Variant = 42
 var test = 42
 ```
 
-Poleg navadnih vrednosti lahko naši spremenljivki dodelimo tudi vrednost ```gd null```. O vrednosti ```gd null``` lahko razmišljamo kot o prazni škatli, predstavlja nam namreč pomanjkanje vrednosti. Uporabe vrednosti ```gd null``` se pri programiranju pogosto poskušamo izogibati, saj iz tega lahko izvira ogromno napak. Znotraj tega učbenika bomo ```gd null``` uporabili samo takrat, ko bo to res potrebno. Če je naša spremenljivka navadnega (primitivnega) tipa in je njen tip definiran v kodi, ji vrednosti ```gd null``` ne moremo določiti. ```gd null``` pa lahko dodelimo spremenljivkam, katerih tip je na primer vozlišče ali vir.
+#box-info(
+  title: [#advanced-topic-heading[Za napredne uporabnike]],
+  [
+    V praksi so vse spremenljivke znotraj GDScript skript tipa #data-type-name("Variant"). Če spremenljivki tip eksplicitno dodelimo, s tem Godotu samo sporočimo, da naj upošteva strožja pravila.
+
+    Če si želite o tem prebrati več, si lahko preberete poglavje "Variant" v uradni dokumentaciji, ki je med drugim tudi našteto v #ref(<additional-reading>, supplement: "poglavju").
+  ],
+)
+
+Poleg navadnih vrednosti lahko naši spremenljivki dodelimo tudi vrednost ```gd null```. O vrednosti ```gd null``` lahko razmišljamo kot o prazni škatli, predstavlja nam namreč pomanjkanje vrednosti. Uporabe vrednosti ```gd null``` se pri programiranju pogosto poskušamo izogibati, saj iz tega lahko izvira ogromno napak. Tudi znotraj tega učbenika bomo ```gd null``` uporabili samo takrat, ko bo to res potrebno. Če je naša spremenljivka navadnega (primitivnega) tipa in je njen tip definiran v kodi, ji vrednosti ```gd null``` ne moremo določiti. ```gd null``` pa lahko dodelimo spremenljivkam, katerih tip je na primer vozlišče ali vir.
+
+#box-info(
+  title: [#advanced-topic-heading[Za napredne uporabnike]],
+  [
+    Dejansko pravilo, glede tega kdaj lahko podatkovnemu tipu dodelimo ```gd null``` je bolj natančno. Dodelimo ga lahko namreč samo tipom ki so potomci tipa #data-type-name("Object").
+  ],
+)
 
 
 === Računske operacije
@@ -2104,7 +2158,7 @@ Vrednost stevilke je:
 
   Privzeta vrednost za vozlišče, ki mu vrednost nikoli ni bila urejena, je v našem primeru `42`, ki smo jo definirali znotraj kode, oziroma privzeta vrednost podatkovnega tipa, če v kodi nismo navedli nobene vrednosti.
 
-  Privzeta vrednost podatkovnega tipa je za nekatere tipe določena s strani Godota. Če tip privzete vrednosti nima določene je privzeta vrednost `null`. Večina sestavljenih tipov nima določene privzete vrednost.
+  Privzeta vrednost podatkovnega tipa je za nekatere tipe določena s strani Godota. Če tip privzete vrednosti nima določene, je privzeta vrednost ```gd null```. Večina sestavljenih tipov nima določene privzete vrednost.
 
   Nekaj primerov privzetih vrednosti je:
   ```gd
@@ -2113,53 +2167,57 @@ Vrednost stevilke je:
   var niz: String #= "" (prazen niz)
   var boolean: bool #= false
   var vektor: Vector2 #= (0.0, 0.0)
+  var seznam: Array #= [] (prazen seznam)
   var prizor: PackedScene #= null
   ```
 
-  Sestavljene tipe, kot je `PackedScene`, bomo bolj podrobno obravnavali kasneje.
+  Sezname in sestavljene tipe, kot je #resource-type-name("PackedScene"), bomo bolj podrobno obravnavali kasneje.
 ])
 
 
 Dobra praksa je, da globalnim spremenljivkam, še posebej tistim ki so označene z ```gd @export```, eksplicitno navedemo podatkovni tip in nastavimo začetno vrednost. Samo tako smo lahko prepričani, da Godot pravilno interpretira, kaj želimo izvoziti, in da nam bo lahko pomagal pri lovljenju napak.
 
+=== Osnovna obdelava nizov
 
-Poglejmo si še malo bolj kompleksen primer.
+Na tej točki je čas, da se na hitro spoznamo še z osnovno uporabo nizov.
 
-#box-info(title: "Obdelava nizov", [
-  Za razumevanje sledečega primera na hitro spoznajmo še osnovno uporabo nizov. Dva niza lahko "zlepimo" z uporabo operatorja `+`.
+Dva niza lahko zlepimo skupaj z uporabo operatorja `+`:
 
-  ```gd
-  print("Pozdravljen " + "svet!")
-  ```
-  ```izhod
-  Pozdravljen svet!
-  ```
+```gd
+print("Pozdravljen " + "svet!")
+```
+```izhod
+Pozdravljen svet!
+```
 
-  Če želimo nek drug tip pretvoriti v niz, lahko to storimo s funkcijo `str`. Večina GDScriptovih in Godotovih podatkovnih tipov podpira takšno pretvorbo.
+Če želimo nek drug tip pretvoriti v niz, lahko to storimo s funkcijo #function-name("str"). Večina Godotovih podatkovnih tipov podpira takšno pretvorbo.
 
-  ```gd
-  print("Odgovor je: " + str(42))
+```gd
+print("Odgovor je: " + str(42))
 
-  # Spodnji klic ne bi deloval, saj operator + ne zna "zlepiti" niza in nečesa kar
-  # ni niz (število 42).
-  print("Odgovor je: " + 42)
-  ```
-  ```izhod
-  Odgovor je: 42
-  ```
+# Spodnji klic ne bi deloval, saj operator + ne zna "zlepiti" niza in nečesa kar
+# ni niz (število 42).
+print("Odgovor je: " + 42)
+```
+```izhod
+Odgovor je: 42
+```
 
-  Funkcija `print` že sama po sebi nad danim parametrom pokliče funkcijo `str`, zaradi česar smo sploh lahko na izhod pisali primere, kot je bil na primer:
+Funkcija #function-name("print") že sama po sebi nad danim parametrom pokliče funkcijo #function-name("str"), zaradi česar smo sploh lahko na izhod pisali primere, kot je bil na primer:
 
-  ```gd
-  func _ready() -> void:
-    print("Vrednost stevilke je: ")
-    # print pred izpisom nad spremenljivko stevilka sam klice str
-    print(stevilka)
-    # tako da je tak klic praktično ekvivalenten.
-    print(str(stevilka))
-  ```
-])
+```gd
+func _ready() -> void:
+  print("Vrednost stevilke je: ")
+  # print pred izpisom nad spremenljivko stevilka sam klice str
+  print(stevilka)
+  # tako da je tak klic praktično ekvivalenten.
+  print(str(stevilka))
+```
 
+Nizi so sami po sebi kompleksen podatkoven tip. Nanje lahko gledamo tudi kot na sestavljen podatkovni tip ali vrsto seznama. Več o seznamih in sestavljenih podatkovnih tipih bomo povedali kasneje, tako da pustimo razlago zaenkrat na tej točki.
+
+
+Poglejmo si zdaj malo bolj kompleksen primer, ki bo uporabil vse, kar smo se naučili do sedaj:
 
 ```gd
 extends Node2D
@@ -2183,7 +2241,7 @@ var ime_poste: String
 var drzava: String
 
 func _ready() -> void:
-	print("Dostavite osebi" + ime + " na naslov:")
+	print("Dostavite osebi " + ime + " na naslov:")
 	print(ulica + " " + str(hisna_stevilka))
 	print(str(postna_stevilka) + " " + ime_poste)
 	print(drzava)
@@ -2206,7 +2264,7 @@ Večna pot 113
 Slovenija
 ```
 
-#box-task[Poigrajte se z direktivo `@export` in poskusite najti kakšen nov način uporabe.]
+#box-task[Poigrajte se z direktivo ```gd @export``` in poskusite najti kakšen nov način uporabe.]
 
 #box-info(
   title: "Kaj lahko izvozim?",
@@ -2227,26 +2285,25 @@ else:
   <drugače>
 ```
 
-- `<pogoj>` je kos kode, katere rezultat mora biti, po izvedbi, podatkovnega tipa `bool`.
-- `<potem>` je koda, ki se bo izvedla če `<pogoj>` drži (njegova vrednost je `true`).
-- `<drugače>` je koda ki se bo izvedla če `<pogoj>` ne drži (njegova vrednost je `false`). Stavek `else` ni nujen in ga lahko, skupaj z `<drugače>` izpustimo.
+- `<pogoj>` je kos kode, katere rezultat mora biti, po izvedbi, podatkovnega tipa #data-type-name("bool").
+- `<potem>` je koda, ki se bo izvedla če `<pogoj>` drži (njegova vrednost je ```gd true```).
+- `<drugače>` je koda ki se bo izvedla če `<pogoj>` ne drži (njegova vrednost je ```gd false```). Stavek ```gd else``` ni nujen in ga lahko, skupaj z `<drugače>` izpustimo.
 
 #box-repeat[
-  `bool` je najbolj enostaven podatkovni tip. Predstavlja lahko le 2 stanji: bodisi `true` (drži) ali `false` (ne drži).
+  `bool` je najbolj enostaven podatkovni tip. Predstavlja lahko le 2 stanji: bodisi ```gd true``` (drži) ali ```gd false``` (ne drži).
 ]
 
-#todo[Za tale ponovimo bi lahko naredili novo škatlo in malo standardizirali njegovo uporabo, zdaj je dostikrat tak odsek samo znotraj teksta kot navadna poved ali pa v kakšnem oklepaju]
+//todo(matosa): Bilo bi fino iti po projektu pa dodat še par takšnih škatel, ni pa nujno.
 
 === Pogojni operatorji
 
-Ponavadi je `<pogoj>` kratek kos kode, ki primerja dve ali več vrednosti s primerjalnimi operatorji. Primerjalni operatorji, za razliko od aritmetičnih (kot so `+`, `-`, `*`, ...), katerih rezultat je ponavadi neko število, je rezultat primerjalnih operatorjev vedno tipa `bool`. Nekaj pogosto uporabljenih primerjalnih operatorjev je:
-
-- `A > B` - večje, vrne `true` če je A strogo večji od B, drugače vrne `false`.
-- `A >= B` - večje ali enako, vrne `true` če je A večji ali enak B, drugače vrne `false`.
-- `A == B` - je enako, vrne `true` če je A enak B, drugače vrne `false`.
-- `A != B` - ni enako, vrne `true` če A ni enak B, drugače vrne `false`.
-- `A <= B` - manjše ali enako, vrne `true` če je A manjši ali enak B, drugače vrne `false`.
-- `A < B` - manjše, vrne `true` če je A strogo manjši od B, drugače vrne `false`.
+Ponavadi je `<pogoj>` kratek kos kode, ki primerja dve ali več vrednosti s primerjalnimi operatorji. Rezultat primerjalni operatorjev je, za razliko od aritmetičnih (kot so `+`, `-`, `*`, ...), katerih rezultat je ponavadi neko število, vedno tipa #data-type-name("bool"). Nekaj pogosto uporabljenih primerjalnih operatorjev je:
+- `A > B` - večje, vrne ```gd true``` če je A strogo večji od B, drugače vrne ```gd false```.
+- `A >= B` - večje ali enako, vrne ```gd true``` če je A večji ali enak B, drugače vrne ```gd false```.
+- `A == B` - je enako, vrne ```gd true``` če je A enak B, drugače vrne ```gd false```.
+- `A != B` - ni enako, vrne ```gd true``` če A ni enak B, drugače vrne ```gd false```.
+- `A <= B` - manjše ali enako, vrne ```gd true``` če je A manjši ali enak B, drugače vrne ```gd false```.
+- `A < B` - manjše, vrne ```gd true``` če je A strogo manjši od B, drugače vrne ```gd false```.
 
 Konkreten primer uporabe pogojnega stavka je lahko:
 ```gd
@@ -2260,9 +2317,9 @@ func _ready() -> void:
 		print("Igre je konec")
 ```
 
-Če sedaj urejate izvoženo spremenljivko `stevilo_srckov` v urejevalniku in projekt zraven poganjate, boste lahko videli, da se pri vrednostih, ki niso pozitivne, izpiše "Igre je konec".
+Če sedaj urejate izvoženo spremenljivko #variable-name("stevilo_srckov") v urejevalniku in projekt zraven poganjate, boste lahko videli, da se pri vrednostih, ki niso pozitivne, izpiše "Igre je konec".
 
-Poglejmo si še en, malo bolj kompleksen, primer, ki vsebuje tudi stavek `else`.
+Poglejmo si še en, malo bolj kompleksen, primer, ki vsebuje tudi stavek ```gd else```.
 
 ```gd
 extends Node2D
@@ -2281,15 +2338,42 @@ Ta kos kode bo preveril, ali je vrednost v spremenljivki `stevilo` liha ali soda
 
 Postopek bo torej potekal takole:
 1. V spremenljivko `stevilo` je nastavljena vrednost iz urejevalnika vozlišč.
-2. Pognala se je koda v ```gd _ready()``` in vstopili smo v pogojni stavek.
+2. Pognala se je koda v #function-name("_ready") in vstopili smo v pogojni stavek.
   1. Izvedli bomo kodo v \<pogoj> torej ```gd stevilo % 2 == 0```.
   2. Najprej se bo izvedel levi del torej ```gd stevilo % 2```, ki bo vrnil `0`, če je število sodo, in `1`, če je liho.
-  3. Nad rezultatom levega dela in desnim delom, ki je tokrat fiksno `0`, se bo izvedel operator `==`, ki bo vrnil `true`, če je leva stran `0`, in `false`, če je leva stran karkoli drugega (v našem primeru je lahko samo še 1).
-3. Glede na to, ali je bil \<pogoj> `true` ali `false` se bo izvedel bodisi \<potem>: ```gd print("Število je sodo")``` bodisi \<drugače>: ```gd print("Število je liho")```
+  3. Nad rezultatom levega dela in desnim delom, ki je tokrat fiksno `0`, se bo izvedel operator `==`, ki bo vrnil ```gd true```, če je leva stran `0`, in ```gd false```, če je leva stran karkoli drugega (v našem primeru je lahko samo še 1).
+3. Glede na to, ali je bil \<pogoj> ```gd true``` ali ```gd false``` se bo izvedel bodisi \<potem>: ```gd print("Število je sodo")``` bodisi \<drugače>: ```gd print("Število je liho")```
 
-#box-task[Poskusite pisati različne številke v polje "Stevilo" in opazujte rezultat. Premislite, na kakšne drugačne načine bi še lahko uporabili pogojni stavek.]
+#box-task[Poskusite pisati različne številke v polje "Stevilo" na desni (torej v izvoženo spremenljivko #variable-name("stevilo")) in opazujte rezultat. Premislite, na kakšne drugačne načine bi še lahko uporabili pogojni stavek.]
 
-#todo[Obravnavaj še logične operatorje AND, OR, NOT]
+=== Logični operatorji
+
+Poleg primerjalnih operatorjev, tip #data-type-name("bool") vrnejo tudi logični operatorji. Logični operatorji so vam verjetno znani že iz vsakdana, saj jih v naravnem jeziku uporabljamo, ko govorimo o trditvah. Če na primer rečemo: "Danes sem spočit *in* dobre volje." smo jasno sporočili da hkrati drži:
+- da smo spočiti
+- da smo dobre volje
+
+//TODO(matosa): [NOT->drži obratno?]
+
+Znotraj programskih jezikov prav tako poznamo operatorje ```gd and``` (slov. _in_), ```gd or``` (slov. _ali_) in ```gd not``` (slov. _drži obratno_). Z njimi lahko trditve, ki smo jih naredili z primerjalnimi operatorji (na primer ```gd stevilo_srckov <= 5```) nizamo v eno veliko trditev.
+
+Poglejmo si primer:
+
+Recimo da želimo igralcu čestitati, če je igro končal brez da bi izgubil srček *ali* pa če jo je končal zelo hitro (recimo da merimo čas v sekundah in želimo da konča v manj kot petih minutah).
+
+To bi lahko dosegli takole (seveda bi v dejanski igri kodo izvedli nekje drugje, kot v funkciji #function-name("_ready"), a tu samo testiramo):
+
+```gd
+@export
+var stevilo_srckov: int
+@export
+var cas_igre: int
+
+func _ready() -> void:
+	if stevilo_srckov > 4 or cas_igre < 300:
+		print("Čestitke!")
+```
+
+```gd not``` je med operatorji malo poseben, saj deluje nad eno samo vrednostjo. To vrednost zanika, torej če je bila prvotno  ```gd true``` postane potem ```gd false``` in obratno.
 
 === Več o zamikih<indents>
 
@@ -2298,7 +2382,7 @@ Morda ste opazili, da sta 8. in 10. vrstica v zgornji kodi zamaknjeni še bolj, 
 
 Ko rečemo, da je nekaj zamaknjeno za "en nivo" to pomeni, da je od levega roba odmaknjeno za en tabulator. Takšna predstava je za nas čisto dovolj. Če želite o tem izvedeti malo več, preberite spodnji odsek "Za napredne uporabnike". Če rečemo, da je zamaknjen za "dva nivoja", je zamaknjen za dva tabulatorja in tako dalje. Če vmes dodajamo še kakršnekoli presledke ali uporabimo preveč tabulatorjev, nam bo Godot javil napako.
 
-To, da kos kode pripada konstruktu, pomeni, da se bo izvedel samo v primeru, da se bo izvedel konstrukt, ki mu pripada. Če na primer del kode pripada stavku `if`, se bo izvedel samo če je trditev v tem stavku pravilna. Če pripada stavku `else`, se bo izvedel samo, če se bo izvedel stavek `else`. Če pripada funkciji `_ready`, se bo izvedel samo, če se izvede funkcija `_ready`.
+To, da kos kode pripada konstruktu, pomeni, da se bo izvedel samo v primeru, da se bo izvedel konstrukt, ki mu pripada. Če na primer del kode pripada stavku ```gd if```, se bo izvedel samo če je trditev v tem stavku pravilna. Če pripada stavku ```gd else```, se bo izvedel samo, če se bo izvedel stavek ```gd else```. Če pripada funkciji #function-name("_ready"), se bo izvedel samo, če se izvede funkcija #function-name("_ready").
 
 Kako točno to deluje je najlažje predstaviti na primeru:
 
@@ -2329,7 +2413,7 @@ V zgornjih izsekih kode smo kar nekajkrat napisali nekaj v stilu:
 print("Vrednost stevilke je: " + str(stevilka))
 ```
 
-Programerji smo po naravi lena bitja, zato imajo programski jeziki konstrukte, ki nam omogočajo, da iste kode ne ponavljamo. 
+Programerji smo po naravi lena bitja, zato imajo programski jeziki konstrukte, ki nam omogočajo, da iste kode ne ponavljamo.
 Eden najbolj uporabnih konstruktov, s tega vidika, so funkcije. Funkcije nam omogočajo, da nek kos kode poljubno ponavljamo, ne da bi morali isto kodo ponovno napisati.
 
 Poglejmo si, kako bi iz zgornjega primera naredili funkcijo:
@@ -2338,7 +2422,9 @@ func izpisi_stevilko(stevilka: int):
 	print("Vrednost stevilke je: " + str(stevilka))
 ```
 
-```gd stevilka: int``` v prvi vrstici je posebna vrsta spremenljivke, ki ji rečemo parameter funkcije. Brez parametrov bi bile funkcije precej omejene, saj bi lahko delale samo z globalnimi spremenljivkami. Tudi tak način dela je popolnoma v redu in pogosto bomo tudi mi napisali funkcijo, ki ne bo prejemala parametrov, in bo delala samo z globalnimi spremenljivkami. Je pa velikokrat bolje narediti funkcijo, ki deluje z uporabo parametrov, saj nam omogoča, da jo kličemo z vrednostmi, ki niso na voljo globalno.
+Spremenljivka #variable-name("stevilka"), v prvi vrstici je posebna vrsta spremenljivke, ki ji rečemo parameter funkcije. Pri definiciji parametrov ni potrebno uporabljati ključne besede `var`.
+
+Brez parametrov bi bile funkcije precej omejene, saj bi lahko delale samo z globalnimi spremenljivkami. Tudi tak način dela je popolnoma v redu in pogosto bomo tudi mi napisali funkcijo, ki ne bo prejemala parametrov, in bo delala samo z globalnimi spremenljivkami. Je pa velikokrat bolje narediti funkcijo, ki deluje z uporabo parametrov, saj nam omogoča, da jo kličemo z vrednostmi, ki niso na voljo globalno.
 
 Narejeno funkcijo bi potem lahko uporabili takole:
 ```gd
@@ -2356,11 +2442,11 @@ func izpisi_stevilko(stevilka: int):
 	print("Vrednost stevilke je: " + str(stevilka))
 ```
 
-Kodi na vrstici 7 in vrstici 9 pravimo *klic* funkcije, funkciji, iz katere kličemo, kar je v tem primeru ```gd _ready()```, pa v tem primeru pravimo *klicatelj*.
+Kodi na vrstici 7 in vrstici 9 pravimo *klic* funkcije. Funkciji, iz katere kličemo, kar je v tem primeru #function-name("_ready"), pa pravimo *klicatelj*.
 
 #box-info(
   title: "Kaj lahko pošljem v funkcijo?",
-  [Kot parameter funkcije bi lahko poslali katerokoli vrednost, ki ustreza podatkovnemu tipu `int`. Ker GDScript nima močnega sistema za podatkovne tipe, bi lahko parameter `stevilka` pustili tudi neoznačen. V tem primeru bi nam GDScript dovolil poslati katerokoli vrednost, a bi se napaka potem lahko zgodila nekje znotraj same funkcije, ker določenega tipa morda ne bi pričakovala.
+  [Kot parameter funkcije bi lahko poslali katerokoli vrednost, ki ustreza podatkovnemu tipu #data-type-name("int"). Ker GDScript nima močnega sistema za podatkovne tipe, bi lahko parameter #variable-name("stevilka") pustili tudi neoznačen. V tem primeru bi nam GDScript dovolil poslati katerokoli vrednost, a bi se napaka potem lahko zgodila nekje znotraj same funkcije, ker določenega tipa morda ne bi pričakovala.
 
     Zgornjo funkcijo bi na primer lahko spremenili v:
     ```gd
@@ -2368,11 +2454,11 @@ Kodi na vrstici 7 in vrstici 9 pravimo *klic* funkcije, funkciji, iz katere kli�
     	print("Vrednost je: " + str(vrednost))
     ```
 
-    Takšna funkcija bi sprejela katerokoli vrednost in bi tudi pravilno delovala v vseh primerih, kjer je `vrednost` mogoče spremeniti v niz (s klicem ```gd str()```). Takšne splošno namenske funkcije tudi obstajajo znotraj Godot projekta in so včasih uporabne, čeprav imajo parametri ponavadi vseeno kakšno drugo omejitev.
+    Takšna funkcija bi sprejela katerokoli vrednost in bi tudi pravilno delovala v vseh primerih, kjer je `vrednost` mogoče spremeniti v niz (s klicem funkcije #function-name("str")). Takšne splošno namenske funkcije tudi obstajajo znotraj Godot projekta in so včasih uporabne, čeprav imajo parametri ponavadi vseeno kakšno drugo omejitev.
   ],
 )
 
-Naredimo še en primer funkcije brez parametrov:
+Za lažjo predstavo, je tu še en primer funkcije brez parametrov:
 ```gd
 func pozdravi_svet():
 	print("Pozdravljen svet!")
@@ -2380,9 +2466,93 @@ func pozdravi_svet():
 
 === Vračanje vrednosti
 
-Funkcije lahko neko vrednost tudi "vrnejo". To pomeni da na točki, kjer smo funkcijo klicali, po končanem klicu dobimo vrednost, ki je rezultat kode izvajane v tej funkciji.
+Funkcije lahko neko vrednost tudi vrnejo. To pomeni da na točki, kjer smo funkcijo klicali, po končanem klicu dobimo vrednost, ki je rezultat kode izvajane v tej funkciji.
+
+Vrednost vrnemo z uporabo stavka ```gd return```. Ki je oblike:
+
+```gd
+return <vrednost>
+```
+
+`<vrednost>` je lahko običajna vrednost, kot na primer `42` ali ```gd true``` ali `"Pozdravljen!"`, lahko pa je tudi spremenljivka (v tem primeru bo stavek vrnil vrednost v spremenljivki).
+
+Oglejmo si primer uporabe:
+
+```gd
+func _ready():
+	var rezultat = sestevalnik(1, 2, 3)
+	print(rezultat)
+
+func sestevalnik(a: int, b: int, c: int):
+	var vsota = a + b + c
+	return vsota
+```
+```izhod
+6
+```
+
+Tudi kaj funkcija vrne lahko povemo eksplicitno. Tokrat z uporabo znakov `->` iz katerih naredimo nekakšno puščico.
+
+Zgornji primer bi eksplicitno označili takole:
+
+```gd
+func _ready():
+	var rezultat = sestevalnik(1, 2, 3)
+	print(rezultat)
+
+func sestevalnik(a: int, b: int, c: int) -> int:
+	var vsota = a + b + c
+	return vsota
+```
+
+Ko vam je Godot prvič izdelal novo skripto, jo je napolnil z:
+
+```gd
+extends Node2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+```
+
+Zdaj lahko razumemo že skoraj vse kar se tu dogaja. Omeniti je treba le še poseben podatkovni tip imenovan `void`. `void` v bistvu ni zares podatkovni tip in spremenljivke z njim ne morete označiti. Uporablja se samo za eksplicitno oznako tega, da funkcija ne vrača nobene vrednosti. Funkcija ki ne vrne ničesar (bodisi je eksplicitno označena z `void` bodisi ni) vedno vrne vrednost ```gd null```, torej pomanjkanje vrednosti.
 
 #box-task[Prepišite primer z naslovom (iz #ref(<exported-variables>, supplement: "poglavja")) v funkcijo, ki kot parametre prejme podatke o prejemniku in na izhod napiše naslov.]
+
+=== Podpis funkcije
+
+Velikokrat moramo vedeti kako neko funkcijo uporabljati, torej kakšne parametre prejme, kaj vrača in mogočen najbolj pomembno, kako ji je ime. To bo postalo še posebej pomembno, ko bomo v #ref(<calling-godot-functions>, supplement: "poglavju") začeli klicati vgrajene funkcije (s tem se še obremenjujte preveč).
+
+Podpis funkcije bi torej lahko bil videti kot definicija, ki smo jo napisali sami, torej:
+```gd
+func sestevalnik(a: int, b: int, c: int) -> int
+```
+
+To bi nam povedalo vse kar je važno, a takšne oblike za opis funkcij, ne bomo uporabljali. Zaradi razlogov, v katere se trenutno ne bomo spuščali, bodo naši podpisi videti kot:
+
+```gd
+# Opazite, da je tip na začetku in nismo uporabili ->.
+<tip-ki-ga-funkcija-vrne> sestevalnik(parameter1: tip1, parameter2: tip2, ...)
+```
+
+Ali na našem primeru:
+```gd
+int sestevalnik(a: int, b: int, c: int)
+```
+
+Tako jih prikazuje tudi Godotova dokumentacija. Primer precej kompleksnega podpisa, ki je bil vzet naravnost iz dokumentacije, je na primer:
+
+```gd
+Array slice(begin: int, end: int = 0x7FFFFFFF, step: int = 1, deep: bool = false) const
+```
+
+naj vas ne skrbi če tega podpisa trenutno še ne razumete, vse bo razloženo ob svojem času. Pomembno je samo, da ste seznanjeni s tem, da bomo od zdaj naprej podpise pisali na tak način.
 
 #box-task[
   Poskusimo združiti vse, kar smo se naučili o GDScriptu do sedaj.
@@ -2409,7 +2579,7 @@ Funkcije lahko neko vrednost tudi "vrnejo". To pomeni da na točki, kjer smo fun
 
 == Sestavljeni tipi <composite-types>
 
-Do sedaj smo večinoma delali samo z enostavnimi tipi kot so `bool`, `int` ali `float`, ki so sestavljeni iz samo ene vrednosti, oziroma s tipi, ki svojo kompleksnost pred nami precej dobro skrivajo (kot je tip `String`). Obstaja pa še mnogo drugih bolj kompleksnih ali _sestavljenih_ tipov.
+Do sedaj smo večinoma delali samo z enostavnimi tipi kot so #data-type-name("bool"), #data-type-name("int") ali #data-type-name("float"), ki so sestavljeni iz samo ene vrednosti, oziroma s tipi, ki svojo kompleksnost pred nami precej dobro skrivajo (kot je tip #data-type-name("String")). Obstaja pa še mnogo drugih bolj kompleksnih ali _sestavljenih_ tipov.
 
 #box-info(title: [#advanced-topic-heading[Za napredne uporabnike]], [
   Nekateri drugi programski jeziki med seboj ločujejo koncept sestavljenega tipa in razreda, Godot te ločitve nima. Praktično vse, razen osnovnih primitivnih tipov, je razred.
@@ -2417,24 +2587,24 @@ Do sedaj smo večinoma delali samo z enostavnimi tipi kot so `bool`, `int` ali `
   O razredih bomo še nekaj malega povedali v #ref(<classes-and-extends>, supplement: "poglavju"), a se vanje podrobneje ne bomo spuščali, saj je to izven obsega te poletne šole.
 ])
 
-Posebnost sestavljenih tipov je, da sami v sebi vsebujejo mnogo spremenljivk in pogosto tudi funkcije. Poglejmo si primer na vgrajenem sestavljenem tipu `Vector2`.
+Posebnost sestavljenih tipov je, da sami v sebi vsebujejo mnogo spremenljivk in pogosto tudi funkcije. Poglejmo si primer na vgrajenem sestavljenem tipu #data-type-name("Vector2").
 
 #box-info(title: "O tem podrobneje kasneje", [
-  Več o vgrajenih funkcijah, spremenljivkah in tipih bomo povedali v #ref(<GodotAPI>, supplement: "poglavju"). Trenutno samo verjemite, da `Vector2` obstaja in ga lahko uporabljamo.
+  Več o vgrajenih funkcijah, spremenljivkah in tipih bomo povedali v #ref(<GodotAPI>, supplement: "poglavju"). Trenutno samo verjemite, da #data-type-name("Vector2") obstaja in ga lahko uporabljamo.
 ])
 
-`Vector2` predstavlja dvodimenzionalni vektor. Sestavljata ga dve spremenljivki, spremenljivka x (x ali vodoravna komponenta vektorja) in y (y ali navpična komponenta vektorja).
+#data-type-name("Vector2") predstavlja dvodimenzionalni vektor. Sestavljata ga dve spremenljivki, spremenljivka x (x ali vodoravna komponenta vektorja) in y (y ali navpična komponenta vektorja).
 
-Izdelava sestavljenih tipov zgleda podobno kot klic funkcije. Za ime sestavljenega tipa v navadna oklepaja napišemo parametre iz katerih bo tip potem sestavljen. V primeru `Vector2` najprej napišemo x in nato y komponento vektorja.
+Izdelava sestavljenih tipov zgleda podobno kot klic funkcije. Za ime sestavljenega tipa v navadna oklepaja napišemo parametre iz katerih bo tip potem sestavljen. V primeru #data-type-name("Vector2") najprej napišemo x in nato y komponento vektorja.
 
-Spremenljivkam sestavljenega tipa pravimo _lastnosti_. Poglejmo si primer izdelave `Vector2`, ki mu lastnost `x` nastavimo na 6 in lastnost `y` na 7.
+Spremenljivkam sestavljenega tipa pravimo _lastnosti_. Poglejmo si primer izdelave #data-type-name("Vector2"), ki mu lastnost #variable-name("x") nastavimo na `6` in lastnost #variable-name("y") na `7`.
 
 ```gd
 # x=6, y=7
 var test = Vector2(6, 7)
 ```
 
-Večino vgrajenih sestavljenih tipov zna Godot tudi spremeniti v niz (torej tudi enostavno izpisati na izhod). `Vector2` tu ni izjema:
+Večino vgrajenih sestavljenih tipov zna Godot tudi spremeniti v niz (torej tudi enostavno izpisati na izhod). #data-type-name("Vector2") tu ni izjema:
 
 ```gd
 func _ready() -> void:
@@ -2463,7 +2633,7 @@ print(vektor.y)
 
 === Klic funkcij sestavljenih tipov
 
-Kot smo že omenili, lahko sestavljeni tipi definirajo tudi funkcije. Funkcijam na sestavljenih tipih pravimo _metode_. 
+Kot smo že omenili, lahko sestavljeni tipi definirajo tudi funkcije. Funkcijam na sestavljenih tipih pravimo _metode_.
 Posebnost metod je, da imajo do sestavljenega tipa, na katerih jih kličemo, dostop same po sebi. Ni jim ga potrebno podati kot parameter. To nam omogoča, da je koda bolj berljiva, saj je takoj očitno nad čim operacijo izvajamo.
 
 
@@ -2481,9 +2651,9 @@ Dolžina vektorja (3.0, 4.0) je: 5.0
 ```
 
 #box-warning[
-  Metode niso nek magičen tip funkcije, ki vse potrebne parametre same najdejo iz okolja. Vse, kar metoda prejme avtomatsko, je vrednost sestavljenega tipa, na katerem je klicana (vrednost spremenljivke na kateri smo za klic uporabili `.` operator). V našem zgornjem primeru je to spremenljivka `vektor`.
+  Metode niso nek magičen tip funkcije, ki vse potrebne parametre same najdejo iz okolja. Vse, kar metoda prejme avtomatsko, je vrednost sestavljenega tipa, na katerem je klicana (vrednost spremenljivke na kateri smo za klic uporabili `.` (pika) operator). V našem zgornjem primeru je to spremenljivka #variable-name("vektor").
 
-  Tudi metode (precej pogosto) zahtevajo parametre za svoje delovanje. Primer lahko hitro najdemo že na `Vector2`, ki definira več deset metod, ki zahtevajo dodatne parametre. Ena od teh je metoda ```gd dot(with: Vector2)```, ki kot parameter zahteva še en `Vector2` in nato med seboj (vrednostjo, ki jo sama dobi ob klicu) in drugim vektorjem, ki ga dobi kot parameter, izračuna skalarni produkt.
+  Tudi metode (precej pogosto) zahtevajo parametre za svoje delovanje. Primer lahko hitro najdemo že na #data-type-name("Vector2"), ki definira več deset metod, ki zahtevajo dodatne parametre. Ena od teh je metoda ```gd dot(with: Vector2)```, ki kot parameter zahteva še en #data-type-name("Vector2") in nato med seboj (vrednostjo, ki jo sama dobi ob klicu) in drugim vektorjem, ki ga dobi kot parameter, izračuna skalarni produkt.
 
   ```gd
   var vektor = Vector2(0, 1)
@@ -2529,34 +2699,34 @@ while(i <= 10):
 print("Končali smo s štetjem.")
 ```
 
-Zgoraj smo uporabili `while` zanko. `while` lahko beremo kot `izvajaj kodo, dokler je pogoj izpolnjen` in se jo piše kot:
+Zgoraj smo uporabili ```gd while``` zanko. ```gd while``` lahko beremo kot `izvajaj kodo, dokler je pogoj izpolnjen` in se jo piše kot:
 ```gd
 while(<pogoj-za-izvajanje>):
   <koda-izvedena-vsako-ponovitev>
 ```
-Kjer je `<pogoj-za-izvajanje>` koda, katere rezultat je tipa `bool` in je `<koda-izvedena-vsako-ponovitev>` poljubna koda, ki jo želimo izvesti vsako ponovitev zanke.
+Kjer je `<pogoj-za-izvajanje>` koda, katere rezultat je tipa #data-type-name("bool") in je `<koda-izvedena-vsako-ponovitev>` poljubna koda, ki jo želimo izvesti vsako ponovitev zanke.
 
-Zanka se bo izvajala, dokler bo `<pogoj-za-izvajanje>` enak `true`.
+Zanka se bo izvajala, dokler bo `<pogoj-za-izvajanje>` enak ```gd true```.
 
 Oglejmo si zgornji primer korak za korakom:
-1. Spremenljivka `i` je nastavljena na `1`.
+1. Spremenljivka #variable-name("i") je nastavljena na `1`.
 2. Vstopimo v zanko. \
-  2.1. `<pogoj-za-izvajanje>` se izvede, v našem primeru je to ```gd i <= 10```, dokler bo `i` manjši ali enak 10, bo torej naš pogoj `true` v vseh ostali primerih (torej če bo večji od 10) pa bo `false`. V primeru da pogoj ne drži (`false`) skočimo na točko 3.
+  2.1. `<pogoj-za-izvajanje>` se izvede, v našem primeru je to ```gd i <= 10```, dokler bo `i` manjši ali enak 10, bo torej naš pogoj ```gd true``` v vseh ostali primerih (torej če bo večji od 10) pa bo ```gd false```. V primeru da pogoj ne drži (```gd false```) skočimo na točko 3.
   #box-warning[Ni nujno, da se `<koda-izvedena-vsako-ponovitev>` sploh kdaj izvede! Če je pogoj za izvajanje `false`, še pred prvo ponovitvijo, potem se zanka ne bo izvedla nikoli in se bo takoj začela izvajati koda, ki je za zanko.]
 
-  2.2. Izvede se koda znotraj zanke. Na izhod se izpiše vrednost znotraj `i` in takoj za tem se `i` poveča za 1.
+  2.2. Izvede se koda znotraj zanke. Na izhod se izpiše vrednost znotraj #variable-name("i") in takoj za tem se #variable-name("i") poveča za 1.
 
   2.3. Skočimo nazaj na točko 2.1.
 
-3. Izstopimo iz zanke in nadaljujemo z izvajanjem ostale kode (napisane po zanki). V našem primeru je to `print` na vrstici 6.
+3. Izstopimo iz zanke in nadaljujemo z izvajanjem ostale kode (napisane po zanki). V našem primeru je to #function-name("print") na vrstici 6.
 
-#box-task[Napišite skripto, ki izvozi spremenljivki ```gd besedilo: String``` in ```gd st_ponovitev: int```, ter nato na izhod izpiše `besedilo` `st_ponovitev`-krat.]
+#box-task[Napišite skripto, ki izvozi spremenljivki #variable-name("besedilo"), tipa #data-type-name("String") in #variable-name("st_ponovitev") tipa #data-type-name("int"), ter nato na izhod izpiše vsebino v #variable-name("besedilo"), #variable-name("st_ponovitev")-krat.]
 
 === Seznami
 
 Seznam nam predstavlja zaporedje elementov. Seznami v GDScriptu, v nasprotju z nekaterimi drugimi bolj strogimi jeziki, dovolijo, da ima vsak element drugačen podatkovni tip.
 
-Seznam naredimo tako, da spremenljivki dodelimo podatkovni tip `Array`, oziroma tako, da izdelamo nov `Array` in ji ga dodelimo. `Array` izdelamo tako da med znaka `[` in `]` naštejemo vse njegove elemente.
+Seznam naredimo tako, da spremenljivki dodelimo podatkovni tip #data-type-name("Array"), oziroma tako, da izdelamo nov #data-type-name("Array") in ji ga dodelimo. #data-type-name("Array") izdelamo tako da med znakoma `[` in `]` naštejemo vse njegove elemente.
 
 ```gd
 var seznam: Array # Izdela prazen seznam.
@@ -2602,7 +2772,7 @@ print(seznam)
 [1, 2, 3]
 ```
 
-Element lahko iz seznama dobimo z operatorjem `[]`. Vanj pošljemo _indeks_ (oziroma mesto) iz katerega želimo pridobiti element. GDScript začne šteti pri 0, tako da nam bo indeks 0 vrnil prvi element, indeks 1 drugi element, 2 tretji in tako dalje.
+Element lahko iz seznama dobimo z operatorjem `[<indeks>]`. Vanj pošljemo _indeks_ (oziroma mesto) iz katerega želimo pridobiti element. GDScript začne šteti pri 0, tako da nam bo indeks 0 vrnil prvi element, indeks 1 drugi element, 2 tretji in tako dalje.
 
 ```gd
 var seznam: Array[int] = [1, 2, 3]
@@ -2615,14 +2785,14 @@ print(seznam[1])
 Pogosta operacija, ki jo izvajamo nad seznami, je tudi, da naredimo nekaj z vsakim elementom. Verjetno lahko vidite, kako so tu lahko zanke še posebej uporabne.
 
 #box-task[
-  Poskusite sami razmisliti, kako bi z zanko naredili nekaj z vsakim elementom seznama. Poskusite na primer vsak element izpisati na izhod. V pomoč naj vam bo metoda ```gd size()```, ki vam pove kako dolg je nek seznam.
+  Poskusite sami razmisliti, kako bi z zanko naredili nekaj z vsakim elementom seznama. Poskusite na primer vsak element izpisati na izhod. V pomoč naj vam bo metoda ```gd int size()```, ki vam pove kako dolg je nek seznam.
 
   Če imate pri tem težave si lahko pogledate primer v #ref(<array-looping-example>, supplement: "poglavju").
 ]
 
 Ker je obdelava vsakega elementa v seznamu nekaj, kar se v programiranju počne zelo pogosto, nam GDScript nudi lažji način, da dosežemo isto, v obliki `for .. in` zanke.
 
-Zgleda nekako takole:
+Ta zanka je videti nekako takole:
 
 ```gd
 for <ime-elementa> in <ime-seznama>:
@@ -2682,15 +2852,15 @@ S kliki na `Add Element` (Dodaj element) in ostale dele vmesnika, lahko potem do
 
 
 #box-task[
-  Uredite kalkulator, ki ste ga naredili v #ref(<functions>, supplement: "poglavju") tako, da ne bo več izvažal spremenljivk številka 1 in 2, ampak bo izvozil eno spremenljivko tipa ```gd Array[int]``` in nato izvedel izbrano operacijo na vseh elementih.
+  Uredite kalkulator, ki ste ga naredili v #ref(<functions>, supplement: "poglavju") tako, da ne bo več izvažal spremenljivk številka 1 in 2, ampak bo izvozil eno spremenljivko tipa #data-type-name("Array[int]") in nato izvedel izbrano operacijo na vseh elementih.
 
-  Na primer, če bi mu v urejevalniku nastavili izvoženo spremenljivko `stevilke` na [1, 2, 3, 4] in mu naročili naj izvede operacijo seštevanje (0), bi izpisal:
+  Na primer, če bi mu v urejevalniku nastavili izvoženo spremenljivko #variable-name("stevilke") na `[1, 2, 3, 4]` in mu naročili naj izvede operacijo seštevanje (`0`), bi izpisal:
   #codly-disable()
   ```
   1 + 2 + 3 + 4 = 10
   ```
 
-  Če bi mu v urejevalniku nastavili izvoženo spremenljivko `stevilke` na [20, 10, 5] in mu naročili naj izvede operacijo odštevanje (1), bi izpisal:
+  Če bi mu v urejevalniku nastavili izvoženo spremenljivko #variable-name("stevilke") na [20, 10, 5] in mu naročili naj izvede operacijo odštevanje (`1`), bi izpisal:
 
   ```
   20 - 10 - 5 = 5
@@ -2732,17 +2902,21 @@ func _process(delta: float) -> void:
 ```
 
 Če ste prebrali angleški opis, ki ga doda Godot, vam je verjetno že deloma jasno, kaj se tu dogaja.
-```gd func _ready()``` je rezervirano ime funkcije, ki se jo lahko definira v vsaki skripti, ki razširja tip `Node` (več o razširjanju kasneje).
+#function-name("_ready") je rezervirano ime funkcije, ki se jo lahko definira v vsaki skripti, ki razširja tip #node-type-name("Node") (več o razširjanju kasneje).
 
-Če definiramo tako funkcijo, jo bo Godot klical, ko bo to vozlišče vstopilo v drevo vozlišč. Do sedaj smo to funkcijo izkoriščali, da smo zaganjali kodo ob zagonu igre. Kar se v resnici zgodi ob zagonu je, da Godot zažene naš prizor, v katerem so vozlišča in nato za vsako vozlišče pogleda ali definira ```gd _ready()```. Če ga najde, to funkcijo pokliče.
+Če definiramo tako funkcijo, jo bo Godot klical, ko bo to vozlišče vstopilo v drevo vozlišč. Do sedaj smo to funkcijo izkoriščali, da smo zaganjali kodo ob zagonu igre. Kar se v resnici zgodi ob zagonu je:
+
+1. Godot zažene naš prizor, v katerem so vozlišča.
+2. Za vsako vozlišče pogleda ali definira #function-name("_ready") (išče jo pod podpisom: ```gd void _ready()```).
+3. Če to funkcijo najde, jo pokliče.
 
 #box-task[
-  V svoj prizor dodajte še nekaj vozlišč tipa #node2d-type-name("Node2D"). Na vsako pripnite skripto. Kako te skripte poimenujete, trenutno ni pomembno.  Ime lahko pustite tudi takšno, kot vam ga ponudi Godot. V vsaki od teh skript, v funkciji ```gd _ready()``` na izhod izpišite nekaj drugega in opazujte, kakšen je izpis ob zagonu igre.
+  V svoj prizor dodajte še nekaj vozlišč tipa #node2d-type-name("Node2D"). Na vsako pripnite skripto. Kako te skripte poimenujete, trenutno ni pomembno.  Ime lahko pustite tudi takšno, kot vam ga ponudi Godot. V vsaki od teh skript, v funkciji #function-name("_ready") na izhod izpišite nekaj drugega in opazujte, kakšen je izpis ob zagonu igre.
 
   Ko prizor nehate preizkušati, vozlišča, ki ste jih naredili tudi izbrišite. To lahko dosežete tako, da vozlišče izberete kliknete #kbd("Delete") in v novem oknu izbris potrdite s klikom na gumb "Delete".
 ]
 
-Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: float)``` je na primer klicana vsakič, ko Godot izdeluje naslednjo upodobljeno sličico (to, kar se nam izriše na zaslon; angl. _frame_). V tem primeru nam Godot v parameter funkcije `delta` zapiše, koliko časa je preteklo, odkar je bila narejena prejšnja upodobljena sličica (v sekundah). Kar nekaj takih funkcij si bomo pogledali kasneje v programu, zaenkrat pa si zapomnite samo delovanje funkcij ```gd _ready()``` in ```gd _process(delta: float)```.
+Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd void _process(delta: float)``` je na primer klicana vsakič, ko Godot izdeluje naslednjo upodobljeno sličico (to, kar se nam izriše na zaslon; angl. _frame_). V tem primeru nam Godot v parameter funkcije `delta` zapiše, koliko časa je preteklo, odkar je bila narejena prejšnja upodobljena sličica (v sekundah). Kar nekaj takih funkcij si bomo pogledali kasneje v programu, zaenkrat pa si zapomnite samo delovanje funkcij #function-name("_ready") in #function-name("_process").
 
 #box-info(title: [Spet sličica? A ni to angl. _sprite_?], [
   Ko govorimo o upodobljenih sličicah (angl. _frame_) se znotraj vsaj tega dokumenta nanašamo na sličice, ki jih Godot med tekom riše in prikazuje na zaslon. Če je igra dobro narejena, jih prikaže vsaj 60 na sekundo, torej približno vsakih $16.67$ milisekund.
@@ -2780,15 +2954,15 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
     )
   }
 
-  let node-details = (value) => {
+  let node-details = value => {
     text(
       size: base-font-size - 2pt,
-      weight: "bold"
+      weight: "bold",
     )[
       #set par(leading: 5pt)
       #value
     ]
-  };
+  }
 
   figure(
     align(
@@ -2800,8 +2974,8 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
           (0, 0),
           node(
             [Vozlišče je izdelano.],
-            background-color: green
-          )
+            background-color: green,
+          ),
         ),
         fletcher.edge("-|>"),
         fletcher.node(
@@ -2811,8 +2985,8 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
               Vozlišče vstopi v drevo. \
               #node-details[(povratni klic `_ready()`)]
             ],
-            background-color: blue
-          )
+            background-color: blue,
+          ),
         ),
         fletcher.edge("-|>"),
         fletcher.node(
@@ -2825,17 +2999,17 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
               ]
             ],
             background-color: blue,
-          )
+          ),
         ),
         fletcher.edge("-|>"),
         fletcher.node(
           (0, 3),
           node(
             [Vozlišče je odstranjeno iz drevesa in uničeno.],
-            background-color: red
-          )
+            background-color: red,
+          ),
         ),
-      )
+      ),
     ),
     caption: [Bolj podroben prikaz življenjskega cikla vozlišča.],
   )
@@ -2843,7 +3017,7 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
 
 
 #box-info(title: [#advanced-topic-heading[Za napredne uporabnike]], [
-  Dejanska zgodba življenjskega cikla vozlišča je v resnici mnogo bolj kompleksna kot zgornja poenostavitev. Možnih stanj je mnogo več in vozlišče lahko prosto prehaja med njimi, tudi v drugo smer! Na primer: vozlišče, ki je bilo umaknjeno iz drevesa, se lahko ponovno vrne vanj. #ref(<node-lifecycle>, supplement: [Slika]) prikazuje mal bolj podroben prikaz življenjskega cikla (a še vedno ne popolnega):
+  Dejanska zgodba življenjskega cikla vozlišča je v resnici mnogo bolj kompleksna kot zgornja poenostavitev. Možnih stanj je mnogo več in vozlišče lahko prosto prehaja med njimi, tudi v drugo smer! Na primer: vozlišče, ki je bilo umaknjeno iz drevesa, se lahko ponovno vrne vanj. #ref(<node-lifecycle>, supplement: [Slika]) prikazuje malo bolj podroben prikaz življenjskega cikla (a še vedno ne popolnega):
 
   #v(8pt)
 
@@ -2877,15 +3051,15 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
       )
     }
 
-    let node-details = (value) => {
+    let node-details = value => {
       text(
         size: base-font-size - 2pt,
-        weight: "bold"
+        weight: "bold",
       )[
         #set par(leading: 5pt)
         #value
       ]
-    };
+    }
 
     figure(
       align(
@@ -2902,8 +3076,8 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
                   (klic `PackedScene.instantiate()`)
                 ]
               ],
-              background-color: green
-            )
+              background-color: green,
+            ),
           ),
           fletcher.edge("-|>"),
           fletcher.node(
@@ -2915,8 +3089,8 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
                   (povratni klic `_enter_tree()`)
                 ]
               ],
-              background-color: gray
-            )
+              background-color: gray,
+            ),
           ),
           fletcher.edge("-|>"),
           fletcher.node(
@@ -2930,7 +3104,7 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
                 ]
               ],
               background-color: blue,
-            )
+            ),
           ),
           fletcher.edge("-|>"),
           fletcher.node(
@@ -2943,7 +3117,7 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
                 ]
               ],
               background-color: blue,
-            )
+            ),
           ),
           fletcher.edge("-|>"),
           fletcher.node(
@@ -2953,21 +3127,21 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
                 Vozlišče izstopi iz drevesa. \
                 #text(
                   weight: "regular",
-                  [Vozlišče še vedno obstaja in se \ lahko teoretično vrne v drevo.]
+                  [Vozlišče še vedno obstaja in se \ lahko teoretično vrne v drevo.],
                 )
                 #node-details[
                   (povratni klic `_exit_tree()`)
                 ]
               ],
               background-color: gray,
-            )
+            ),
           ),
           fletcher.edge(
             (0, 4),
             (1, 4),
-            (1, 2),
-            (0, 2),
-            "-|>"
+            (1, 1),
+            (0, 1),
+            "-|>",
           ),
           fletcher.edge("-|>"),
           fletcher.node(
@@ -2976,16 +3150,16 @@ Obstaja še nekaj funkcij, ki delujejo podobno. Funkcija ```gd _process(delta: f
               [
                 Vozlišče je uničeno in se ne more več vrniti v drevo.
               ],
-              background-color: red
-            )
+              background-color: red,
+            ),
           ),
-        )
+        ),
       ),
       caption: [Bolj podroben prikaz življenjskega cikla vozlišča.],
     )
   } <node-lifecycle>
 
-  V zgornji figuri zelena in rdeča predstavljata začetek in konec cikla, siva predstavlja stanja kjer vozlišče obstaja nepripeto v drevo (takrat ni "živo"), modra pa stanja v katerih se vozlišče aktivno izvaja.
+  V zgornji figuri zelena in rdeča predstavljata začetek in konec cikla, siva predstavlja stanja kjer vozlišče obstaja, a ni v izvajanju (takrat ni "živo"), modra pa stanja v katerih se vozlišče aktivno izvaja.
 ])
 
 === Klic Godotovih funkcij <calling-godot-functions>
@@ -2998,7 +3172,7 @@ Poskusimo zdaj poklicati neko vgrajeno funkcijo. Godot na podskupini tipov #node
   Radiani so enota, ki jo uporabljamo pri merjenju kotov. Velja pretvorba $pi = 180 degree$, torej $pi$ (pi) radianov je $180 degree$ ali iztegnjen kot.
 ])
 
-Ob klicu funkcije bo Godot vozlišče zavrtel za `radians` radianov. Če želimo vozlišče počasi in konstantno vrteti, ga moramo torej vsako sličico malo obrniti. Spomnimo se funkcije ```gd _process(delta: float)```, ki smo jo omenili malo prej.  Godot jo kliče vsakič, ko izdeluje novo sličico. To znanje lahko potem združimo v navidez zelo preprost kos kode:
+Ob klicu funkcije bo Godot vozlišče zavrtel za #variable-name("radians") radianov. Če želimo vozlišče počasi in konstantno vrteti, ga moramo torej vsako sličico malo obrniti. Spomnimo se funkcije #function-name("_process"), ki smo jo omenili malo prej.  Godot jo kliče vsakič, ko izdeluje novo sličico. To znanje lahko potem združimo v navidez zelo preprost kos kode:
 
 ```gd
 extends Sprite2D
@@ -3015,10 +3189,16 @@ func _process(delta: float) -> void:
 === Uporaba vgrajenih spremenljivk <using-godot-properties>
 
 Definiranje funkcij, ki jih Godot kliče, in klicanje Godotovih funkcij ni edini način komunikacije s pogonom. Godot nam med drugim nudi tudi dostop do vgrajenih spremenljivk, ki jih lahko beremo ali pa vanje zapisujemo vrednosti.
-Primer take vgrajene spremenljivke je `position`, ki jo najdemo na tipu vozlišča #node2d-type-name("Node2D") in njegovih potomcih.
+Primer take vgrajene spremenljivke je #variable-name("position"), ki jo najdemo na tipu vozlišča #node2d-type-name("Node2D") in njegovih potomcih.
 
 #box-info(title: [Uradna dokumentacija])[
-  Pogosto je fino prebrati tudi dokumentacijo, ki nam jo ponuja že sam pogon Godot. Tokrat lahko dokumentacijo o vozlišču Node2D in polju `position` najdemo na: \ https://docs.godotengine.org/en/stable/classes/class_node2d.html#class-node2d-property-position
+  Pogosto je fino prebrati tudi dokumentacijo, ki nam jo ponuja že sam pogon Godot. Tokrat lahko dokumentacijo o vozlišču #node2d-type-name("Node2D") in polju #variable-name("position") najdemo na: \ https://docs.godotengine.org/en/stable/classes/class_node2d.html#class-node2d-property-position
+
+  Če to knjigo berete v interaktivnem okolju (torej na računalniku in ne natisnjeno na papir), lahko z miško kliknete na imena vgrajenih tipov in odpreti bi se vam mogla uradna dokumentacija za ta tip.
+
+  Ali vam ta funkcionalnost deluje lahko poskusite z klikom na naslednji, z modro pobarvan, tip: #node2d-type-name("Node2D").
+
+  Avtorja sva se trudila, da je to možno za kar največ različnih tipov, a se bo seveda zgodilo, da boste želeli klikniti na nek tip in to ne bo mogoče. V takšnih primerih je čas da se tudi sami malo izurite v iskanju dokumentacije. Vso srečo!
 ]
 
 Poglejmo si primer uporabe:
@@ -3030,12 +3210,12 @@ func _process(delta: float) -> void:
   position += Vector2(0, delta * 100)
 ```
 
-`position` na #node2d-type-name("Node2D") Godotu interno predstavlja _lokalno_ pozicijo vozlišča, relativno na njegovega starša. S tem, da to vgrajeno spremenljivko spreminjamo, Godotu posodabljamo to vrednost in mu posredno sporočamo, kje na zaslonu naj to vozlišče nariše. Ker mu vsako upodobljeno sličico `y` koordinato vektorja `position` malo povečamo, se naše vozlišče skozi čas počasi pomika navzdol. (Spomnimo se da koordinatno izhodišče `(0, 0)`, Godot privzeto postavlja v zgornji levi kot, torej `y` narašča navzdol in `x` desno).
+`position` na #node2d-type-name("Node2D") Godotu interno predstavlja _lokalno_ pozicijo vozlišča, relativno na njegovega starša. S tem, da to vgrajeno spremenljivko spreminjamo, Godotu posodabljamo to vrednost in mu posredno sporočamo, kje na zaslonu naj to vozlišče nariše. Ker mu vsako upodobljeno sličico `y` koordinato vektorja #variable-name("position") malo povečamo, se naše vozlišče skozi čas počasi pomika navzdol. (Spomnimo se da koordinatno izhodišče `(0, 0)`, Godot privzeto postavlja v zgornji levi kot, torej `y` narašča navzdol in `x` desno).
 
 #box-info(title: "+= na Vector2D?", [
-  Nekateri sestavljeni tipi nam omogočajo da z uporabo "navadnih" aritmetičnih in logičnih operatorjev (+, -, \*, ...) izvajamo operacije nad njimi. Eden od teh je tudi `Vector2D`, pri katerem + in - predstavljata seštevanje in odštevanje vektorjev po komponentah. Informacije o operatorjih, ki jih lahko nad sestavljenim tipom uporabljate, si lahko seveda preberete na Godot dokumentaciji pod odsekom "Operator descriptions". (Za `Vector2D` je to: https://docs.godotengine.org/en/stable/classes/class_vector2.html#operator-descriptions)
+  Nekateri sestavljeni tipi nam omogočajo da z uporabo "navadnih" aritmetičnih in logičnih operatorjev (+, -, \*, ...) izvajamo operacije nad njimi. Eden od teh je tudi #data-type-name("Vector2D"), pri katerem + in - predstavljata seštevanje in odštevanje vektorjev po komponentah. Informacije o operatorjih, ki jih lahko nad sestavljenim tipom uporabljate, si lahko seveda preberete na Godot dokumentaciji pod odsekom "Operator descriptions". (Za #data-type-name("Vector2D") je to: https://docs.godotengine.org/en/stable/classes/class_vector2.html#operator-descriptions)
 
-  Spomnimo se tudi da je `+=` samo okrajšava za `= vrednost +` torej:
+  Spomnimo se tudi, da je `+=` samo okrajšava za `= vrednost +` torej:
 
   ```gd
   position += Vector2(0, delta * 100)
@@ -3044,11 +3224,11 @@ func _process(delta: float) -> void:
   ```
 ])
 
-#box-task[Poskusite sami najti dokumentacijo o vgrajeni spremenljivki `global_position` in razmislite kakšna je razlika med njo in med spremenljivko `position`.]
+#box-task[Poskusite sami najti dokumentacijo o vgrajeni spremenljivki #variable-name("global_position") in razmislite kakšna je razlika med njo in med spremenljivko #variable-name("position").]
 
 #box-info(title: "Pohitritev iskanja dokumentacije", [
-  Če delamo znotraj vgrajenega urejevalnika besedil, lahko kadarkoli, medtem ko na tipkovnici držimo tipko #kbd("Ctrl"), kliknemo na nek vgrajeni tip, funkcijo ali spremenljivko. Če to naredimo, se nam bo odprla vgrajena dokumentacija, ki nam jo Godot nudi znotraj pogona in po kateri lahko tudi brskamo. 
-  
+  Če delamo znotraj vgrajenega urejevalnika besedil, lahko kadarkoli, medtem ko na tipkovnici držimo tipko #kbd(keyle.biolinum-key.Ctrl), kliknemo na nek vgrajeni tip, funkcijo ali spremenljivko. Če to naredimo, se nam bo odprla vgrajena dokumentacija, ki nam jo Godot nudi znotraj pogona in po kateri lahko tudi brskamo.
+
   Ta vgrajena dokumentacija je priročen in lahek način branja dokumentacije, ki deluje tudi brez dostopa do interneta, in preko katerega si lahko na hitro odgovorimo na kakšno vprašanje glede funkcij in lastnosti vozlišč in virov.
 
   #screenshot(
@@ -3064,7 +3244,7 @@ Razredi so zelo kompleksno področje programiranja, o katerih je bilo napisanih 
 
 === Razširitve
 
-V #ref(<gdscript-and-nodes>, supplement: "poglavju") smo na hitro omenili prvo vrstico vsake GDScript datoteke in sicer stavek `extends`.
+V #ref(<gdscript-and-nodes>, supplement: "poglavju") smo na hitro omenili prvo vrstico vsake GDScript datoteke in sicer stavek ```gd extends```.
 
 Kaj ta vrstica v resnici naredi je, da pove Godotu kateri razred ta datoteka razširja. S tem izdelamo nov, zaenkrat neimenovan, razred, ki je podedoval vse lastnosti razreda ki ga razširja.
 
@@ -3083,7 +3263,7 @@ class_name VrteciSprite
 extends Sprite2D
 ```
 
-V tem primeru smo naredili nov tip vozlišča imenovan `VrteciSprite`. Če bomo izdelovali novo vozlišče, nam ga bo Godot celo ponudil v oknu za izbiro tipa. Znotraj poletne šole bomo to funkcionalnost nekajkrat uporabili za lažje dokumentiranje kode in razlago, a se tudi v to podrobnost ne bomo preveč spuščali.
+V tem primeru smo naredili nov tip vozlišča imenovan `VrteciSprite`. Če bomo izdelovali novo vozlišče, nam ga bo Godot celo ponudil v oknu za izbiro tipa. Znotraj te knjige, te funkcionalnosti sicer ne bomo uporabili, a vam morda kdaj pride prav.
 
 Več o tem, kakšne funkcionalnosti nam kateri tip vozlišča nudi, si lahko preberemo v Godotovi dokumentaciji. Seznam vseh tipov vozlišč (v abecednem vrstnem redu) je na primer dostopen na: https://docs.godotengine.org/en/stable/classes/index.html#nodes. Med njimi lahko, v morju ostalih tipov, prepoznate že znana #node2d-type-name("Node2D") in #node2d-type-name("Sprite2D").
 
@@ -3144,7 +3324,7 @@ To naredimo tako, da najprej kliknemo na "Project", nato "Project Settings", s �
   ),
 )
 
-Novo dejanje dodamo tako, da v polje "Add New Action" (dodaj novo dejanje) napišemo ime svojega dejanja in pritisnemo na gumb "Add" (dodaj), kot je prikazano na #ref(<add-action>, supplement: "sliki").
+Novo dejanje dodamo tako, da v polje "Add New Action" (dodaj novo dejanje) napišemo ime svojega dejanja in pritisnemo na gumb #ui-button("Add") (dodaj), kot je prikazano na #ref(<add-action>, supplement: "sliki").
 
 Naredimo novo dejanje in ga poimenujmo "skok".
 
@@ -3156,8 +3336,7 @@ Naredimo novo dejanje in ga poimenujmo "skok".
 
 Dejanje smo uspešno izdelali, dodati mu moramo samo še prožilce. Uporabniška dejanja so lahko: pritisk tipke na tipkovnici, premik miške, pritisk gumba na igralnem ploščku itd. Godotov sistem uporabniških dejanj nam omogoča, da ima eno dejanje več prožilcev. To je še posebej uporabno, ko izdelujemo igro za več platform in moramo hkrati podpreti različne vrste uporabniškega vnosa (npr. miška in tipkovnica, igralni plošček, VR krmilniki ...) saj tako v kodi ni potrebno ročno preverjati vseh možnih prožilcev.
 
-V naši igri bo dinozaver skakal bodisi s pritiskom na preslednico (angl. _space_) ali pa s pritiskom na tipko "puščica gor" (angl. _up arrow_). Dodajmo torej ta dva prožilca na akcijo "skok".
-// TODO (Gorazd): Te puščice gor/dol magar zapišita z znakcem.
+V naši igri bo dinozaver skakal bodisi s pritiskom na preslednico (angl. _space_) ali pa s pritiskom na tipko gor (#kbd(keyle.svg-key.up) ali angl. _up arrow_). Dodajmo torej ta dva prožilca na akcijo "skok".
 
 Prožilec na akcijo dodamo s pritiskom na gumb s simbolom "+" desno od imena akcije, kot prikazuje #ref(<add-trigger>, supplement: "slika").
 
@@ -3192,7 +3371,7 @@ To nam odpre okno za izbor prožilca. Izberemo ga lahko tako, da se pomaknemo do
   ),
 )
 
-Obstaja še enostavnejši način za dodajanje prožilcev. Na ta način bomo dodali prožilec "puščica gor". Zopet pritisnite gumb "+" desno od imena akcije, da se odpre meni za dodajanje prožilca. Opazili boste, da je prvo polje ("Listening for Input") označeno (kot je vidno tudi na #ref(<add-trigger-menu>, supplement: "sliki")). Če zdaj pritisnete tipko na tipkovnici, vam bo Godot sam našel to tipko. Če ste pritisnili tipko "puščica gor", bi moralo v polju pisati nekaj v smislu: "Up or Up (Physical) or Up (Unicode)". V srednjem meniju, kjer smo prej tipko ročno izbirali, bi morala biti tipka Up sedaj tudi označena. To je prikazano tudi na #ref(<add-trigger-with-filter>, supplement: "sliki"). Nato samo enako kot prej kliknemo na gumb "OK" in prožilec je dodan.
+Obstaja še enostavnejši način za dodajanje prožilcev. Na ta način bomo dodali prožilec "puščica gor". Zopet pritisnite gumb "+" desno od imena akcije, da se odpre meni za dodajanje prožilca. Opazili boste, da je prvo polje ("Listening for Input") označeno (kot je vidno tudi na #ref(<add-trigger-menu>, supplement: "sliki")). Če zdaj pritisnete tipko na tipkovnici, vam bo Godot sam našel to tipko. Če ste pritisnili tipko #kbd(keyle.svg-key.up)), bi moralo v polju pisati nekaj v smislu: "Up or Up (Physical) or Up (Unicode)". V srednjem meniju, kjer smo prej tipko ročno izbirali, bi morala biti tipka "Up" sedaj tudi označena. To je prikazano tudi na #ref(<add-trigger-with-filter>, supplement: "sliki"). Nato samo enako kot prej kliknemo na gumb "OK" in prožilec je dodan.
 
 #screenshot(
   path: "assets/user-input/add-trigger-with-filter.png",
@@ -3212,16 +3391,18 @@ Nastavitve projekta lahko zdaj zapremo in se vrnemo v urejevalnik. Čas je, da n
 
 === Uporaba uporabniških akcij
 
-Na vozlišče `DinozaverSlicica` pripnite novo skripto "dinozaver.gd" in jo odprite.
+Na vozlišče `DinozaverSlicica` pripnite novo skripto `dinozaver.gd` in jo odprite.
 
-Kot smo že omenili, obstaja več načinov na katere bi sedaj lahko uporabili našo akcijo. Tekom te delavnice bomo to dosegli s pomočjo vgrajenega tipa #variable-name("Input"). Tip #variable-name("Input") nam omogoča dostop do raznih funkcij, s katerimi lahko dostopamo do Godotovega sistema za uporabniški vnos.
 
-Poskusimo torej zaznati ali je akcija "skok" pritisnjena. To lahko dosežemo z uporabo vgrajene funkcije ```gd bool is_action_pressed(action: String)```. V parametru `action` pošljemo ime akcije, za katero želimo preveriti, ali je pritisnjena, funkcija pa nam nato vrne `true` če je akcija pritisnjena, oziroma `false`, če ni.
+// TODO(matosa): Tu sem spremenil #variable-name("Input") v #data-type-name, ker gre dejansko za vrsto tipa (ki je potomec Object), ki jo ima Godot, ki pa je hkrati singleton, ki je poseben in se ga zato dostopa kar prek imena tipa, in to NISO statične metode. Zato se tudi nisem spuščal v razlago.
+Kot smo že omenili, obstaja več načinov na katere bi sedaj lahko uporabili našo akcijo. Tekom te delavnice bomo to dosegli s pomočjo vgrajenega tipa #data-type-name("Input"). Tip #data-type-name("Input") nam omogoča dostop do raznih funkcij, s katerimi lahko dostopamo do Godotovega sistema za uporabniški vnos.
+
+Poskusimo torej zaznati ali je akcija "skok" pritisnjena. To lahko dosežemo z uporabo vgrajene funkcije ```gd bool is_action_pressed(action: String)```. V parametru `action` pošljemo ime akcije, za katero želimo preveriti, ali je pritisnjena, funkcija pa nam nato vrne ```gd true``` če je akcija pritisnjena, oziroma ```gd false```, če ni.
 
 #box-info(title: [#advanced-topic-heading[Za napredne uporabnike]], [
-  Vgrajena metoda ```gd bool is_action_pressed(action: String)``` ima v resnici drugačen podpis, in sicer: ```gd bool is_action_pressed(action: StringName, exact_match: bool = false)```. Parameter `action` je posebna vrsta niza, imenovana `StringName`, prejema pa tudi nezahtevan parameter `exact_match`, s katerim lahko upravljamo, kako strog je Godot, ko išče našo akcijo.
+  Vgrajena metoda ```gd bool is_action_pressed(action: String)``` ima v resnici drugačen podpis, in sicer: ```gd bool is_action_pressed(action: StringName, exact_match: bool = false)```. Parameter #variable-name("action") je posebna vrsta niza, imenovana #data-type-name("StringName"), prejema pa tudi nezahtevan parameter #variable-name("exact_match"), s katerim lahko upravljamo, kako strog je Godot, ko išče našo akcijo.
 
-  Za namene te delavnice lahko `StringName` enačimo s `String`, `exact_match` pa prav tako ne bomo nikoli uporabili, tako da se lahko zadovoljimo s poenostavljenim podpisom ```gd bool is_action_pressed(action: String)```.
+  Za namene te delavnice lahko #data-type-name("StringName") enačimo s #data-type-name("String"), #variable-name("exact_match") pa prav tako ne bomo nikoli uporabili, tako da se lahko zadovoljimo s poenostavljenim podpisom ```gd bool is_action_pressed(action: String)```.
 ])
 
 Poglejmo si, kako lahko to funkcijo uporabimo:
@@ -3232,25 +3413,26 @@ func _physics_process(delta: float) -> void:
 ```
 
 #box-info(title: "_physics_process?", [
-  ```gd _physics_process(delta: float)``` je zelo podobna funkcija kot ```gd _process(delta: float)```, torej tudi ta se kliče v rednih intervalih. Edina razlika med njima je, da se `_physics_process` (slov. funkcija za fizikalne procese) kliče, ko Godot osvežuje interno stanje fizikalnega sveta v nasprotju s `_process`, ki se kliče takrat, ko Godot izdeluje novo upodobitveno sličico. Fizikalni svet se osvežuje na fiksni interval, zato je klic `_physics_process` veliko bolj predvidljiv kot `_process`, katerega klicni interval je odvisen primarno od zmožnosti računalnika.
+  ```gd void _physics_process(delta: float)``` je zelo podobna funkcija kot ```gd void _process(delta: float)```, torej tudi ta se kliče v rednih intervalih. Edina razlika med njima je, da se #function-name("_physics_process") (slov. funkcija za fizikalne procese) kliče, ko Godot osvežuje interno stanje fizikalnega sveta v nasprotju s #function-name("_process_"), ki se kliče takrat, ko Godot izdeluje novo upodobitveno sličico. Fizikalni svet se osvežuje na fiksni interval, zato je klic #function-name("_physics_process") veliko bolj predvidljiv kot #function-name("_process_"), katerega klicni interval je odvisen primarno od zmožnosti računalnika.
 
-  Načeloma se držimo pravila, da vse delo, ki vključuje Godotove sisteme fizike in sistem za vnos (ki je pogosto tesno povezan s sistemi za fiziko), opravljamo v `_physics_process`. Vse ostalo delo, ki potrebuje redno izvajanje, pa v funkciji `_process`.
+  Načeloma se držimo pravila, da vse delo, ki vključuje Godotove sisteme fizike in sistem za vnos (ki je pogosto tesno povezan s sistemi za fiziko), opravljamo v #function-name("_physics_process"). Vse ostalo delo, ki potrebuje redno izvajanje, pa v funkciji #function-name("_process_").
 
-  `_physics_process` boste pogosto srečali tudi v #ref(<physics>, supplement: "poglavju").
+  #function-name("_physics_process") boste pogosto srečali tudi v #ref(<physics>, supplement: "poglavju").
 ])
 
-Zgornja koda se bo, ker je znotraj funkcije `_physics_process`, izvajala redno. Klic na `is_action_pressed` nam bo torej vsakič preveril, ali je akcija "skok" aktivna. Če je (takrat klic funkcije vrne `true`), bomo na izhod napisali "Skok!", sicer (ko klic vrne `false`) pa ne bomo naredili ničesar.
+Zgornja koda se bo, ker je znotraj funkcije #function-name("_physics_process"), izvajala redno. Klic na #function-name("is_action_pressed") nam bo torej vsakič preveril, ali je akcija "skok" aktivna. Če je (takrat klic funkcije vrne ```gd true```), bomo na izhod napisali "Skok!", sicer (ko klic vrne ```gd false```) pa ne bomo naredili ničesar.
 
-Če zgornjo kodo kopirate v datoteko "dinozaver.gd" in projekt poženete, lahko to opazujete tudi sami.
+Če zgornjo kodo kopirate v datoteko `dinozaver.gd` in projekt poženete, lahko to opazujete tudi sami.
 
 #box-info(title: "Funkcijo kličemo kar na imenu tipa?", [
   Razlaga, zakaj v tem primeru funkcijo kličemo preko imena tipa, je zapletena in se vanjo ne bomo spuščali.
 
   Dotika se namreč vsega od statičnih metod, ki so same po sebi sicer precej enostaven konstrukt, pa vse do arhitekturnih odločitev izdelave Godota/GDScripta in komunikacije med različnimi programskimi jeziki, kar pa niso več enostavna poglavja. Poleg tega je vse to precej slabo dokumentirano tudi na uradni Godotovi dokumentaciji in vam zares ne bi preveč pomagalo.
 
-  #box-divider()
+  // TODO(matosa): Mogoče je krivo to da je trenutno 3:30 zjutraj ampak mi iz spodnjega ne rata narediti smisla, še več, zdi se mi da uči krivo vero tako da sem do nadaljnjega to dal za zapahe komentarja.
+  // #box-divider()
 
-  Poenostavljeno rečeno gre za to, da #variable-name("Input") v sebi hrani zbirko funkcij, ki se ukvarjajo z uporabniškim vnosom. Da lahko kličemo določeno funkcijo, ki jo ima sistem #variable-name("Input"), moramo Godotu povedati, pod katero skupino se nahaja, torej pod #variable-name("Input"), zato `Input.moja_funkcija`.
+  // Poenostavljeno rečeno gre za to, da #variable-name("Input") v sebi hrani zbirko funkcij, ki se ukvarjajo z uporabniškim vnosom. Da lahko kličemo določeno funkcijo, ki jo ima sistem #variable-name("Input"), moramo Godotu povedati, pod katero skupino se nahaja, torej pod #variable-name("Input"), zato `Input.moja_funkcija`.
 ])
 
 #box-task[
@@ -3366,15 +3548,15 @@ Zaenkrat se bomo osredotočili na #node2d-type-name("CharacterBody2D") za lika d
 
   Da se izognemo nepričakovanim posledicam, sedaj izberite vozlišče `DinozaverSlicica`, nato pa na desni v podoknu "Inspector" razširite lastnost "Transform", kjer boste zagledali, da je vrednost lastnosti "Position" neničelna. Spomnite se, da smo v prejšnjih poglavjih omenili, da je vrednost lastnosti `position` relativna; če torej to vrednost pustimo, bomo imeli probleme pozneje, saj premikanje vozlišča `DinozaverLik` ne bo več imelo pravilnih posledic.
 
-  Zaradi tega kliknite na gumb za ponastavitev vrednosti `position` (prekinjen krog s puščico), kot ga vidite na #ref(<dino-sprite-position-reset>, supplement: [sliki]).
+  Zaradi tega kliknite na gumb za ponastavitev vrednosti "Position" (prekinjen krog s puščico), kot ga vidite na #ref(<dino-sprite-position-reset>, supplement: [sliki]).
 
   #screenshot(
     path: "assets/physics/godot_physics_dino-sprite-position-reset.png",
     width: 40%,
-    caption: [Vrednost lastnosti `position` na vozlišču `DinozaverSlicica`.]
+    caption: [Vrednost lastnosti `position` na vozlišču `DinozaverSlicica`.],
   ) <dino-sprite-position-reset>
 
-  Kaktus in dinozaver (oziroma njuni vozliči `DinozaverLik` (in ne `DinozaverSlicica`) ter `KaktusSlicica` sedaj premaknite nekam v sredino zaslona.
+  Kaktus in dinozaver (oziroma njuni vozliči `DinozaverLik` (in ne `DinozaverSlicica`) ter `KaktusSlicica`) sedaj premaknite nekam v sredino zaslona.
 ]
 
 Na #ref(<physics_characterbody2d-with-warning-and-sprite>, supplement: [sliki]) lahko vidimo pravilno novo strukturo vozlišč našega dinozavra, a lahko desno od imena vozlišča `DinozaverLik` opazimo znak za opozorilo! Če miško premaknemo čez opozorilo, nam Godot razloži, kaj je problem, kot vidimo na #ref(<physics_characterbody2d-no-collision-warning>, supplement: [sliki]):
@@ -3390,7 +3572,7 @@ Opozorilo nam pravi, da vozlišče tipa #node2d-type-name("CharacterBody2D") pot
 #box-task[
   Ustvarite novo vozlišče tipa #resource-type-name("CollisionPolygon2D"), ga preimenujte na `DinozaverPovrsina` in ga postavite za otroka vozlišča `DinozaverLik`.
 
-  Nato enkrat kliknite na vozlišče `DinozaverPovrsina`, da izberete vozlišče in izberite orodje za izbiro (angl. _Select Mode_), ki ga najdete pod ikono miške v orodni vrstici urejevalnika 2D (kot vidimo na #ref(<dino-sprite-in-2d-editor>, supplement: [sliki])) oziroma pod bližnjico `Q`. Sedaj začnimo ustvarjat trkalnik našega dinozavra tako, da kliknemo nekam na rob dinozavra in s tem ustvarimo prvo točko večkotnika. Kjer bomo kliknili, se bo pojavil majhen romb, ki prikazuje dodano točko. Sedaj se premaknimo do naslednje točke ob robu našega dinozavra in zopet kliknimo. Ustvarila se bo nova točka večkotnika, ki bo s prejšnjo povezana z ravno črto. Nadaljujmo ta proces, dokler ne obhodimo celotnega dinozavra; zadnji klik naredimo na prvo točko, ki smo jo ustvarili (prvi romb), in s tem zaključimo večkotnik in zagledamo površino trkalnika, kot jo vidimo na #ref(<physics_characterbody2d-dino-collision>, supplement: [sliki]):
+  Nato enkrat kliknite na vozlišče `DinozaverPovrsina`, da izberete vozlišče in izberite orodje za izbiro (angl. _Select Mode_), ki ga najdete pod ikono miške v orodni vrstici urejevalnika 2D (kot vidimo na #ref(<dino-sprite-in-2d-editor>, supplement: [sliki])) oziroma pod bližnjico #kbd("Q"). Sedaj začnimo ustvarjat trkalnik našega dinozavra tako, da kliknemo nekam na rob dinozavra in s tem ustvarimo prvo točko večkotnika. Kjer bomo kliknili, se bo pojavil majhen romb, ki prikazuje dodano točko. Sedaj se premaknimo do naslednje točke ob robu našega dinozavra in zopet kliknimo. Ustvarila se bo nova točka večkotnika, ki bo s prejšnjo povezana z ravno črto. Nadaljujmo ta proces, dokler ne obhodimo celotnega dinozavra; zadnji klik naredimo na prvo točko, ki smo jo ustvarili (prvi romb), in s tem zaključimo večkotnik in zagledamo površino trkalnika, kot jo vidimo na #ref(<physics_characterbody2d-dino-collision>, supplement: [sliki]):
 
   #screenshot(
     path: "assets/physics/godot_physics_dino-with-collision.png",
@@ -3438,9 +3620,9 @@ V glavi moramo imeti dve pomembni lastnosti teh vozlišč:
 #box-task[
   Ustvarimo novo skripto na vozlišču `DinozaverLik` (to je tisto vozlišče, ki je tipa #node2d-type-name("CharacterBody2D")) in jo poimenujmo `dinozaver_lik.gd`. Poskusimo tokrat izklopiti polje "Template", saj bo naša koda precej drugačna od kode, ki jo Godot za nas zgenerira sam. Skripta, ki jo bomo zagledali, bo vsebovala le:
 
-```gd
-extends CharacterBody2D
-```
+  ```gd
+  extends CharacterBody2D
+  ```
 ]
 
 // #box-warning[Tokrat prvič sami dodajamo vrstico extends. Pazite da pravilno razširja #node2d-type-name("CharacterBody2D") saj bomo drugače dobili napako omenjeno v #ref(<gdscript-and-nodes>, supplement: "poglavju").]
@@ -3461,14 +3643,14 @@ var impulz_za_skok: float = 1000.0
   ],
 )
 
-Sedaj ustvarimo funkcijo `_physics_process`, kjer bomo definirali naše fizikalne interakcije. Želimo, da se dogajata dva procesa:
-- Če nismo na tleh, želimo našo hitrost (lastnost `velocity`) zmanjševati sorazmerno s časom in gravitacijo.
+Sedaj ustvarimo funkcijo #function-name("_physics_process"), kjer bomo definirali naše fizikalne interakcije. Želimo, da se dogajata dva procesa:
+- Če nismo na tleh, želimo našo hitrost (lastnost #variable-name("velocity")) zmanjševati sorazmerno s časom in gravitacijo.
 - Če smo na tleh in igralec pritisne na akcijo "skok", želimo dodati vertikalni fizikalni impulz, kar bo povzročilo, da bo dinozaver skočil.
-- Vsak korak moramo klicati `move_and_slide`, ker želimo vsak korak simulirati fiziko našega dinozavra. Klic `move_and_slide` je unikaten vozlišču #node2d-type-name("CharacterBody2D") in ga na navadnih fizikalnih objektih (kot je na primer #node2d-type-name("RigidBody2D") ni potrebno klicati). Za razlago zakaj je temu tako, bi se zopet morali spuščati v arhitekturne odločitve izdelave pogona Godot, zato bomo razlago tokrat izpustili.
+- Vsak korak moramo klicati #function-name("move_and_slide"), ker želimo vsak korak simulirati fiziko našega dinozavra. Klic #function-name("move_and_slide") je unikaten vozlišču #node2d-type-name("CharacterBody2D") in ga na navadnih fizikalnih objektih (kot je na primer #node2d-type-name("RigidBody2D") ni potrebno klicati). Za razlago zakaj je temu tako, bi se zopet morali spuščati v arhitekturne odločitve izdelave pogona Godot, zato bomo razlago tokrat izpustili.
 
 #box-warning[
-  `move_and_slide` se, kot del sistemov fizike, zanaša na to da je vedno klican znotraj `_physics_process` in ne bo pravilno deloval če je klican kjerkoli drugje. Več o tem si seveda lahko preberete znotraj Godotove dokumentacije:
-  
+  #function-name("move_and_slide") se, kot del sistemov fizike, zanaša na to da je vedno klican znotraj #function-name("_physics_process") in ne bo pravilno deloval če je klican kjerkoli drugje. Več o tem si seveda lahko preberete znotraj Godotove dokumentacije:
+
   https://docs.godotengine.org/en/4.7/classes/class_characterbody2d.html#class-characterbody2d-method-move-and-slide.
 ]
 
@@ -3507,7 +3689,7 @@ func _physics_process(delta: float) -> void:
 
 Kljub napredku ugotavljamo, da nam manjka še ena podrobnost: če se zabijemo v kaktus, gremo kar skozenj, igre pa ni konec. To želimo spremeniti.
 
-V prejšnjih poglavjih smo uporabili #node2d-type-name("CharacterBody2D") in #node2d-type-name("StaticBody2D"), na katerih smo definirali trkalno površino, kar je povzročilo, da se npr. dinozaver zdaj ustavi na tleh, namesto da bi padel skozenj. Ampak poleg takih trkalnikov, poznamo tudi t.i. nevidne trkalnike, ki jim bomo rekli trkalna območja. Trkalna območja se definirajo z uporabo vozlišča `Area2D`, a funkcionirajo rahlo drugače kot telesa: namesto da bi sebe ali druga telesa ustavili ob trku, preprosto zaznajo, kdaj neko telo, ki podpira trke, vstopi v njihovo trkalno območje.
+V prejšnjih poglavjih smo uporabili #node2d-type-name("CharacterBody2D") in #node2d-type-name("StaticBody2D"), na katerih smo definirali trkalno površino, kar je povzročilo, da se npr. dinozaver zdaj ustavi na tleh, namesto da bi padel skozenj. Ampak poleg takih trkalnikov, poznamo tudi t.i. nevidne trkalnike, ki jim bomo rekli trkalna območja. Trkalna območja se definirajo z uporabo vozlišča #node2d-type-name("Area2D"), a funkcionirajo rahlo drugače kot telesa: namesto da bi sebe ali druga telesa ustavili ob trku, preprosto zaznajo, kdaj neko telo, ki podpira trke, vstopi v njihovo trkalno območje.
 
 To nam bomo omogočilo, da na kaktusih definiramo trkalna območja in, ko zaznamo, da se je dinozaver zaletel vanj, končamo igro.
 
@@ -3516,7 +3698,7 @@ To nam bomo omogočilo, da na kaktusih definiramo trkalna območja in, ko zaznam
 
   #box-divider()
 
-  Na izbrano vozlišče kaktusa dodajte najprej podvozlišče tipa `Area2D` z imenom `KaktusTrkalnoObmocje`, nato pa temu novemu vozlišču dodajte še podvozlišče tipa #resource-type-name("CollisionPolygon2D") z imenom `KaktusPovrsina`. Izbranemu kaktusu definirajte površino trkalnika, kot smo se to naučili v #ref(<physics_staticbody2d-usage>, supplement: [poglavju]), da bo kaktus zgledal podobno, kot na #ref(<physics_cactus-with-collision>, supplement: [sliki]).
+  Na izbrano vozlišče kaktusa dodajte najprej podvozlišče tipa #node2d-type-name("Area2D") z imenom `KaktusTrkalnoObmocje`, nato pa temu novemu vozlišču dodajte še podvozlišče tipa #resource-type-name("CollisionPolygon2D") z imenom `KaktusPovrsina`. Izbranemu kaktusu definirajte površino trkalnika, kot smo se to naučili v #ref(<physics_staticbody2d-usage>, supplement: [poglavju]), da bo kaktus zgledal podobno, kot na #ref(<physics_cactus-with-collision>, supplement: [sliki]).
 
   #screenshot(
     path: "assets/physics/godot_physics_cactus-with-collision.png",
@@ -3540,7 +3722,7 @@ vozlisce.is_in_group("ime_skupine")
 #box-task[
   V strukturi prizora izberite vozlišče `DinozaverLik`, nato pa na desni strani, kjer imate privzeto izbrano okno s podrobnostmi vozlišča (ali pa signale), izberite zavihek "Groups". V kolikor zavihka s tem imenom ne vidite, desno od zavihkov "Inspector" in "Signals" kliknite na puščico v desno, in sedaj izberite željen zavihek "Groups". Zagledali boste prazen seznam skupin (glej #ref(<physics_groups_empty>, supplement: [sliko])), pri čemer lahko opazite, da se skupine delijo na dva nivoja: na skupine, ki so skupne celotni igri, in na skupine, ki obstajajo le znotraj trenutnega prizora. Nas bodo primarno zanimale le globalne skupine.
 
-  Kliknite na gumb za ustvarjanje nove skupine levo od iskalnika in ustvarite novo *globalno* skupino z imenom "dinozaver" (glej #ref(<physics_groups_creation>, supplement: [sliko])). Po kliku na gumb "OK" boste v seznamu skupin zagledali novo skupino (glej #ref(<physics_groups_with-dino-group>, supplement: [sliko])), pred njo pa kljukico, kar nakazuje na to, da izbrano vozišče, torej `DinozaverLik`, pripada tej skupini.
+  Kliknite na gumb za ustvarjanje nove skupine levo od iskalnika in ustvarite novo *globalno* skupino z imenom "dinozaver" (glej #ref(<physics_groups_creation>, supplement: [sliko])). Po kliku na gumb #ui-button("OK") boste v seznamu skupin zagledali novo skupino (glej #ref(<physics_groups_with-dino-group>, supplement: [sliko])), pred njo pa kljukico, kar nakazuje na to, da izbrano vozišče, torej `DinozaverLik`, pripada tej skupini.
 
   Če na levi v strukturi prizora izberete drugo vozlišče, boste opazili, da skupina na desni še vedno obstaja, a zdaj te kljukice ni, ker to drugo vozlišče ne pripada skupini "dinozaver", kar je pravilno.
 
@@ -3577,16 +3759,14 @@ vozlisce.is_in_group("ime_skupine")
 
 === Signali
 
-#todo[Malo razširi poglavje o signali v stilu poglavja osnove GDScript (Andrej)]
-
-Dve poglavji nazaj smo ustvarili trkalno območje (vozlišče `Area2D`), a se ob vstopu nekega telesa, na primer dinozavra, vanj ne zgodi nič. Razlog za to je, da `Area2D` ob vstopu telesa odda signal, na katerega se moramo mi povezati, če želimo na ta dogodek odreagirati.
+Dve poglavji nazaj smo ustvarili trkalno območje (vozlišče #node2d-type-name("Area2D")), a se ob vstopu nekega telesa, na primer dinozavra, vanj ne zgodi nič. Razlog za to je, da #node2d-type-name("Area2D") ob vstopu telesa odda signal, na katerega se moramo mi povezati, če želimo na ta dogodek odreagirati.
 
 Signali so v osnovi dogodki, na katere se lahko prijavimo tako, da na ta dogodek povežemo določeno funkcijo. To je mogoče storiti ali preko urejevalnika ali z uporabo skriptiranja, ampak zaenkrat se bomo osredotočili na povezovanje signalov preko urejevalnika. Definiramo lahko tudi poljubne signale, a več o tem kasneje.
 
 #box-task[
   Na vozlišče `Igra` dodajte prazno skripto `igra.gd` (če želite, lahko od tu naprej ob dodajanju skript vklapljate možnost "Template" (predloga) po želji).
 
-  V strukturi prizora izberite vozlišče `KaktusTrkalnoObmocje` (`Area2D`) in nato na desni strani med zavihki, kjer imate izbran zavihek s skupinami ("Groups") ali podrobnostmi vozlišča ("Inspector"), izberite zavihek "Signals". Zagledali boste nabor signalov, ki jih izbrano vozlišče oddaja, med njimi pa je tudi signal `body_entered`, ki se sproži takrat, ko določeno telo vstopi v to trkalno območje.
+  V strukturi prizora izberite vozlišče `KaktusTrkalnoObmocje` (#node2d-type-name("Area2D")) in nato na desni strani med zavihki, kjer imate izbran zavihek s skupinami ("Groups") ali podrobnostmi vozlišča ("Inspector"), izberite zavihek "Signals". Zagledali boste nabor signalov, ki jih izbrano vozlišče oddaja, med njimi pa je tudi signal `body_entered`, ki se sproži takrat, ko določeno telo vstopi v to trkalno območje.
 
   Dvokliknite na signal `body_entered`. Zagledali boste pojavno okno, kot ga vidite na #ref(<signals_body-entered-new-dialog>, supplement: [sliki]). Povežite se na vrhnje vozlišče `Igra` in v polje "Receiver Method" vnesite `_ko_je_kaktus_zadet`: to je ime funkcije, ki se bo v skripti vozlišča `Igra` sprožila, ko neko telo vstopi v trkalno območje kaktusa.
 
@@ -3604,7 +3784,7 @@ func _ko_je_kaktus_zadet(body: Node2D) -> void:
     pass # Replace with function body.
 ```
 
-mi pa bomo vsebino prilagodili. Želimo namreč, da se ob vsakem trku preveri, ali smo trčili v dinozavra, in če je temu tako, v konzolo izpišemo "Trčili smo v dinozavra! Konec igre!". Argument funkcije `body` v tem primeru kaže na
+mi pa bomo vsebino prilagodili. Želimo namreč, da se ob vsakem trku preveri, ali smo trčili v dinozavra, in če je temu tako, v konzolo izpišemo "Trčili smo v dinozavra! Konec igre!". Argument funkcije #variable-name("body") v tem primeru kaže na
 telo (oziroma primerek vozlišča), ki se je zadelo ob kaktus.
 
 ```gd
@@ -3649,7 +3829,7 @@ Točno to smo tudi naredili v paketu sredstev (angl. _asset pack_), ki smo vam g
 === Viri
 Vir (angl. _resource_) je objekt, ki je konceptualno podoben vozliščem, v smislu da je virov, tako kot vozlišč, ogromno različnih tipov, a se od vozlišč razlikuje po uporabnosti. Viri so namreč samostojni (ni nujno, da obstajajo v prizoru) in predstavljajo podatke različnih tipov, od tekstur do animacij in senčilnikov. Nekaj osnovnih tipov virov lahko vidimo na #ref(<resource-type-tree-basic>, supplement: [sliki]).
 
-Vire lahko shranimo na disk na podoben način kot prizore, le da imajo viri končnico `.tres`, med tem ko imajo prizori končnico `.tscn`. Ni pa nujno, da vire shranimo kot samostojne datoteke! Ko smo na primer na #ref(<physics_staticbody2d-new-collision>, supplement: [sliki]) kliknili na #resource-type-name("RectangleShape2D"), smo prav tako ustvarili vir, le da je bil ta vir tokrat vgrajen v #resource-type-name("CollisionShape2D"), v katerem se je ta vir nahajal, namesto da bi bil samostojno shranjen na disk.
+Vire lahko shranimo na disk na podoben način kot prizore, le da imajo viri končnico `.tres`, med tem ko imajo prizori končnico `.tscn`. Ni pa nujno, da vire shranimo kot samostojne datoteke! Ko smo na primer na #ref(<physics_staticbody2d-new-collision>, supplement: [sliki]) kliknili na #resource-type-name("RectangleShape2D"), smo prav tako ustvarili vir, le da je bil ta vir tokrat vgrajen v #node2d-type-name("CollisionShape2D"), v katerem se je ta vir nahajal, namesto da bi bil samostojno shranjen na disk.
 
 
 #figure(
@@ -3721,19 +3901,19 @@ Vire lahko shranimo na disk na podoben način kot prizore, le da imajo viri kon�
 
 
 === Vir `AtlasTexture`
-Kot omenjeno v #ref(<about-spritesheets>, supplement: [poglavju]), je funkcionalnost vira `AtlasTexture` to, da iz atlasa (plahte) izvleče manjši del teksture. Točno tako so sestavljene vse sličice dinozavra v mapi `res://sredstva/dinozaver`, vsi kaktusi v `res://sredstva/kaktusi` itd. Pomembno je povedati, da je ta proces:
+Kot omenjeno v #ref(<about-spritesheets>, supplement: [poglavju]), je funkcionalnost vira #resource-type-name("AtlasTexture") to, da iz atlasa (plahte) izvleče manjši del teksture. Točno tako so sestavljene vse sličice dinozavra v mapi `res://sredstva/dinozaver`, vsi kaktusi v `res://sredstva/kaktusi` itd. Pomembno je povedati, da je ta proces:
 - nedestruktiven, torej originalna plahta sličic ostane taka, kot je, in da
 - tak pristop ponavadi ne zahteva dodatnega kopiranja tekstur, s čimer prihranimo na delovnem spominu.
 
 #box-task[
-  Za vajo se naučimo še mi ustvarjati lastne vire `AtlasTexture`: v mapi `res://sredstva` ustvarite novo mapo `test`. V njej nato z desnim klikom odprite kontekstni meni in v kaskadnem meniju "Create New" kliknite na "Resource".
+  Za vajo se naučimo še mi ustvarjati lastne vire #resource-type-name("AtlasTexture"): v mapi `res://sredstva` ustvarite novo mapo `test`. V njej nato z desnim klikom odprite kontekstni meni in v kaskadnem meniju "Create New" kliknite na "Resource".
 
-  Prikazalo se vam bo okno z drevesno strukturo tipov virov na podoben način kot drevesna struktura tipov vozlišč, ki smo jo spoznali v #ref(<basic-node-types>, supplement: [poglavju]). Kot je vidno na #ref(<new-resource-atlastexture>, supplement: [sliki]), izberite tip vira `AtlasTexture`, ki se v drevesu nahaja pod `Texture` in `Texture2D` ter kliknite na gumb "Create". Vir poimenujte `test.tres`, shranjen pa naj bo v mapo `res://sredstva/test`.
+  Prikazalo se vam bo okno z drevesno strukturo tipov virov na podoben način kot drevesna struktura tipov vozlišč, ki smo jo spoznali v #ref(<basic-node-types>, supplement: [poglavju]). Kot je vidno na #ref(<new-resource-atlastexture>, supplement: [sliki]), izberite tip vira #resource-type-name("AtlasTexture"), ki se v drevesu nahaja pod #resource-type-name("Texture") in #resource-type-name("Texture2D") ter kliknite na gumb #ui-button("Create"). Vir poimenujte `test.tres`, shranjen pa naj bo v mapo `res://sredstva/test`.
 
   #screenshot(
     path: "assets/animation/godot_animation_atlastexture-type-dialog.png",
     width: 80%,
-    caption: [Pojavno okno za ustvarjanje novega vira (tokrat `AtlasTexture`).],
+    caption: [Pojavno okno za ustvarjanje novega vira (tokrat #resource-type-name("AtlasTexture")).],
   ) <new-resource-atlastexture>
 
 ]
@@ -3748,7 +3928,7 @@ Na desni strani urejevalnika pod podrobnostmi (zavihkom "Inspector") boste zagle
   caption: [Prazen vir `AtlasTexture`.],
 ) <empty-atlastexture>
 
-Zanimali nas bosta dve nastavitvi tega vira: atlas in površina. Atlas je večja tekstura, iz katere vlečemo, torej bo to v našem primeru plahta sličic `res://sredstva/chromium-dino/200-offline-sprite.png`. Površina pa je nabor štirih vrednosti: začetne točke $(X, Y)$ ter širine in višine podteksture, ki jo želimo potegniti ven. Vrednosti je sicer mogoče vpisati ali popraviti ročno, a se večinoma zatekamo k gumbu "Edit Region", ki nam omogoča vizualno izrezovanje.
+Zanimali nas bosta dve nastavitvi tega vira: atlas in površina. Atlas je večja tekstura, iz katere vlečemo, torej bo to v našem primeru plahta sličic `res://sredstva/chromium-dino/200-offline-sprite.png`. Površina pa je nabor štirih vrednosti: začetne točke $(X, Y)$ ter širine in višine podteksture, ki jo želimo potegniti ven. Vrednosti je sicer mogoče vpisati ali popraviti ročno, a se večinoma zatekamo k gumbu #ui-button("Edit Region"), ki nam omogoča vizualno izrezovanje.
 
 #box-task[
   V polje `<empty>` ob parametru "Atlas" potegnite plahto sličic `res://sredstva/chromium-dino/200-offline-sprite.png`, nato pa iz nje s pomočjo orodja "Edit Region" izrežite poljuben del, recimo kaktus. Primer izrezovalnega orodja lahko vidite na #ref(<atlastexture-region-editor-cactus>, supplement: [sliki]).
@@ -3772,7 +3952,7 @@ Do zdaj smo za prikaz sličic uporabljali vozlišča tipa #node2d-type-name("Spr
   Vozlišče `DinozaverSlicica` (ki je tipa #node2d-type-name("Sprite2D")) zamenjajte z novim vozliščem #node2d-type-name("AnimatedSprite2D"), ki ga poimenujte `DinozaverAnimacija`.
 ]
 
-Če igro sedaj poženemo, bomo ugotovili, da dinozavra ni več videti. To je zato, ker smo izbrisali staro nepremično sličico dinozavra, nismo pa definirali še novih animacij. To lahko storimo tako, da v strukturi prizora izberemo vozlišče `DinozaverAnimacija`, na desni strani pod podrobnostmi pa nato lahko pod parametrom "Sprite Frames" kliknemo na spustni meni in ustvarimo nov vir tipa `SpriteFrames`. Primera okna pred stvaritvijo vira lahko vidimo na #ref(<animation_animatedsprite2d_inspector-empty>, supplement: [sliki]), po stvaritvi vira pa na #ref(<animation_animatedsprite2d_inspector-new>, supplement: [sliki]).
+Če igro sedaj poženemo, bomo ugotovili, da dinozavra ni več videti. To je zato, ker smo izbrisali staro nepremično sličico dinozavra, nismo pa definirali še novih animacij. To lahko storimo tako, da v strukturi prizora izberemo vozlišče `DinozaverAnimacija`, na desni strani pod podrobnostmi pa nato lahko pod parametrom "Sprite Frames" kliknemo na spustni meni in ustvarimo nov vir tipa #resource-type-name("SpriteFrames"). Primera okna pred stvaritvijo vira lahko vidimo na #ref(<animation_animatedsprite2d_inspector-empty>, supplement: [sliki]), po stvaritvi vira pa na #ref(<animation_animatedsprite2d_inspector-new>, supplement: [sliki]).
 
 #align(
   center,
@@ -3796,13 +3976,13 @@ Do zdaj smo za prikaz sličic uporabljali vozlišča tipa #node2d-type-name("Spr
   ),
 )
 
-Kliknite na polje, kjer sedaj namesto `<empty>` piše `SpriteFrames`. Kot vidimo na #ref(<animation_animatedsprite2d_inspector-new>, supplement: [sliki]), se je sedaj polje pobarvalo v modro. Če na polje kliknemo še enkrat, lahko sprostimo našo izbiro.
+Kliknite na polje, kjer sedaj namesto `<empty>` piše #resource-type-name("SpriteFrames"). Kot vidimo na #ref(<animation_animatedsprite2d_inspector-new>, supplement: [sliki]), se je sedaj polje pobarvalo v modro. Če na polje kliknemo še enkrat, lahko sprostimo našo izbiro.
 
 #box-task[
-  Prepričajte se, da je nov vir `SpriteFrames`, ki smo ga ravnokar ustvarili, tudi izbran.
+  Prepričajte se, da je nov vir #resource-type-name("SpriteFrames"), ki smo ga ravnokar ustvarili, tudi izbran.
 ]
 
-Kadar je `SpriteFrames` aktiven (oziroma izbran), se bo na dnu urejevalnika, kjer je bila ponavadi konzola, prikazalo novo okno v zavihku, imenovanem "SpriteFrames". Privzeto se bo ta zavihek kar odprl, ko izberemo vir desno zgoraj, ta nov urejevalnik, ki ga vidimo na #ref(<animation_animatedsprite2d_editor>, supplement: [sliki]), pa nam bo omogočal, da ustvarimo animacije iz posameznih sličic.
+Kadar je #resource-type-name("SpriteFrames") aktiven (oziroma izbran), se bo na dnu urejevalnika, kjer je bila ponavadi konzola, prikazalo novo okno v zavihku, imenovanem "SpriteFrames". Privzeto se bo ta zavihek kar odprl, ko izberemo vir desno zgoraj, ta nov urejevalnik, ki ga vidimo na #ref(<animation_animatedsprite2d_editor>, supplement: [sliki]), pa nam bo omogočal, da ustvarimo animacije iz posameznih sličic.
 
 #screenshot(
   path: "assets/animation/godot_animatedsprite2d_bottom-section-editor.png",
@@ -3810,7 +3990,7 @@ Kadar je `SpriteFrames` aktiven (oziroma izbran), se bo na dnu urejevalnika, kje
   caption: [Urejevalnik `SpriteFrames`.],
 ) <animation_animatedsprite2d_editor>
 
-Na levi strani urejevalnika animacij vidimo seznam animacij po imenu. Trenutno je prikazana le privzeta animacija z imenom "default". S klikom na gumbe v orodni vrstici nad tem seznamom lahko ustvarjamo in brišemo dodatne animacije, vir `SpriteFrames` namreč podpira poljubno različnih animacij, pri čemer moramo vsaki animaciji dodeliti svoje ime.
+Na levi strani urejevalnika animacij vidimo seznam animacij po imenu. Trenutno je prikazana le privzeta animacija z imenom "default". S klikom na gumbe v orodni vrstici nad tem seznamom lahko ustvarjamo in brišemo dodatne animacije, vir #resource-type-name("SpriteFrames") namreč podpira poljubno različnih animacij, pri čemer moramo vsaki animaciji dodeliti svoje ime.
 
 Na desni strani urejevalnika animacij vidimo (trenutno prazen) seznam sličic, ki pripadajo izbrani animaciji na levi. Sem noter bomo dodajali posamezne sličice animacije.
 
@@ -3832,7 +4012,7 @@ Ampak kljub temu, da animacijo vidimo v urejevalniku, bomo ob zagonu igre opazil
 
 Imamo le majhen problem... naša skripta, ki upravlja z dinozavrom, je prilepljena na vozlišče `DinozaverLik`, ne na `DinozaverAnimacija`, torej privzeto nima dostopa do funkcij vozlišča z animacijami!
 Le kako torej uporabiti njeno funkcijo? Da odgovorimo na to vprašanje, si moramo ogledati dva načina pridobivanja
-referenc na sosednja vozlišča: operator `$` in funkcijo `get_node`.
+referenc na sosednja vozlišča: operator `$` in funkcijo #function-name("get_node").
 
 Ta operator in funkcija sta dva načina za rešitev istega problema. Začnimo z operatorjem `$`; le-ta nam omogoča, da mu podamo relativno pot do vozlišča, do katerega želimo dostopati, in vrnil nam bo referenco na to vozlišče. V glavo naše skripte, zunaj vseh funkcij, lahko postavimo sledečo kodo:
 ```gd
@@ -3900,7 +4080,7 @@ Pozneje v kodi lahko sedaj dostopamo do spremenljivke `animacije` in kličemo nj
 
 == Tek dinozavra
 
-Končno razumemo vse potrebno, da našega dinozavra spravimo v tek. V skripti vozlišča `DinozaverLik` v funkcijo `_ready` dodajmo sledečo kodo (če funkcije `_ready` še nimate, jo ustvarite):
+Končno razumemo vse potrebno, da našega dinozavra spravimo v tek. V skripti vozlišča `DinozaverLik` v funkcijo #function-name("_ready") dodajmo sledečo kodo (če funkcije #function-name("_ready") še nimate, jo ustvarite):
 ```gd
 # [spremenljivko "animacije" smo definirali že zgoraj]
 func _ready() -> void:
@@ -3922,8 +4102,8 @@ func _ready() -> void:
   #v(base-font-size)
 
   Namigi:
-  - Pomagajte si s funkcijo `is_on_floor`.
-  - Pomagajte si z dodatno binarno spremenljivko (tipa `bool`), ki hrani `True` ali `False` glede na to, ali je bil dinozaver prejšnjo iteracijo v zraku.
+  - Pomagajte si s funkcijo ```gd bool is_on_floor()```.
+  - Pomagajte si z dodatno binarno spremenljivko (tipa #data-type-name("bool")), ki hrani ```gd true``` ali ```gd false```  glede na to, ali je bil dinozaver prejšnjo iteracijo v zraku.
 ]
 
 
@@ -3935,7 +4115,7 @@ Naša igra zdaj zgleda že precej dobro. Dinozaver veselo teče in skače, mu pa
 
 Na tej točki bi lahko ročno izdelali 200 kaktusov in jih postavili na primerne razdalje. To se vam morda zdi smešno a kar nekaj iger je dejansko izdelanih prav tako, torej ročno. Takšne tehnike sicer za našega dinozavra ne bi bilo smiselno uporabiti, a obstaja zelo velika verjetnost, da so bili svetovi v igrah, ki jih igrate, sestavljeni ročno.
 
-Obstaja pa tudi drug pristop k izdelavi svetov in nivojev (angl. _level_) in sicer proceduralno. Proceduralno generiranje naši igri nudi neskončno veliko vsebine, saj je računalnik zmožen s pravim algoritmom nov svet oziroma nivo izdelati astronomsko hitreje kot človek. Če ste igralci iger ste verjetno naleteli tudi na igre s proceduralnimi svetovi (bodisi med raziskovanjem jam v najbolj prodajani uspešnici Minecraft, ki proceduralno generira svoje celotne svetove, ali pa ste na hodnikih šole igrali Subway Surfers, ki proceduralno skupaj lepi vnaprej ročno narejene kose železniških prog, v navidezno neskončen nivo.).
+Obstaja pa tudi drug pristop k izdelavi svetov in nivojev (angl. _level_) in sicer proceduralno. Proceduralno generiranje naši igri nudi neskončno veliko vsebine, saj je računalnik zmožen s pravim algoritmom nov svet oziroma nivo izdelati astronomsko hitreje kot človek. Če ste igralci iger ste verjetno naleteli tudi na igre s proceduralnimi svetovi (Mora ste na proceduralnost naleteli med raziskovanjem jam v najbolj prodajani uspešnici Minecraft, ki proceduralno generira svoje celotne svetove. Mogoče pa ste na hodnikih šole igrali Subway Surfers, ki proceduralno skupaj lepi kose železniških prog (ki so sicer narejeni ročno), v navidezno neskončen nivo.).
 
 Ko izdelujete svojo igro je odločitev med ročno ali proceduralno izdelavo vprašanje vas in vizije igre. Zelo pogosto se tudi oba pristopa med sabo kombinira.
 
@@ -3948,7 +4128,7 @@ Najprej pripravimo prizor, da bomo lahko nato avtomatsko dodajali kaktuse. Na te
 #box-task[
   V svojem projektu dinozavra in tla premaknite tako, da vam bo njuna pozicija vizualno ustrezala. Poskusite imeti čim manjšo razdaljo med dinozavrom in tlemi, je pa vseeno nekaj majhnega pustite da ne bo prišlo do problemov s trkalniki ob zagonu projekta. Kaktus, ki je trenutno v projektu, premaknite desno iz zaslona in ga vertikalno poravnajte s tlemi. Ob zagonu projekta bi se moral kaktus počasi prikazati na desni strani zaslona in počasi potovati proti dinozavru. Dinozaver in kaktus bi morala biti relativno drug na drugega pravilno poravnana s tlemi. Primer takšne urejene scene je tudi na #ref(<cleaned-scene-example>, supplement: "sliki").
 
-  Pri urejanju ne pozabite na orodje za premikanje, ki ga lahko vklopite s klikom na tretjo ikono v orodni vrstici ali s pritiskom W na tipkovnici, ki vam med drugim omogoča tudi, da vozlišče premikate samo po eni osi naenkrat.
+  Pri urejanju ne pozabite na orodje za premikanje, ki ga lahko vklopite s klikom na tretjo ikono v orodni vrstici ali s pritiskom bližnjice #kbd("W"), ki vam med drugim omogoča tudi, da vozlišče premikate samo po eni osi naenkrat.
 
   #screenshot(
     path: "assets/procedural-generation/cleaned-scene-example.png",
@@ -4052,11 +4232,11 @@ func _ready() -> void:
 #box-info(
   title: "PackedScene?",
   [
-    `PackedScene` je vgrajen Godotov podatkovni tip, ki predstavlja "kompakten" prizor. To je enaka oblika prizora, kot ga ima Godot tudi spravljenega na disku, torej brez kakršnihkoli informacij, ki bi bile odvečne med shranjevanjem in so potrebne samo med izvajanjem.
+    #resource-type-name("PackedScene") je vgrajen Godotov podatkovni tip, ki predstavlja "kompakten" prizor. To je enaka oblika prizora, kot ga ima Godot tudi spravljenega na disku, torej brez kakršnihkoli informacij, ki bi bile odvečne med shranjevanjem in so potrebne samo med izvajanjem.
   ],
 )
 
-Zgornja koda deluje popolnoma pravilno in bi jo lahko kot takšno tudi uporabili. A ker že vnaprej vemo točno kateri prizor nalagamo, lahko vse skupaj malo pohitrimo. Godot vsebuje tudi funkcijo ```gd  Resource preload(path: String)```, ki je skoraj identična funkciji `load`. Edina razlika je, da `preload` zahteva, da je niz (torej pot do vira) konstanten, kot argument ji torej ne moremo podati na primer spremenljivke, ali nekega kosa kode. V zameno za to omejitev pridobimo hitrost. Funkcijo `preload` Godot namreč izvede vnaprej, še preden sploh pride do njenega klica, in na točki kjer kličemo `preload` samo vrne že pripravljen vir. To tudi pomeni, da te kode ni potrebno več izvesti v funkciji `_ready` oziroma pod direktivo `@onready`.
+Zgornja koda deluje popolnoma pravilno in bi jo lahko kot takšno tudi uporabili. A ker že vnaprej vemo točno kateri prizor nalagamo, lahko vse skupaj malo pohitrimo. Godot vsebuje tudi funkcijo ```gd  Resource preload(path: String)```, ki je skoraj identična funkciji #function-name("load"). Edina razlika je, da #function-name("preload") zahteva, da je niz (torej pot do vira) konstanten, kot argument ji torej ne moremo podati na primer spremenljivke, ali nekega kosa kode. V zameno za to omejitev pridobimo hitrost. Funkcijo #function-name("preload") Godot namreč izvede vnaprej, še preden sploh pride do njenega klica, in na točki kjer kličemo #function-name("preload") samo vrne že pripravljen vir. To tudi pomeni, da te kode ni potrebno več izvesti v funkciji #function-name("_ready_") oziroma pod direktivo `@onready`.
 
 Zgornja koda bi torej sedaj izgledala takole:
 ```gd
@@ -4069,7 +4249,7 @@ var kaktus_prizor: PackedScene = preload("res://prizori/kaktusi/velik_kaktus.tsc
 #box-task[Zgornjo kodo kopirajte v skripto `kaktus.gd`.]
 
 
-Kaktus imamo torej naložen, a je kakor ste verjetno opazili, podatkovnega tipa `PackedScene`, ki ga še ne moremo dodati v drevo vozlišč. Da prizor iz `PackedScene` spravimo nazaj v drevo vozlišč, kot smo ga naredili znotraj `velik_kaktus.tscn`, moramo na njem klicati funkcijo ```gd Node instantiate()```. Kot lahko vidite že iz podpisa nam funkcije vrne `Node`, torej vozlišče. V našem primeru bo to prav vozlišče `VelikKaktus` tipa #node2d-type-name("Node2D"), ki smo ga naredili v `velik_kaktus.tscn`. Pomembno je vedeti, da vozlišče vsebuje tudi vse svoje potomce, tako da zdaj v rokah pravzaprav držimo celotno drevo vozlišč narejeno znotraj tega prizora.
+Kaktus imamo torej naložen, a je kakor ste verjetno opazili, podatkovnega tipa #resource-type-name("PackedScene"), ki ga še ne moremo dodati v drevo vozlišč. Da prizor iz #resource-type-name("PackedScene") spravimo nazaj v drevo vozlišč, kot smo ga naredili znotraj `velik_kaktus.tscn`, moramo na njem klicati funkcijo ```gd Node instantiate()```. Kot lahko vidite že iz podpisa nam funkcije vrne `Node`, torej vozlišče. V našem primeru bo to prav vozlišče `VelikKaktus` tipa #node2d-type-name("Node2D"), ki smo ga naredili v `velik_kaktus.tscn`. Pomembno je vedeti, da vozlišče vsebuje tudi vse svoje potomce, tako da zdaj v rokah pravzaprav držimo celotno drevo vozlišč narejeno znotraj tega prizora.
 
 #box-info(
   title: [#advanced-topic-heading[Za napredne uporabnike]],
@@ -4138,8 +4318,8 @@ func _process(delta):
 	# Spremenljivka cas nam torej šteje čas v sekundah.
 	cas += delta
 
-	# Preverjamo ali je razlika med cas in cas_zadnjega_dodajanja, presegla 
-    # interval dodajanja. Ker je razlika med njim v bistvu količina casa ki je 
+	# Preverjamo ali je razlika med cas in cas_zadnjega_dodajanja, presegla
+    # interval dodajanja. Ker je razlika med njim v bistvu količina casa ki je
     # pretekla odkar smo zadnjic dodali kaktus, bo to doseglo naše želeno dodajanje
     # na nek interval.
 	if (cas - cas_zadnjega_dodajanja > interval_kaktusov):
@@ -4228,12 +4408,12 @@ func _ko_je_kaktus_zadet(body: Node2D) -> void:
 Nazadnje smo signal na našo funkcijo vezali s pomočjo Godotovega vmesnika. To je priročen in enostaven način, če so vsi faktorji znani že pred zagonom projekta.
 
 Ko smo to delali nazadnje smo _ob času zagona projekta_ vedeli:
-- Točno katero vozlišče preverja svoje trke in kako ga lahko najdemo (to vozlišče je bilo `Area2D` znotraj `VelikKaktusSlicica`)
+- Točno katero vozlišče preverja svoje trke in kako ga lahko najdemo (to vozlišče je bilo `KaktusTrkalnoObmocje` znotraj `VelikKaktusSlicica`)
 - Kdo je tisti ki bo to poslušal (to je bilo vozlišče `Igra` skozi `igra.gd`)
 
 Tokrat:
 - Vemo da bo to poslušalo vozlišče `Kaktus` skozi `kaktus.gd`.
-- *NE* vemo pa katero vozlišče bo preverjalo svoje trke, saj se vozlišče `Area2D` znotraj `VelikKaktus` ustvari dinamično, šele po zagonu projekta.
+- *NE* vemo pa katero vozlišče bo preverjalo svoje trke, saj se vozlišče `KaktusTrkalnoObmocje` znotraj `VelikKaktus` ustvari dinamično, šele po zagonu projekta.
 
 To ni nepremostljiva ovira, vse kar pomeni je, da moramo začeti tudi signal vezati dinamično.
 
@@ -4254,7 +4434,7 @@ Naša zahtevana struktura bo potemtakem:
 
 Naš `velik_kaktus.tscn` se takšne strukture že drži, v mislih pa jo bomo morali imeti, ko bomo izdelovali druge kaktuse.
 
-Začnimo torej poslušati enak signal, kot smo ga poslušali prej. To bo signal `body_entered` na `Area2D`. Najprej moramo najti `KaktusTrkalnoObmocje` (ki je tipa #node2d-type-name("Area2D")) znotraj našega drevesa vozlišč. Do sedaj smo za takšno iskanje uporabljali funkcijo `get_node` (in njeno okrajšavo `$`), obstaja pa tudi funkcija `find_child`, ki nam v tem primeru omogoča več svobode. Če bi na primer uporabili `get_node` bi moralo biti tudi ime vozlišča `SličicaKaktusa` fiksno in med `KaktusTrkalnoObmocje` in `KorenskoVozlišče` ne bi smelo biti nobenega drugega vozlišča kot `SličicaKaktusa`.
+Začnimo torej poslušati enak signal, kot smo ga poslušali prej. To bo signal `body_entered` na #node2d-type-name("Area2D"). Najprej moramo najti `KaktusTrkalnoObmocje` (ki je tipa #node2d-type-name("Area2D")) znotraj našega drevesa vozlišč. Do sedaj smo za takšno iskanje uporabljali funkcijo `get_node` (in njeno okrajšavo `$`), obstaja pa tudi funkcija #function-name("find_child"), ki nam v tem primeru omogoča več svobode. Če bi na primer uporabili #function-name("get_node") bi moralo biti tudi ime vozlišča `SličicaKaktusa` fiksno in med `KaktusTrkalnoObmocje` in `KorenskoVozlišče` ne bi smelo biti nobenega drugega vozlišča kot `SličicaKaktusa`.
 
 Dovolj razlage! Napišimo spet nekaj kode. Poglejmo si tokrat kar celotno datoteko naenkrat:
 
@@ -4294,14 +4474,14 @@ func _ko_je_kaktus_zadet(body: Node2D):
 
 Skripta je že sama precej dobro pokomentirana. Pojdimo pa zdaj še enkrat čez celotni proces:
 
-1. Še preden s skripta začne izvajati se skozi `preload` v kaktus_prizor naloži zapakiran prizor `velik_kaktus.tscn`.
-2. Vozlišče kaktus se doda v drevo vozlišč, sproži se klic `_ready` v katerem se:
+1. Še preden s skripta začne izvajati se skozi #function-name("preload") v kaktus_prizor naloži zapakiran prizor `velik_kaktus.tscn`.
+2. Vozlišče kaktus se doda v drevo vozlišč, sproži se klic #function-name("_ready") v katerem se:
   1. Zapakirana scena shranjena v kaktus_prizor se razpakira in pretvori v drevo vozlišč.
-  2. Znotraj tega drevesa najdemo vozlišče z imenom "Area2D" in nanj začnemo, ker zaupamo lastnim pravilom, gledati kot na tip vozlišča `Area2D`.
-  3. Na signal `body_entered` od vozlišča v `kaktusov_trkalnik` (kjer je naš `Area2D`), dodamo poslušalca. To je naša lokalna funkcija `ko_ovira_zadane_dinozavra`.
-  4. Vozlišče (in s tem vse njegove otroke, torej celotno drevo vozlišč) znotraj `kaktus` pripnemo nase in s tem v glavno drevo vozlišč, s klicem funkcije `add_child`.
-3. Vozlišče se začne izvajati. V funkciji `_process` se začnemo premikati levo.
-4. Ko/če se kaktus zadane v drug trkalnik, se bo sprožila funkcija `ko_ovira_zadane_dinozavra`.
+  2. Znotraj tega drevesa najdemo vozlišče z imenom "KaktusTrkalnoObmocje" in nanj začnemo, ker zaupamo lastnim pravilom, gledati kot na tip vozlišča #node2d-type-name("Area2D").
+  3. Na signal `body_entered` od vozlišča v `kaktusov_trkalnik` (kjer je naš #node2d-type-name("Area2D")), dodamo poslušalca. To je naša lokalna funkcija #function-name("ko_ovira_zadane_dinozavra").
+  4. Vozlišče (in s tem vse njegove otroke, torej celotno drevo vozlišč) znotraj `kaktus` pripnemo nase in s tem v glavno drevo vozlišč, s klicem funkcije #function-name("add_child").
+3. Vozlišče se začne izvajati. V funkciji #function-name("_process_") se začnemo premikati levo.
+4. Ko/če se kaktus zadane v drug trkalnik, se bo sprožila funkcija #function-name("ko_ovira_zadane_dinozavra").
 
 Praktično smo že končali, manjka nam samo še en majhen detajl, kaktusi se nam izdelujejo v nedogled se pa nikoli ne izbrišejo. Godot ni sposoben namesto nas vedeti, kdaj mora objekte počistiti, in bo vse kaktuse izvajal v nedogled, kar bo čez čas začelo upočasnjevati naš računalnik. Dodajmo torej zelo enostavno čiščenje.
 
@@ -4518,7 +4698,7 @@ To lahko naredimo tako, da izberemo #control-type-name("CenterContainer") in nat
 #box-info(
   title: "Kje že najdem orodje za izbiranje?",
   [
-    Orodje za izbiranje je prvo v orodni vrstici. Izberete ga lahko s klikom na njegovo ikono ali pa z bližnjico `Q`.
+    Orodje za izbiranje je prvo v orodni vrstici. Izberete ga lahko s klikom na njegovo ikono ali pa z bližnjico #kbd("Q").
   ],
 )
 
@@ -4872,7 +5052,7 @@ To je vse! Ko igro sedaj poženemo in z dinozavrom skočimo, bomo zaslišali zvo
 #pagebreak(weak: true)
 = Dodatno delo in priporočeno branje
 
-*Čestitke, prispeli ste do konca knjige!* Upamo, da ste v knjigi našli nekaj uporabne vrednosti, se kaj naučili in da ste zadovoljni s preprosto igro, ki smo jo izdelali skozi knjigo. Kot smo omenili v uvodu, so tematike, ki smo jih predelali, le majhen in zelo nepopoln nabor tehničnega znanja, potrebnega za razvoj konkretnejših iger. Upamo, da vas to ne odvrne od nadaljevanja na tem področju, saj imate že zdaj precej znanja! Kot ste zagotovo videli skozi knjigo, ni nujno, da ste izurjeni v popolnoma vsaki podrobnosti razvoja, ampak zadoščajo le že tiste teme, ki jih potrebujete za projekt, ki si ga zadate. 
+*Čestitke, prispeli ste do konca knjige!* Upamo, da ste v knjigi našli nekaj uporabne vrednosti, se kaj naučili in da ste zadovoljni s preprosto igro, ki smo jo izdelali skozi knjigo. Kot smo omenili v uvodu, so tematike, ki smo jih predelali, le majhen in zelo nepopoln nabor tehničnega znanja, potrebnega za razvoj konkretnejših iger. Upamo, da vas to ne odvrne od nadaljevanja na tem področju, saj imate že zdaj precej znanja! Kot ste zagotovo videli skozi knjigo, ni nujno, da ste izurjeni v popolnoma vsaki podrobnosti razvoja, ampak zadoščajo le že tiste teme, ki jih potrebujete za projekt, ki si ga zadate.
 
 *Naše upanje je, da boste s podlago, ki ste jo pridobili, znali samostojno nadaljevati izobraževanje na tem področju. Cilj tega poglavja je, da vam pri tem pomagamo.*
 
@@ -4901,17 +5081,19 @@ func ko_menjamo_tla(lokacija_starega_kosa):
 # To funkcijo kličemo ko želimo ustvariti nov kos tal.
 func ustvari_tla(lokacija_tal):
     var nova_tla = tla_prizor.instantiate()
-    
+
     nova_tla.hitrost_tal = hitrost_premikanja
     nova_tla.global_position = lokacija_tal
     nova_tla.tla_zavrzena.connect(ko_menjamo_tla)
-    
+
     skupina_tal.add_child(nova_tla)
 ```
 
 === Ptiči
 
-V klasični igri dinozaver, kot jo lahko igramo v brskalniku Chrome, nam v oviro niso samo kaktusi, ampak tudi ptiči. Ptiči lahko letijo na treh različnih višinah. Če so na vrhu zaslona, lahko dinozaver mirno teče pod njimi. Če so v sredini, se mora dinozaver pod njimi _skloniti_, da se z glavo ne zadane vanje. Če so na dnu, pa jih mora dinozaver preskočiti. 
+V klasični igri dinozaver, kot jo lahko igramo v brskalniku Chrome, nam v oviro niso samo kaktusi, ampak tudi ptiči. Ptiči lahko letijo na treh različnih višinah. Če so na vrhu zaslona, lahko dinozaver mirno teče pod njimi. Če so v sredini, se mora dinozaver pod njimi _skloniti_, da se z glavo ne zadane vanje. Če so na dnu, pa jih mora dinozaver preskočiti.
+
+Če imate na računalniku nameščen brskalnik Chrome, si lahko originalno igro ogledate tako, da v iskalno vrstico napišete `chrome://dino/`.
 
 V igro dodajte ptiče in dinozavru omogočite, da se sklanja, na primer s pritiskom na puščico navzdol. Nekaj nasvetov ob delu:
 - Za izdelavo sklanjanja boste verjetno morali dodati novo uporabniško akcijo.
@@ -4923,7 +5105,7 @@ V igro dodajte ptiče in dinozavru omogočite, da se sklanja, na primer s pritis
 
 == Dodatno branje <additional-reading>
 
-Poleg razvoja novih funkcionalnosti je zelo pomembno tudi, da se znajdete v dokumentaciji, ki vam po ponuja Godot. Učinkovito branje dokumentacije je namreč zelo pomemben del programiranja in računalniškega inženirstva na sploh. Ko boste osnove razvoja iger utrdili, boste zelo verjetno ugotovili, da se vam je naučiti vsako naslednjo tehnično podrobnost ali funkcijo, za katero še niste slišali, vedno lažje, saj novo znanje stoji na trdni podlagi.
+Poleg razvoja novih funkcionalnosti je zelo pomembno tudi, da se znajdete v dokumentaciji, ki vam jo ponuja Godot. Učinkovito branje dokumentacije je namreč zelo pomemben del programiranja in računalniškega inženirstva na sploh. Ko boste osnove razvoja iger utrdili, boste zelo verjetno ugotovili, da se vam je naučiti vsako naslednjo tehnično podrobnost ali funkcijo, za katero še niste slišali, vedno lažje, saj novo znanje stoji na trdni podlagi.
 
 Predlagamo, da si ogledate dokumentacijo zadnje stabilne različice pogona Godot, ki jo lahko najdemo na sledeči povezavi: https://docs.godotengine.org/en/stable. Ko ste pripravljeni, da si izberete kakšno novo temo, o kateri želite zvedeti več, si lahko na primer ogledate poglavje "#link("https://docs.godotengine.org/en/stable/tutorials/index.html", [Tutorials])"" v tej spletni knjigi.
 
@@ -4932,10 +5114,12 @@ Predlagamo, da si ogledate dokumentacijo zadnje stabilne različice pogona Godot
 Sledi par tematik, ki smo jih sicer v tej knjigi obravnavali, a v katere se lahko še bolj poglobite, v kolikor vam je tema zanimiva.
 
 Če želite izboljšati svoje znanje v jeziku *GDScript*, si lahko ogledate:
-- interaktivni učbenik GDQuest, kjer boste ponovno spoznali veliko osnov, pa tudi še kakšno funkcionalnost jezika GDScript, ki je v tej knjigi nismo obdelali: \ 
+- interaktivni učbenik GDQuest, kjer boste ponovno spoznali veliko osnov, pa tudi še kakšno funkcionalnost jezika GDScript, ki je v tej knjigi nismo obdelali: \
   https://school.gdquest.com/courses/learn_2d_gamedev_godot_4/learn_gdscript/learn_gdscript_app
 - poglavje "GDScript reference" v uradni dokumentaciji pogona Godot, kjer boste našli popolnoma vse funkcionalnosti, ki vam jih jezik omogoča (v tej knjigi smo se jih naučili le peščico): \
   https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html
+- poglavje "Variant" v uradni dokumentaciji pogona Godot, kjer lahko izveste več o tem, kako delujejo podatkovni tipi znotraj pogona: \
+  https://docs.godotengine.org/en/stable/classes/class_variant.html
 
 Če želite izboljšati svoje znanje na temo *uporabniških dejanj*, si lahko ogledate:
 - poglavje "Input handling" v uradni dokumentaciji pogona Godot, kjer boste našli tudi razlago, kako podpreti igralne ploščke (angl. _joystick_), spremeniti izgled ikone za miško itn.: \
@@ -5139,15 +5323,15 @@ Vizualna vsebina, ki je prisotna v paketu sredstev in ki je pogosto prikazana na
   ```
   Copyright 2015 The Chromium Authors
 
-  Redistribution and use in source and binary forms, with or without modification, 
+  Redistribution and use in source and binary forms, with or without modification,
   are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright 
+    * Redistributions of source code must retain the above copyright
       notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright 
-      notice, this list of conditions and the following disclaimer in 
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in
       the documentation and/or other materials provided with the distribution.
-    * Neither the name of Google LLC nor the names of its contributors 
-      may be used to endorse or promote products derived from this software 
+    * Neither the name of Google LLC nor the names of its contributors
+      may be used to endorse or promote products derived from this software
       without specific prior written permission.
 
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
