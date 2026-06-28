@@ -1748,7 +1748,7 @@ Poleg premikanja je dobro poznati še dva načina navigacije po urejevalniku 2D 
 
 #screenshot(
   path: "assets/ui-basics/godot-ui_scene_premaknjene-slicice-dino.png",
-  width: 70%,
+  width: 60%,
   caption: [Prizor, kjer smo dodali sličice in jih premaknili.],
 ) <2d-sprites-arranged>
 
