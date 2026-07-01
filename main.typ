@@ -792,7 +792,7 @@
     *Želiš spoznati proces ustvarjanja in razvoja videoiger?*
 
     #align(left)[
-      V tej knjigi bomo spoznali osnove ustvarjanja iger v odprtokodnem igralnem pogonu Godot, od začetnih korakov v njegovem urejevalniku pa vse do prvih grafičnih elementov, skriptiranja v programskem jeziku GDScript, interaktivnosti, fizikalnih teles, animacij in ustvarjanja uporabniškega vmesnika. Skozi učbenik bomo ob spoznavanju novih konceptov gradili našo majhno igro z dinozavrom in novo znanje vgrajevali vanjo.
+      V tej knjigi bomo spoznali osnove ustvarjanja iger v odprtokodnem igralnem pogonu Godot, od začetnih korakov v njegovem urejevalniku pa vse do uporabe prvih grafičnih elementov, skriptiranja v programskem jeziku GDScript, implementacije interaktivnosti, uporabe fizikalnih zakonov, animacij in ustvarjanja uporabniškega vmesnika. Skozi učbenik bomo ob spoznavanju novih konceptov gradili našo majhno igro z dinozavrom in jo nadgrajevali z novim znanjem.
     ]
   ]
 
