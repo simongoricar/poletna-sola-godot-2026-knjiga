@@ -852,7 +852,7 @@
         ),
         size: base-font-size - 1pt
       )[
-        *Zadnjo različico knjige in njeno izvorno kodo lahko najdete v repozitoriju Git: #link("https://github.com/simongoricar/poletna-sola-godot-2026-knjiga", "poletna-sola-godot-2026-knjiga")!*
+        *Zadnjo različico knjige in njeno izvorno kodo lahko najdete v Git repozitoriju: #link("https://github.com/simongoricar/poletna-sola-godot-2026-knjiga", "poletna-sola-godot-2026-knjiga")!*
       ]
     ]
   )
@@ -888,7 +888,7 @@
         ),
         size: base-font-size - 1pt
       )[
-        *Končano igro z dinozavrom lahko prav tako najdete v repozitoriju Git: #link("https://github.com/simongoricar/poletna-sola-godot-2026-dinozaver", "poletna-sola-godot-2026-dinozaver")!*
+        *Končano igro z dinozavrom lahko prav tako najdete v Git repozitoriju: #link("https://github.com/simongoricar/poletna-sola-godot-2026-dinozaver", "poletna-sola-godot-2026-dinozaver")!*
       ]
     ]
   )
