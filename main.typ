@@ -823,6 +823,78 @@
 ])
 
 #align(bottom, block[
+  #align(center,
+  block(
+      width: 100%,
+      inset: (
+        x: 6pt,
+        y: 8pt,
+      ),
+      radius: 3pt,
+      stroke: (
+        thickness: 1.5pt,
+        paint: gradient.linear(
+          angle: 27deg + 180deg,
+          ..(
+            rgb("#b3e1f3").darken(30%).desaturate(10%),
+            rgb("#a9ecc5").darken(30%).desaturate(10%),
+          ),
+        )
+      )
+    )[
+      #text(
+        fill: gradient.linear(
+          angle: 27deg + 180deg,
+          ..(
+            rgb("#b3e1f3").darken(70%).desaturate(20%),
+            rgb("#a9ecc5").darken(70%).desaturate(20%),
+          ),
+        ),
+        size: base-font-size - 1pt
+      )[
+        *Zadnjo različico knjige in njeno izvorno kodo lahko najdete v repozitoriju Git: #link("https://github.com/simongoricar/poletna-sola-godot-2026-knjiga", "poletna-sola-godot-2026-knjiga")!*
+      ]
+    ]
+  )
+
+  #v(0.2em)
+
+  #align(center,
+  block(
+      width: 100%,
+      inset: (
+        x: 6pt,
+        y: 8pt,
+      ),
+      radius: 3pt,
+      stroke: (
+        thickness: 1.5pt,
+        paint: gradient.linear(
+          angle: 27deg + 180deg,
+          ..(
+            rgb("#b3e1f3").darken(30%).desaturate(10%),
+            rgb("#a9ecc5").darken(30%).desaturate(10%),
+          ),
+        )
+      )
+    )[
+      #text(
+        fill: gradient.linear(
+          angle: 27deg + 180deg,
+          ..(
+            rgb("#b3e1f3").darken(70%).desaturate(20%),
+            rgb("#a9ecc5").darken(70%).desaturate(20%),
+          ),
+        ),
+        size: base-font-size - 1pt
+      )[
+        *Končano igro z dinozavrom lahko prav tako najdete v repozitoriju Git: #link("https://github.com/simongoricar/poletna-sola-godot-2026-dinozaver", "poletna-sola-godot-2026-dinozaver")!*
+      ]
+    ]
+  )
+
+  #v(3.5em)
+
   #align(
     center,
     stack(
